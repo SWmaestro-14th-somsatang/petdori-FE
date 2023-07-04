@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+/// HomeScreen에서 사용되는 기능 버튼 위젯
+///
+/// [featureName] 기능 이름
+/// [assetName] 기능 관련 이미지 경로
+/// [onTap] 해당 위젯(기능 버튼)을 눌렀을 때 실행되는 메서드
 class FeatureNavigationButton extends StatelessWidget {
   const FeatureNavigationButton({
     super.key,
@@ -9,9 +14,7 @@ class FeatureNavigationButton extends StatelessWidget {
     required this.onTap,
   });
 
-  // name of feature, image path
   final String featureName, assetName;
-  // Method executed when a button is pressed
   final dynamic onTap;
 
   @override

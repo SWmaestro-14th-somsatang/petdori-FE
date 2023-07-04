@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wooyoungsoo/widgets/feature_navigation_button_widget.dart';
 
+/// 홈 화면
+///
+/// [imagePathAndFeatureName] 홈 화면에서 보여줄 기능 관련 이미지 경로와 해당 기능이름들의 목록
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
@@ -26,7 +29,7 @@ class HomeScreen extends StatelessWidget {
               FeatureNavigationButton(
                 featureName: entry.value,
                 assetName: entry.key,
-                // 나중에 실제 해당 기능에 대한 페이지로 넘어가는 메서드를 넘기는 식으로 수정할 예정
+                // TODO(Cho-SangHyun): 추후 실제로 완성된 페이지로 넘어가는 메서드를 넘겨야 함
                 onTap: () {},
               ),
           ],
