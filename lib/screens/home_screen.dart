@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/feature_navigation_button_widget.dart';
+import 'package:wooyoungsoo/widgets/feature_navigation_button_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
