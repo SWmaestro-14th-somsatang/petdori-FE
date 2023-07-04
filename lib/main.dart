@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooyoungsoo/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,14 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text("우 영 수 "),
-          ),
-          body: const Center(
-            child: Text("Hello World"),
-          ),
-        ));
+      debugShowCheckedModeBanner: false,
+      home: HomeScreen(),
+    );
   }
 }
