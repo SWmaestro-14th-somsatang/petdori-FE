@@ -18,7 +18,7 @@ class SosialLoginButton extends StatelessWidget {
   });
 
   final String assetName, buttonText;
-  final int buttonColor, textColor;
+  final Color buttonColor, textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +30,8 @@ class SosialLoginButton extends StatelessWidget {
       },
       style: ElevatedButton.styleFrom(
           fixedSize: Size(MediaQuery.of(context).size.width * 0.8, 45),
-          backgroundColor: Color(buttonColor),
-          foregroundColor: Color(textColor),
+          backgroundColor: buttonColor,
+          foregroundColor: textColor,
           shadowColor: Colors.transparent,
           padding: const EdgeInsets.symmetric(
             horizontal: 75,
