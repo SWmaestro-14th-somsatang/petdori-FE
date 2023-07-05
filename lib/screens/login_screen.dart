@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wooyoungsoo/widgets/social_login_button_widget.dart';
 
+/// 로그인 화면
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
