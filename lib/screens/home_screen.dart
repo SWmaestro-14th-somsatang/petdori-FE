@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/feature_navigation_button_widget.dart';
 
 /// 홈 화면
@@ -17,7 +18,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F4F4),
+      backgroundColor: screenBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(
           top: 70,
