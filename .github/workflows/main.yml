@@ -1,0 +1,35 @@
+name: Flutter CI (test & build)
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+    
+jobs:
+  unit-test:
+    name: Unit tests on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, window-latest, macos-latest]
+    steps:
+      # Set up Flutter
+      - name: Flutter action
+        uses: subosito/flutter-action@v2.10.0
+        with:
+          flutter-version: '3.10.0'
+          channel: stable
+      - run: flutter --version
+      
+      # Install packages
+      - name: Get pub packages
+        uses: actions/checkout@v3
+      - run: flutter pub get
+      - run: flutter analyze
+      
+      - name: Ensure the Dart code is formatted correctly
+        run: flutter format --set-exit-if-changed --dry-run .
+        
+      - name: Run Flutter unit tests
+        run: flutter test
