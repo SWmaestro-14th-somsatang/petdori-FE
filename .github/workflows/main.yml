@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, window-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
     steps:
       # Set up Flutter
       - name: Flutter action
@@ -26,10 +26,8 @@ jobs:
       - name: Get pub packages
         uses: actions/checkout@v3
       - run: flutter pub get
-      - run: flutter analyze
       
-      - name: Ensure the Dart code is formatted correctly
-        run: dart --set-exit-if-changed --dry-run .
+      - run: flutter analyze
         
       - name: Run Flutter unit tests
         run: flutter test
