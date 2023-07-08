@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wooyoungsoo/screens/home_screen.dart';
+import 'package:wooyoungsoo/screens/signup_screen.dart';
 
 /// 소셜 로그인 버튼 위젯
 ///
@@ -25,8 +25,8 @@ class SosialLoginButton extends StatelessWidget {
     return ElevatedButton(
       // TODO(Cho-SangHyun): 추후 실제 로그인 기능을 연결해야 함
       onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const SignupScreen()));
       },
       style: ElevatedButton.styleFrom(
           fixedSize: Size(MediaQuery.of(context).size.width * 0.8, 45),
