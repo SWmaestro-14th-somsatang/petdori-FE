@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// 회원가입 시 사용되는 텍스트 필드 위젯
 ///
@@ -44,6 +45,10 @@ class SignupTextField extends StatelessWidget {
               expands: true,
               textInputAction: TextInputAction.done,
               onChanged: (value) => _onChanged(value),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(
+                    RegExp(r'[a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ]'))
+              ],
               decoration: InputDecoration(
                 hintText: _hintText,
                 hintStyle: TextStyle(color: Colors.grey.shade400),
