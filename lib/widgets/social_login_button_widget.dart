@@ -32,7 +32,7 @@ class SosialLoginButton extends StatelessWidget {
           foregroundColor: textColor,
           shadowColor: Colors.transparent,
           padding: const EdgeInsets.symmetric(
-            horizontal: 75,
+            horizontal: 65,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
@@ -45,9 +45,6 @@ class SosialLoginButton extends StatelessWidget {
           SvgPicture.asset(
             assetName,
             width: 18,
-          ),
-          const SizedBox(
-            width: 10,
           ),
           Text(
             buttonText,
