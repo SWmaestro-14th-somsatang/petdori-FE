@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:wooyoungsoo/services/google_login_service.dart';
-import 'package:wooyoungsoo/services/social_login_service.dart';
+import 'package:wooyoungsoo/services/member_service/google_login_service.dart';
+import 'package:wooyoungsoo/services/member_service/kakao_login_service.dart';
+import 'package:wooyoungsoo/services/member_service/social_login_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/social_login_button_widget.dart';
 
 /// 로그인 화면
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
-  final socialLoginService = SocialLoginService();
+  late SocialLoginService socialLoginService;
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +32,23 @@ class LoginScreen extends StatelessWidget {
               buttonText: "Kakao 계정으로 로그인",
               buttonColor: kakaoButtonColor,
               textColor: kakaoTextColor,
-              onPressed: socialLoginService.signInWithKakao,
+              onPressed: () {
+                socialLoginService = KakaoLoginService();
+                socialLoginService.login();
+              },
             ),
             const SizedBox(
               height: 8,
             ),
-            const SosialLoginButton(
+            SosialLoginButton(
               assetName: "assets/images/google-logo.svg",
               buttonText: "Google 계정으로 로그인",
               buttonColor: googleButtonColor,
               textColor: googleTextColor,
-              onPressed: GoogleLoginService.signInWithGoogle,
+              onPressed: () {
+                socialLoginService = GoogleLoginService();
+                socialLoginService.login();
+              },
             ),
             const SizedBox(
               height: 8,
