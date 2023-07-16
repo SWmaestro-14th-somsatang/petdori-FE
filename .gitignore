@@ -48,3 +48,7 @@ app.*.map.json
 
 # ios related
 Info.plist
+
+# google related
+google-services.json
+GoogleService-Info.plist

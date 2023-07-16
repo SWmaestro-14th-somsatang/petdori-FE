@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooyoungsoo/services/google_login_service.dart';
 import 'package:wooyoungsoo/services/social_login_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/social_login_button_widget.dart';
@@ -35,12 +36,12 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            SosialLoginButton(
+            const SosialLoginButton(
               assetName: "assets/images/google-logo.svg",
               buttonText: "Google 계정으로 로그인",
               buttonColor: googleButtonColor,
               textColor: googleTextColor,
-              onPressed: () {},
+              onPressed: GoogleLoginService.signInWithGoogle,
             ),
             const SizedBox(
               height: 8,
