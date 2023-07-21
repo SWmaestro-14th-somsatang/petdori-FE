@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wooyoungsoo/services/member_service/social_login_service.dart';
 
@@ -35,6 +36,10 @@ class GoogleLoginService implements SocialLoginService {
   Future<String> receiveJwtByOauthToken() async {
     var googleAccessToken = googleAuth.accessToken;
     if (googleAccessToken != null) {
+      final dio = Dio();
+      var res = await dio.post(
+          "http://localhost:8080/api/auth/login?provider=google",
+          data: {"accessToken": googleAccessToken});
       var accessToken = "from our server";
       return accessToken;
     }

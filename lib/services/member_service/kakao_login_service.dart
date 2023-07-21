@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:wooyoungsoo/services/member_service/social_login_service.dart';
@@ -58,7 +59,10 @@ class KakaoLoginService implements SocialLoginService {
   @override
   Future<String> receiveJwtByOauthToken() async {
     var kakaoAccessToken = kakaoOauthToken.accessToken;
-    var accessToken = "from our server";
-    return accessToken;
+    final dio = Dio();
+    var res = await dio.post(
+        "http://localhost:8080/api/auth/login?provider=kakao",
+        data: {"accessToken": kakaoAccessToken});
+    return "123";
   }
 }
