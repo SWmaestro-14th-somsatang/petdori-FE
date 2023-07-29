@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wooyoungsoo/screens/home_screen.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/go_back_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_button_widget.dart';
@@ -50,12 +49,7 @@ class _SignupScreenState extends State<SignupScreen> {
   /// 회원가입 기능을 수행하는 메서드
   void signup() {
     // TODO(Cho-SangHyun): 추후 실제 회원가입 기능 구현해야 함
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomeScreen(),
-      ),
-    );
+    Navigator.of(context).pushReplacementNamed("/");
   }
 
   @override
