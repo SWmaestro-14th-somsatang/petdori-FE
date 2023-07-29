@@ -9,6 +9,11 @@ import 'package:wooyoungsoo/widgets/social_login_button_widget.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
   late SocialLoginService socialLoginService;
+
+  void goToHomeScreen(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed("/");
+  }
+
   // TODO(Cho-SangHyun): 추후 기로그인 여부에 따라 바로 홈으로 가도록 해야 함
   @override
   Widget build(BuildContext context) {
@@ -33,7 +38,8 @@ class LoginScreen extends StatelessWidget {
               buttonColor: kakaoButtonColor,
               textColor: kakaoTextColor,
               onPressed: () {
-                socialLoginService = KakaoLoginService();
+                socialLoginService = KakaoLoginService(
+                    loginSuccessCallback: () => goToHomeScreen(context));
                 socialLoginService.login();
               },
             ),
@@ -46,7 +52,8 @@ class LoginScreen extends StatelessWidget {
               buttonColor: googleButtonColor,
               textColor: googleTextColor,
               onPressed: () {
-                socialLoginService = GoogleLoginService();
+                socialLoginService = GoogleLoginService(
+                    loginSuccessCallback: () => goToHomeScreen(context));
                 socialLoginService.login();
               },
             ),

@@ -9,6 +9,9 @@ import 'package:wooyoungsoo/services/member_service/social_login_service.dart';
 /// [kakaoOauthToken] 카카오 로그인 성공시 발급받는 토큰
 class KakaoLoginService implements SocialLoginService {
   late OAuthToken kakaoOauthToken;
+  final VoidCallback loginSuccessCallback;
+
+  KakaoLoginService({required this.loginSuccessCallback});
 
   @override
   Future login() async {
@@ -25,6 +28,7 @@ class KakaoLoginService implements SocialLoginService {
       var refreshToken = loginSuccessResponse.refreshToken;
       print(accessToken);
       print(refreshToken);
+      loginSuccessCallback();
     }
   }
 
