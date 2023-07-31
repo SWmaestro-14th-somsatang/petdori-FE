@@ -14,6 +14,32 @@ class LoginScreen extends StatelessWidget {
     Navigator.of(context).pushReplacementNamed("/");
   }
 
+  void goToSignupScreen(BuildContext context, String email) {
+    Navigator.of(context).pushNamed("/signup", arguments: email);
+  }
+
+  void showMessageDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text("로그인 실패"),
+        content: Text(message),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14.0),
+        ),
+        actions: [
+          Center(
+            child: TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("확인"),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   // TODO(Cho-SangHyun): 추후 기로그인 여부에 따라 바로 홈으로 가도록 해야 함
   @override
   Widget build(BuildContext context) {
@@ -39,7 +65,11 @@ class LoginScreen extends StatelessWidget {
               textColor: kakaoTextColor,
               onPressed: () {
                 socialLoginService = KakaoLoginService(
-                    loginSuccessCallback: () => goToHomeScreen(context));
+                    loginSuccessCallback: () => goToHomeScreen(context),
+                    loginFailureCallback: (String email) =>
+                        goToSignupScreen(context, email),
+                    diaglogCallback: (String message) =>
+                        showMessageDialog(context, message));
                 socialLoginService.login();
               },
             ),
@@ -53,7 +83,11 @@ class LoginScreen extends StatelessWidget {
               textColor: googleTextColor,
               onPressed: () {
                 socialLoginService = GoogleLoginService(
-                    loginSuccessCallback: () => goToHomeScreen(context));
+                    loginSuccessCallback: () => goToHomeScreen(context),
+                    loginFailureCallback: (String email) =>
+                        goToSignupScreen(context, email),
+                    diaglogCallback: (String message) =>
+                        showMessageDialog(context, message));
                 socialLoginService.login();
               },
             ),

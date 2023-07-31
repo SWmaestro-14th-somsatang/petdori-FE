@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:wooyoungsoo/models/login_success_response_model.dart';
+import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/services/member_service/social_login_service.dart';
 
 /// 카카오 로그인을 구현하는 클래스
@@ -10,8 +10,13 @@ import 'package:wooyoungsoo/services/member_service/social_login_service.dart';
 class KakaoLoginService implements SocialLoginService {
   late OAuthToken kakaoOauthToken;
   final VoidCallback loginSuccessCallback;
+  final Function loginFailureCallback;
+  final Function diaglogCallback;
 
-  KakaoLoginService({required this.loginSuccessCallback});
+  KakaoLoginService(
+      {required this.loginSuccessCallback,
+      required this.loginFailureCallback,
+      required this.diaglogCallback});
 
   @override
   Future login() async {
@@ -20,15 +25,27 @@ class KakaoLoginService implements SocialLoginService {
     } else {
       await loginWithKakaoAccount();
     }
-    // TODO(Cho-SangHyun): 추후 실제 jwt를 리턴하도록 수정해야 함
-    if (isOauthTokenReceived()) {
-      var loginSuccessResponse = await receiveJwtByOauthToken();
 
-      var accessToken = loginSuccessResponse.accessToken;
-      var refreshToken = loginSuccessResponse.refreshToken;
-      print(accessToken);
-      print(refreshToken);
-      loginSuccessCallback();
+    if (isOauthTokenReceived()) {
+      var loginResponse = await receiveJwtByOauthToken();
+
+      if (loginResponse.status == "success") {
+        var accessToken = loginResponse.data["access_token"];
+        var refreshToken = loginResponse.data["refresh_token"];
+        loginSuccessCallback();
+        return;
+      }
+
+      if (loginResponse.message == "이메일에 해당하는 유저가 없습니다") {
+        var email = loginResponse.data["email"];
+        loginFailureCallback(email);
+        return;
+      }
+
+      if (loginResponse.message!.startsWith("이미")) {
+        diaglogCallback(loginResponse.message);
+        return;
+      }
     }
   }
 
@@ -66,12 +83,17 @@ class KakaoLoginService implements SocialLoginService {
 
   // TODO(Cho-SangHyun): 추후 실제 백엔드와 연동해 jwt를 받아오도록 해야 함
   @override
-  Future<LoginSuccessResponseModel> receiveJwtByOauthToken() async {
+  Future<BaseResponseModel> receiveJwtByOauthToken() async {
     var kakaoAccessToken = kakaoOauthToken.accessToken;
     final dio = Dio();
-    var res = await dio.post(
-        "http://localhost:8080/api/auth/login?provider=kakao",
-        data: {"access_token": kakaoAccessToken});
-    return LoginSuccessResponseModel.fromJson(res.data);
+
+    try {
+      var res = await dio.post(
+          "http://localhost:8080/api/auth/login?provider=kakao",
+          data: {"access_token": kakaoAccessToken});
+      return BaseResponseModel.fromJson(res.data);
+    } on DioException catch (e) {
+      return BaseResponseModel.fromJson(e.response!.data);
+    }
   }
 }

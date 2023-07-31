@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:wooyoungsoo/screens/home_screen.dart';
 import 'package:wooyoungsoo/screens/login_screen.dart';
+import 'package:wooyoungsoo/screens/signup_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (context) => HomeScreen(),
         "/login": (context) => LoginScreen(),
-        "/signup": (context) => LoginScreen(),
+        "/signup": (context) => const SignupScreen(),
       },
     );
   }

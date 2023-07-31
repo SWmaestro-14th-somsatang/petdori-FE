@@ -54,6 +54,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final email = ModalRoute.of(context)!.settings.arguments;
+
     return Scaffold(
       backgroundColor: screenBackgroundColor,
       appBar: AppBar(
