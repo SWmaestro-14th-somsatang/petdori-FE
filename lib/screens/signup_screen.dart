@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/go_back_button_widget.dart';
@@ -23,6 +24,7 @@ class SignupScreen extends StatefulWidget {
 /// [_userName], [_dogName], [_dogType], [_dogGender], [_dogAge] 유저가 입력하는 값
 /// [_isReady] 모든 필드가 입력되었는지 여부
 class _SignupScreenState extends State<SignupScreen> {
+  final storage = const FlutterSecureStorage();
   // TODO(Cho-SangHyun): 추후 DB에서 강아지 종류를 받아와야 함
   final List<String> _dogTypes = [
     '프렌치 불독',
@@ -66,6 +68,12 @@ class _SignupScreenState extends State<SignupScreen> {
 
       var signupResponse = BaseResponseModel.fromJson(res.data);
       if (signupResponse.status == "success") {
+        String accessToken = signupResponse.data["access_token"];
+        String refreshToken = signupResponse.data["refresh_token"];
+
+        await storage.write(key: "accessToken", value: accessToken);
+        await storage.write(key: "refreshToken", value: refreshToken);
+
         Navigator.of(context).pushReplacementNamed("/");
         return;
       }

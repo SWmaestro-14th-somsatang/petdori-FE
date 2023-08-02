@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/services/member_service/social_login_service.dart';
@@ -11,7 +10,7 @@ import 'package:wooyoungsoo/services/member_service/social_login_service.dart';
 class GoogleLoginService implements SocialLoginService {
   late GoogleSignInAccount? googleUser;
   late GoogleSignInAuthentication googleAuth;
-  final VoidCallback loginSuccessCallback;
+  final Function loginSuccessCallback;
   final Function loginFailureCallback;
   final Function diaglogCallback;
 
@@ -30,7 +29,7 @@ class GoogleLoginService implements SocialLoginService {
       if (loginResponse.status == "success") {
         var accessToken = loginResponse.data["access_token"];
         var refreshToken = loginResponse.data["refresh_token"];
-        loginSuccessCallback();
+        loginSuccessCallback(accessToken, refreshToken);
         return;
       }
 

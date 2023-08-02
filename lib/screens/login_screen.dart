@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wooyoungsoo/services/member_service/google_login_service.dart';
 import 'package:wooyoungsoo/services/member_service/kakao_login_service.dart';
 import 'package:wooyoungsoo/services/member_service/social_login_service.dart';
@@ -6,11 +7,41 @@ import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/social_login_button_widget.dart';
 
 /// 로그인 화면
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final storage = const FlutterSecureStorage();
   late SocialLoginService socialLoginService;
 
-  void goToHomeScreen(BuildContext context) {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _asyncMethod();
+    });
+  }
+
+  _asyncMethod() async {
+    // read 함수로 key값에 맞는 정보를 불러옴
+    // 데이터가 없을때는 null을 반환
+    var refreshToken = await storage.read(key: 'refreshToken');
+
+    // user의 정보가 있다면 홈화면으로 보냄
+    if (refreshToken != null) {
+      Navigator.of(context).pushReplacementNamed("/");
+    }
+  }
+
+  void goToHomeScreen(
+      BuildContext context, String accessToken, String refreshToken) async {
+    await storage.write(key: 'accessToken', value: accessToken);
+    await storage.write(key: 'refreshToken', value: refreshToken);
     Navigator.of(context).pushReplacementNamed("/");
   }
 
@@ -69,7 +100,9 @@ class LoginScreen extends StatelessWidget {
               textColor: kakaoTextColor,
               onPressed: () {
                 socialLoginService = KakaoLoginService(
-                    loginSuccessCallback: () => goToHomeScreen(context),
+                    loginSuccessCallback:
+                        (String accessToken, String refreshToken) =>
+                            goToHomeScreen(context, accessToken, refreshToken),
                     loginFailureCallback:
                         (String email, String oauth2Provider) =>
                             goToSignupScreen(context, email, oauth2Provider),
@@ -88,7 +121,9 @@ class LoginScreen extends StatelessWidget {
               textColor: googleTextColor,
               onPressed: () {
                 socialLoginService = GoogleLoginService(
-                    loginSuccessCallback: () => goToHomeScreen(context),
+                    loginSuccessCallback:
+                        (String accessToken, String refreshToken) =>
+                            goToHomeScreen(context, accessToken, refreshToken),
                     loginFailureCallback:
                         (String email, String oauth2Provder) =>
                             goToSignupScreen(context, email, oauth2Provder),
