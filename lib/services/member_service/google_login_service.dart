@@ -36,7 +36,7 @@ class GoogleLoginService implements SocialLoginService {
 
       if (loginResponse.message == "이메일에 해당하는 유저가 없습니다") {
         var email = loginResponse.data["email"];
-        loginFailureCallback(email);
+        loginFailureCallback(email, "google");
         return;
       }
 

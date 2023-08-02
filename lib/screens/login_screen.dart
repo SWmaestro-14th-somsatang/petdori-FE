@@ -14,8 +14,12 @@ class LoginScreen extends StatelessWidget {
     Navigator.of(context).pushReplacementNamed("/");
   }
 
-  void goToSignupScreen(BuildContext context, String email) {
-    Navigator.of(context).pushNamed("/signup", arguments: email);
+  void goToSignupScreen(
+      BuildContext context, String email, String oauth2Provider) {
+    Navigator.of(context).pushNamed("/signup", arguments: {
+      "email": email,
+      "oauth2Provider": oauth2Provider,
+    });
   }
 
   void showMessageDialog(BuildContext context, String message) {
@@ -66,8 +70,9 @@ class LoginScreen extends StatelessWidget {
               onPressed: () {
                 socialLoginService = KakaoLoginService(
                     loginSuccessCallback: () => goToHomeScreen(context),
-                    loginFailureCallback: (String email) =>
-                        goToSignupScreen(context, email),
+                    loginFailureCallback:
+                        (String email, String oauth2Provider) =>
+                            goToSignupScreen(context, email, oauth2Provider),
                     diaglogCallback: (String message) =>
                         showMessageDialog(context, message));
                 socialLoginService.login();
@@ -84,8 +89,9 @@ class LoginScreen extends StatelessWidget {
               onPressed: () {
                 socialLoginService = GoogleLoginService(
                     loginSuccessCallback: () => goToHomeScreen(context),
-                    loginFailureCallback: (String email) =>
-                        goToSignupScreen(context, email),
+                    loginFailureCallback:
+                        (String email, String oauth2Provder) =>
+                            goToSignupScreen(context, email, oauth2Provder),
                     diaglogCallback: (String message) =>
                         showMessageDialog(context, message));
                 socialLoginService.login();

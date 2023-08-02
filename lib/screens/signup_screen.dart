@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/go_back_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_button_widget.dart';
@@ -47,14 +49,37 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   /// 회원가입 기능을 수행하는 메서드
-  void signup() {
-    // TODO(Cho-SangHyun): 추후 실제 회원가입 기능 구현해야 함
-    Navigator.of(context).pushReplacementNamed("/");
+  void signup(String email, String oauth2Provider) async {
+    Dio dio = Dio();
+    try {
+      var res = await dio.post(
+        "http://localhost:8080/api/auth/signup?provider=$oauth2Provider",
+        data: {
+          "email": email,
+          "name": _userName,
+          "dog_name": _dogName,
+          "dog_type": _dogType,
+          "dog_gender": _dogGender,
+          "dog_age": _dogAge,
+        },
+      );
+
+      var signupResponse = BaseResponseModel.fromJson(res.data);
+      if (signupResponse.status == "success") {
+        Navigator.of(context).pushReplacementNamed("/");
+        return;
+      }
+    } on DioException {
+      return;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final email = ModalRoute.of(context)!.settings.arguments;
+    final arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    String email = arguments["email"];
+    String oauth2Provider = arguments["oauth2Provider"];
 
     return Scaffold(
       backgroundColor: screenBackgroundColor,
@@ -161,7 +186,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   margin: const EdgeInsets.only(top: 40),
                   child: SignupButton(
                     isReady: _isReady,
-                    onPressed: signup,
+                    onPressed: () => signup(email, oauth2Provider),
                   ),
                 ),
               ],
