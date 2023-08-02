@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/services/member_service/google_login_service.dart';
 import 'package:wooyoungsoo/services/member_service/kakao_login_service.dart';
 import 'package:wooyoungsoo/services/member_service/social_login_service.dart';
@@ -30,11 +32,37 @@ class _LoginScreenState extends State<LoginScreen> {
   _asyncMethod() async {
     // read 함수로 key값에 맞는 정보를 불러옴
     // 데이터가 없을때는 null을 반환
+    var accessToken = await storage.read(key: "accessToken");
     var refreshToken = await storage.read(key: 'refreshToken');
 
     // user의 정보가 있다면 홈화면으로 보냄
     if (refreshToken != null) {
-      Navigator.of(context).pushReplacementNamed("/");
+      try {
+        Dio dio = Dio();
+        var res = await dio.post(
+          "http://localhost:8080/api/auth/reissue",
+          options: Options(
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer $accessToken"
+            },
+          ),
+          data: {
+            "refresh_token": refreshToken,
+          },
+        );
+
+        var reissueResponse = BaseResponseModel.fromJson(res.data);
+        if (reissueResponse.status == "success") {
+          var accessToken = reissueResponse.data["access_token"];
+          var refreshToken = reissueResponse.data["refresh_token"];
+          goToHomeScreen(context, accessToken, refreshToken);
+          return;
+        }
+      } on DioException {}
+
+      // 최초 접속시 토큰 재발급 실패하면 자동로그인 해제. 즉 스토어에 있는걸 다 지운다
+      await storage.deleteAll();
     }
   }
 
@@ -75,7 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // TODO(Cho-SangHyun): 추후 기로그인 여부에 따라 바로 홈으로 가도록 해야 함
   @override
   Widget build(BuildContext context) {
     return Scaffold(

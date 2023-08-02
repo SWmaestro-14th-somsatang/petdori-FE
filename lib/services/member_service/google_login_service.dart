@@ -56,7 +56,6 @@ class GoogleLoginService implements SocialLoginService {
     }
   }
 
-  // TODO(Cho-SangHyun): 추후 실제 백엔드와 연동해 jwt를 받아오도록 해야 함
   @override
   Future<BaseResponseModel> receiveJwtByOauthToken() async {
     var googleAccessToken = googleAuth.accessToken;

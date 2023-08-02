@@ -24,7 +24,6 @@ class SosialLoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      // TODO(Cho-SangHyun): 추후 실제 로그인 기능을 연결해야 함
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
           fixedSize: Size(MediaQuery.of(context).size.width * 0.8, 45),
