@@ -26,9 +26,8 @@ jobs:
       - run: flutter pub get
       - name: Create .env file
         run: |
-          cat > .env <<EOF
-          KAKAO_NATIVE_APP_KEY=${{ secrets.KAKAO_NATIVE_APP_KEY }}
-          EOF
+          echo "KAKAO_NATIVE_APP_KEY=${{ secrets.KAKAO_NATIVE_APP_KEY }}" >> .env
+          cat .env
       - run: flutter test
       - run: flutter build apk
       - run: flutter build appbundle
@@ -45,9 +44,8 @@ jobs:
         architecture: x64
     - name: Create .env file
       run: |
-        cat > .env <<EOF
-        KAKAO_NATIVE_APP_KEY=${{ secrets.KAKAO_NATIVE_APP_KEY }}
-        EOF
+        echo "KAKAO_NATIVE_APP_KEY=${{ secrets.KAKAO_NATIVE_APP_KEY }}" >> .env
+        cat .env
     - run: flutter pub get
     - run: flutter test
     - run: flutter build ios --release --no-codesign
