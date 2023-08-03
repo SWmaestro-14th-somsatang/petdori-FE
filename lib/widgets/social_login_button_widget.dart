@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wooyoungsoo/screens/signup_screen.dart';
 
 /// 소셜 로그인 버튼 위젯
 ///
@@ -15,26 +14,24 @@ class SosialLoginButton extends StatelessWidget {
     required this.buttonText,
     required this.buttonColor,
     required this.textColor,
+    required this.onPressed,
   });
 
   final String assetName, buttonText;
   final Color buttonColor, textColor;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      // TODO(Cho-SangHyun): 추후 실제 로그인 기능을 연결해야 함
-      onPressed: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const SignupScreen()));
-      },
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
           fixedSize: Size(MediaQuery.of(context).size.width * 0.8, 45),
           backgroundColor: buttonColor,
           foregroundColor: textColor,
           shadowColor: Colors.transparent,
           padding: const EdgeInsets.symmetric(
-            horizontal: 75,
+            horizontal: 65,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
@@ -47,9 +44,6 @@ class SosialLoginButton extends StatelessWidget {
           SvgPicture.asset(
             assetName,
             width: 18,
-          ),
-          const SizedBox(
-            width: 10,
           ),
           Text(
             buttonText,
