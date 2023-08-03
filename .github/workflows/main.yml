@@ -15,8 +15,11 @@ jobs:
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v3
-      - name: Set up secret file
+      - name: Set env as secret
         env:
-          PLEASE: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          MY_VAL: ${{ secrets.INFO_PLIST }}
         run: |
-          echo $PLEASE | sed 's/./& /g'
+          import os
+          for q in (os.getenv("MY_VAL")):
+            print(q)
+        shell: python
