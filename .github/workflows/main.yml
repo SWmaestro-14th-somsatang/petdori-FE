@@ -31,10 +31,10 @@ jobs:
       - name: Create google-services.json file
         run: |
           echo "${{ secrets.GOOGLE_SERVICES_JSON }}" >> android/app/google-services.json
-          cat android/app/google-services.json
       - name: add kakao key to local.properties file
         run: |
           echo "kakao.sdk.appkey=${{ secrets.KAKAO_NATIVE_APP_KEY }}" >> android/local.properties
+          cat android/local.properties
       - run: flutter test
       - run: flutter build apk
       - run: flutter build appbundle
