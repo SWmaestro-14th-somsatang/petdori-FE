@@ -31,9 +31,15 @@ jobs:
       - name: Create google-services.json file
         run: |
           echo "${{ secrets.GOOGLE_SERVICES_JSON }}" >> android/app/google-services.json
-      - name: add kakao key to local.properties file
+      - name: add kakao key to local.properties file at Ubuntu
+        if: matrix.os == 'ubuntu-latest'
         run: |
           echo -e "\nkakao.sdk.appkey=${{ secrets.KAKAO_NATIVE_APP_KEY }}" >> android/local.properties
+          cat android/local.properties
+      - name: add kakao key to local.properties file at Window
+        if: matrix.os == 'windows-latest'
+        run: |
+          "`nkakao.sdk.appkey=***" | Out-File -Append -FilePath "android/local.properties"
           cat android/local.properties
       - run: flutter test
       - run: flutter build apk
