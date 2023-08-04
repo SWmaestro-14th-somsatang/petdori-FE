@@ -1,49 +1,24 @@
 import 'package:dio/dio.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
-import 'package:wooyoungsoo/services/member_service/social_login_service.dart';
+import 'package:wooyoungsoo/services/auth_service/resource_server/resource_server.dart';
 
-/// 구글 로그인을 구현하는 클래스
-///
-/// [googleUser] 구글에 로그인한 유저 정보가 담기는 필드
-/// [googleAuth] 구글 로그인 성공후 발급된 토큰이 담기는 필드
-class GoogleLoginService implements SocialLoginService {
+class GoogleServer implements ResourceServer {
   late GoogleSignInAccount? googleUser;
   late GoogleSignInAuthentication googleAuth;
-  final Function loginSuccessCallback;
-  final Function loginFailureCallback;
-  final Function diaglogCallback;
-
-  GoogleLoginService(
-      {required this.loginSuccessCallback,
-      required this.loginFailureCallback,
-      required this.diaglogCallback});
 
   @override
-  Future login() async {
-    googleUser = await GoogleSignIn().signIn();
+  Future<BaseResponseModel?> login() async {
+    try {
+      googleUser = await GoogleSignIn().signIn();
+    } catch (error) {}
+
     if (isGoogleUserReceived()) {
       googleAuth = await googleUser!.authentication;
       var loginResponse = await receiveJwtByOauthToken();
-
-      if (loginResponse.status == "success") {
-        var accessToken = loginResponse.data["access_token"];
-        var refreshToken = loginResponse.data["refresh_token"];
-        loginSuccessCallback(accessToken, refreshToken);
-        return;
-      }
-
-      if (loginResponse.message == "이메일에 해당하는 유저가 없습니다") {
-        var email = loginResponse.data["email"];
-        loginFailureCallback(email, "google");
-        return;
-      }
-
-      if (loginResponse.message!.startsWith("이미")) {
-        diaglogCallback(loginResponse.message);
-        return;
-      }
+      return loginResponse;
     }
+    return null;
   }
 
   /// 구글 유저정보를 잘 받았는지 확인하는 메서드

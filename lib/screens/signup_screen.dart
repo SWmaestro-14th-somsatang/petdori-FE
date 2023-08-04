@@ -90,7 +90,7 @@ class _SignupScreenState extends State<SignupScreen> {
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     String email = arguments["email"];
-    String oauth2Provider = arguments["oauth2Provider"];
+    String resourceServerName = arguments["resourceServerName"];
 
     return Scaffold(
       backgroundColor: screenBackgroundColor,
@@ -197,7 +197,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   margin: const EdgeInsets.only(top: 40),
                   child: SignupButton(
                     isReady: _isReady,
-                    onPressed: () => signup(email, oauth2Provider),
+                    onPressed: () => signup(email, resourceServerName),
                   ),
                 ),
               ],

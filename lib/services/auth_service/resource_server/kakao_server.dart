@@ -2,24 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
-import 'package:wooyoungsoo/services/member_service/social_login_service.dart';
+import 'package:wooyoungsoo/services/auth_service/resource_server/resource_server.dart';
 
-/// 카카오 로그인을 구현하는 클래스
-///
-/// [kakaoOauthToken] 카카오 로그인 성공시 발급받는 토큰
-class KakaoLoginService implements SocialLoginService {
+class KakaoServer implements ResourceServer {
   late OAuthToken kakaoOauthToken;
-  final Function loginSuccessCallback;
-  final Function loginFailureCallback;
-  final Function diaglogCallback;
-
-  KakaoLoginService(
-      {required this.loginSuccessCallback,
-      required this.loginFailureCallback,
-      required this.diaglogCallback});
 
   @override
-  Future login() async {
+  Future<BaseResponseModel?> login() async {
     if (await isKakaoTalkInstalled()) {
       await loginWithKakaotalk();
     } else {
@@ -28,25 +17,10 @@ class KakaoLoginService implements SocialLoginService {
 
     if (isOauthTokenReceived()) {
       var loginResponse = await receiveJwtByOauthToken();
-
-      if (loginResponse.status == "success") {
-        var accessToken = loginResponse.data["access_token"];
-        var refreshToken = loginResponse.data["refresh_token"];
-        loginSuccessCallback(accessToken, refreshToken);
-        return;
-      }
-
-      if (loginResponse.message == "이메일에 해당하는 유저가 없습니다") {
-        var email = loginResponse.data["email"];
-        loginFailureCallback(email, "kakao");
-        return;
-      }
-
-      if (loginResponse.message!.startsWith("이미")) {
-        diaglogCallback(loginResponse.message);
-        return;
-      }
+      return loginResponse;
     }
+
+    return null;
   }
 
   Future loginWithKakaotalk() async {
