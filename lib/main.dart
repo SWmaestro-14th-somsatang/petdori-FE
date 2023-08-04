@@ -20,11 +20,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        fontFamily: "NotoSansKR",
+      ),
       debugShowCheckedModeBanner: false,
       initialRoute: "/login",
       routes: {
         "/": (context) => HomeScreen(),
-        "/login": (context) => LoginScreen(),
+        "/login": (context) => const LoginScreen(),
         "/signup": (context) => const SignupScreen(),
       },
     );

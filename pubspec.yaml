@@ -42,6 +42,7 @@ dependencies:
   google_sign_in: ^6.1.4
   dio: ^5.2.1+1
   flutter_secure_storage: ^8.0.0
+  font_awesome_flutter: ^10.5.0
 
 dev_dependencies:
   flutter_test:
@@ -82,6 +83,22 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: NotoSansKr
+      fonts:
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Thin.otf
+          weight: 100
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Light.otf
+          weight: 300
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Regular.otf
+          weight: 400
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Bold.otf
+          weight: 700
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Black.otf
+          weight: 900
+
   # fonts:
   #   - family: Schyler
   #     fonts:
