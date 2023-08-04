@@ -31,6 +31,9 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+/// 홈 화면 헤더
+///
+/// [screenWidth] : 화면 너비
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
     super.key,
@@ -80,6 +83,9 @@ class HomeHeader extends StatelessWidget {
   }
 }
 
+/// 홈 화면 소개 문구
+///
+/// [screenWidth] : 화면 너비
 class IntroductoryPhrase extends StatelessWidget {
   const IntroductoryPhrase({
     super.key,
@@ -142,6 +148,7 @@ class IntroductoryPhrase extends StatelessWidget {
   }
 }
 
+/// 홈 화면 검색 바
 class SearchBar extends StatelessWidget {
   const SearchBar({
     super.key,
@@ -159,6 +166,7 @@ class SearchBar extends StatelessWidget {
             padding: EdgeInsets.only(
               left: 5,
             ),
+            // TODO: 실제 사용자 이름으로 변경해야 함
             child: Text(
               "Hi, 미키",
               style: TextStyle(
@@ -216,6 +224,7 @@ class SearchBar extends StatelessWidget {
                   ),
                   constraints: const BoxConstraints(),
                   iconSize: 24,
+                  // TODO: 검색 기능 구현해서 붙여야 함
                   onPressed: () {},
                 ),
               ],
@@ -227,6 +236,7 @@ class SearchBar extends StatelessWidget {
   }
 }
 
+/// 홈 화면 주요 기능 버튼 목록
 class MainFeatureButtons extends StatelessWidget {
   const MainFeatureButtons({
     super.key,
@@ -294,6 +304,11 @@ class MainFeatureButtons extends StatelessWidget {
   }
 }
 
+/// 홈 화면 주요 기능 버튼
+///
+/// [buttonText] : 버튼에 보이는 텍스트
+/// [buttonColor] : 버튼 배경색
+/// [assetName] : 버튼에 보이는 이미지 경로
 class MainFeatureButton extends StatelessWidget {
   const MainFeatureButton({
     super.key,
@@ -309,6 +324,7 @@ class MainFeatureButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      // TODO: 버튼 눌렀을 때 실제 페이지로 가는 메서드를 이어야 함
       onPressed: () {},
       style: ElevatedButton.styleFrom(
         backgroundColor: buttonColor,
@@ -340,6 +356,11 @@ class MainFeatureButton extends StatelessWidget {
   }
 }
 
+/// 홈 화면 부가 기능 버튼 목록
+///
+/// [featureImagePaths] : 목록에서 보여줄 버튼에 보이는 이미지 경로들
+/// [featureNames] : 목록에서 보여줄 버튼에 보이는 텍스트들
+/// [descriptions] : 목록에서 보여줄 버튼에 보이는 설명들
 class AdditionalFeatureButtons extends StatelessWidget {
   AdditionalFeatureButtons({
     super.key,
@@ -412,6 +433,11 @@ class AdditionalFeatureButtons extends StatelessWidget {
   }
 }
 
+/// 홈 화면 부가 기능 버튼
+///
+/// [assetName] : 버튼에 보이는 이미지 경로
+/// [featureName] : 버튼에 보이는 텍스트
+/// [description] : 버튼에 보이는 설명
 class AdditionalFeatureButton extends StatelessWidget {
   const AdditionalFeatureButton({
     super.key,
@@ -427,6 +453,7 @@ class AdditionalFeatureButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      // TODO: 버튼 눌렀을 때 실제 페이지로 가는 메서드를 이어야 함
       onPressed: () {},
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
