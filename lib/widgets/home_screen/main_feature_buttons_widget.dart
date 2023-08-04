@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/home_screen/main_feature_button_widget.dart';
 
 /// 홈 화면 주요 기능 버튼 목록
@@ -23,7 +24,7 @@ class MainFeatureButtons extends StatelessWidget {
               "메인 서비스",
               style: TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: fontWeightBold,
               ),
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wooyoungsoo/utils/constants.dart';
 
 /// 홈 화면 부가 기능 버튼
 ///
@@ -24,9 +25,9 @@ class AdditionalFeatureButton extends StatelessWidget {
       // TODO: 버튼 눌렀을 때 실제 페이지로 가는 메서드를 이어야 함
       onPressed: () {},
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        shadowColor: Colors.transparent,
+        backgroundColor: whiteColor,
+        foregroundColor: blackColor,
+        shadowColor: transparentColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -61,7 +62,7 @@ class AdditionalFeatureButton extends StatelessWidget {
                     featureName,
                     style: const TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: fontWeightBold,
                     ),
                   ),
                   const SizedBox(
@@ -69,8 +70,9 @@ class AdditionalFeatureButton extends StatelessWidget {
                   ),
                   Text(
                     description,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w300,
+                    style: TextStyle(
+                      color: Colors.grey.shade700,
+                      fontWeight: fontWeightLight,
                     ),
                   ),
                 ],

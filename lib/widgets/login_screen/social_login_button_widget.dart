@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wooyoungsoo/utils/constants.dart';
 
 /// 소셜 로그인 버튼 위젯
 ///
@@ -23,13 +24,16 @@ class SosialLoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 화면 너비
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-          fixedSize: Size(MediaQuery.of(context).size.width * 0.8, 45),
+          fixedSize: Size(screenWidth * 0.8, 45),
           backgroundColor: buttonColor,
           foregroundColor: textColor,
-          shadowColor: Colors.transparent,
+          shadowColor: transparentColor,
           padding: const EdgeInsets.symmetric(
             horizontal: 65,
           ),
@@ -47,6 +51,9 @@ class SosialLoginButton extends StatelessWidget {
           ),
           Text(
             buttonText,
+            style: const TextStyle(
+              fontWeight: fontWeightRegular,
+            ),
           ),
         ],
       ),

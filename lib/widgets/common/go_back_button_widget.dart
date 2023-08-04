@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooyoungsoo/utils/constants.dart';
 
 /// 뒤로가기 버튼 위젯
 class GoBackButton extends StatelessWidget {
@@ -15,7 +16,7 @@ class GoBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.arrow_back_ios),
-      color: Colors.black,
+      color: blackColor,
       onPressed: () => goBack(context),
     );
   }

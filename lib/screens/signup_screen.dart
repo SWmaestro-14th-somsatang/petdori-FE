@@ -84,6 +84,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // 화면 높이
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     String email = arguments["email"];
@@ -94,7 +97,7 @@ class _SignupScreenState extends State<SignupScreen> {
       appBar: AppBar(
         leading: const GoBackButton(),
         backgroundColor: screenBackgroundColor,
-        shadowColor: Colors.transparent,
+        shadowColor: transparentColor,
         shape: const Border(
           bottom: BorderSide(
             width: 0.5,
@@ -105,9 +108,9 @@ class _SignupScreenState extends State<SignupScreen> {
         title: const Text(
           "회원가입",
           style: TextStyle(
-            color: Colors.black,
+            color: blackColor,
             fontSize: 16,
-            fontWeight: FontWeight.bold,
+            fontWeight: fontWeightBold,
           ),
         ),
       ),
@@ -118,7 +121,7 @@ class _SignupScreenState extends State<SignupScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: screenHeight * 0.05,
                 ),
                 SignupTextField(
                   label: '이름',

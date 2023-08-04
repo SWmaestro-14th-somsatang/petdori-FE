@@ -105,6 +105,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // 화면 너비
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: screenBackgroundColor,
       body: Center(
@@ -112,8 +115,8 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: MediaQuery.of(context).size.width * 0.66,
-              height: MediaQuery.of(context).size.width * 0.66,
+              width: screenWidth * 0.66,
+              height: screenWidth * 0.66,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(appLogoPath),

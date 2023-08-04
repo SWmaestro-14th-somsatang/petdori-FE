@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooyoungsoo/utils/constants.dart';
 
 /// 홈 화면 헤더
 ///
@@ -39,7 +40,7 @@ class HomeHeader extends StatelessWidget {
                   "우영수",
                   style: TextStyle(
                     color: Colors.grey.shade600,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: fontWeightMedium,
                     fontSize: 14,
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:wooyoungsoo/utils/constants.dart';
 
 /// 홈 화면 기능 검색 바
 class FeatureSearchBar extends StatelessWidget {
@@ -24,7 +25,7 @@ class FeatureSearchBar extends StatelessWidget {
               "Hi, 미키",
               style: TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: fontWeightBold,
               ),
             ),
           ),
@@ -57,11 +58,11 @@ class FeatureSearchBar extends StatelessWidget {
                       ),
                       focusedBorder: const OutlineInputBorder(
                         borderSide:
-                            BorderSide(width: 1, color: Colors.transparent),
+                            BorderSide(width: 1, color: transparentColor),
                       ),
                       enabledBorder: const OutlineInputBorder(
                         borderSide:
-                            BorderSide(width: 1, color: Colors.transparent),
+                            BorderSide(width: 1, color: transparentColor),
                       ),
                     ),
                   ),
@@ -69,7 +70,7 @@ class FeatureSearchBar extends StatelessWidget {
                 IconButton(
                   icon: const FaIcon(
                     FontAwesomeIcons.magnifyingGlass,
-                    color: Color(0xFF8f59f5),
+                    color: deepPurpleColor,
                   ),
                   padding: const EdgeInsets.symmetric(
                     vertical: 0,

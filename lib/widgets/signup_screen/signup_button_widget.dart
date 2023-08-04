@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooyoungsoo/utils/constants.dart';
 
 /// 회원가입 버튼 위젯
 ///
@@ -17,12 +18,15 @@ class SignupButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 화면 너비
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return ElevatedButton(
       onPressed: _isReady ? _onPressed : null,
       style: ElevatedButton.styleFrom(
-        fixedSize: Size(MediaQuery.of(context).size.width * 0.9, 55),
-        backgroundColor: _isReady ? Colors.green : Colors.grey.shade300,
-        foregroundColor: _isReady ? Colors.white : Colors.grey,
+        fixedSize: Size(screenWidth * 0.9, 55),
+        backgroundColor: _isReady ? mainPurpleColor : Colors.grey.shade300,
+        foregroundColor: _isReady ? whiteColor : Colors.grey,
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(14),

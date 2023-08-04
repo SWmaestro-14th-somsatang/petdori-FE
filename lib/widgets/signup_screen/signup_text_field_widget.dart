@@ -21,8 +21,11 @@ class SignupTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 화면 너비
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return Container(
-      width: MediaQuery.of(context).size.width * 0.9,
+      width: screenWidth * 0.9,
       margin: const EdgeInsets.only(bottom: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

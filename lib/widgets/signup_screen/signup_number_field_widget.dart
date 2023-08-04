@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wooyoungsoo/utils/constants.dart';
 
 class SignupNumberField extends StatelessWidget {
   const SignupNumberField({
@@ -16,8 +17,11 @@ class SignupNumberField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 화면 너비
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return Container(
-      width: MediaQuery.of(context).size.width * 0.9,
+      width: screenWidth * 0.9,
       margin: const EdgeInsets.only(bottom: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +55,7 @@ class SignupNumberField extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                 focusedBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(14)),
-                  borderSide: BorderSide(width: 1, color: Colors.black),
+                  borderSide: BorderSide(width: 1, color: blackColor),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(Radius.circular(14)),
