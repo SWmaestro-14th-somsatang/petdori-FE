@@ -6,7 +6,7 @@ import 'package:wooyoungsoo/services/member_service/google_login_service.dart';
 import 'package:wooyoungsoo/services/member_service/kakao_login_service.dart';
 import 'package:wooyoungsoo/services/member_service/social_login_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
-import 'package:wooyoungsoo/widgets/social_login_button_widget.dart';
+import 'package:wooyoungsoo/widgets/login_screen/social_login_button_widget.dart';
 
 /// 로그인 화면
 class LoginScreen extends StatefulWidget {

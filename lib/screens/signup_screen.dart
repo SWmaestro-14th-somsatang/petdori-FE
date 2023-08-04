@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
-import 'package:wooyoungsoo/widgets/go_back_button_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_button_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_drop_down_field_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_text_field_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_number_field_widget.dart';
+import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
+import 'package:wooyoungsoo/widgets/signup_screen/signup_button_widget.dart';
+import 'package:wooyoungsoo/widgets/signup_screen/signup_drop_down_field_widget.dart';
+import 'package:wooyoungsoo/widgets/signup_screen/signup_text_field_widget.dart';
+import 'package:wooyoungsoo/widgets/signup_screen/signup_number_field_widget.dart';
 
 /// 회원가입 화면
 class SignupScreen extends StatefulWidget {
