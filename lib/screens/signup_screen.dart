@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
-import 'package:wooyoungsoo/widgets/go_back_button_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_button_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_drop_down_field_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_text_field_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_number_field_widget.dart';
+import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
+import 'package:wooyoungsoo/widgets/signup_screen/signup_button_widget.dart';
+import 'package:wooyoungsoo/widgets/signup_screen/signup_drop_down_field_widget.dart';
+import 'package:wooyoungsoo/widgets/signup_screen/signup_text_field_widget.dart';
+import 'package:wooyoungsoo/widgets/signup_screen/signup_number_field_widget.dart';
 
 /// 회원가입 화면
 class SignupScreen extends StatefulWidget {
@@ -84,17 +84,20 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // 화면 높이
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     String email = arguments["email"];
-    String oauth2Provider = arguments["oauth2Provider"];
+    String resourceServerName = arguments["resourceServerName"];
 
     return Scaffold(
       backgroundColor: screenBackgroundColor,
       appBar: AppBar(
         leading: const GoBackButton(),
         backgroundColor: screenBackgroundColor,
-        shadowColor: Colors.transparent,
+        shadowColor: transparentColor,
         shape: const Border(
           bottom: BorderSide(
             width: 0.5,
@@ -105,9 +108,9 @@ class _SignupScreenState extends State<SignupScreen> {
         title: const Text(
           "회원가입",
           style: TextStyle(
-            color: Colors.black,
+            color: blackColor,
             fontSize: 16,
-            fontWeight: FontWeight.bold,
+            fontWeight: fontWeightBold,
           ),
         ),
       ),
@@ -118,7 +121,7 @@ class _SignupScreenState extends State<SignupScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: screenHeight * 0.05,
                 ),
                 SignupTextField(
                   label: '이름',
@@ -194,7 +197,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   margin: const EdgeInsets.only(top: 40),
                   child: SignupButton(
                     isReady: _isReady,
-                    onPressed: () => signup(email, oauth2Provider),
+                    onPressed: () => signup(email, resourceServerName),
                   ),
                 ),
               ],

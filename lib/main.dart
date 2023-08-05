@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:wooyoungsoo/screens/home_screen.dart';
 import 'package:wooyoungsoo/screens/login_screen.dart';
+import 'package:wooyoungsoo/screens/home_screen.dart';
 import 'package:wooyoungsoo/screens/signup_screen.dart';
 
 void main() async {
@@ -20,11 +20,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        fontFamily: "NotoSansKR",
+      ),
       debugShowCheckedModeBanner: false,
       initialRoute: "/login",
       routes: {
-        "/": (context) => HomeScreen(),
-        "/login": (context) => LoginScreen(),
+        "/": (context) => const HomeScreen(),
+        "/login": (context) => const LoginScreen(),
         "/signup": (context) => const SignupScreen(),
       },
     );
