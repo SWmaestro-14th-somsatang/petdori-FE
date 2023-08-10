@@ -7,9 +7,13 @@ import 'package:wooyoungsoo/services/auth_service/resource_server/kakao_server.d
 import 'package:wooyoungsoo/services/auth_service/resource_server/resource_server.dart';
 import 'package:wooyoungsoo/services/storage_service/storage_service.dart';
 
+/// 회원가입 및 로그인 등을 담당하는 서비스(싱글턴)
+///
+/// [storageService] 로컬 저장소에 접근하기 위한 필드
+/// [resourceServer] 사용할 ResourceServer (구글, 카카오, 애플)
 class AuthService {
-  ResourceServer? resourceServer;
   final storageService = StorageService();
+  ResourceServer? resourceServer;
 
   // private한 생성자 생성 => public 생성자가 없어짐
   AuthService._privateConstructor() {
@@ -21,6 +25,33 @@ class AuthService {
     return _instance;
   }
 
+  Future signup({
+    required BuildContext context,
+    required email,
+    required String oauth2Provider,
+    required Map<String, dynamic> data,
+  }) async {
+    Dio dio = Dio();
+    try {
+      var res = await dio.post(
+        "http://localhost:8080/api/auth/signup?provider=$oauth2Provider",
+        data: data,
+      );
+
+      var signupResponse = BaseResponseModel.fromJson(res.data);
+      if (signupResponse.status == "success") {
+        String accessToken = signupResponse.data["access_token"];
+        String refreshToken = signupResponse.data["refresh_token"];
+        goToHomeScreen(context, accessToken, refreshToken);
+        return;
+      }
+    } on DioException {
+      showMessageDialog(
+          context, "회원가입 실패", "알 수 없는 이유로 회원가입에 실패했습니다. 다시 시도해주세요");
+      return;
+    }
+  }
+
   Future login(BuildContext context) async {
     if (resourceServer == null) {
       // TODO: 순수 이메일 로그인 기능을 추가해야 함~
@@ -30,7 +61,7 @@ class AuthService {
     BaseResponseModel? loginResponse = await resourceServer!.login();
 
     if (loginResponse == null) {
-      showMessageDialog(context, "로그인에 실패했습니다. 한 번 더 시도해주세요");
+      showMessageDialog(context, "로그인 실패", "로그인에 실패했습니다. 한 번 더 시도해주세요");
       return;
     }
 
@@ -49,7 +80,7 @@ class AuthService {
     }
 
     if (loginResponse.message!.startsWith("이미")) {
-      showMessageDialog(context, loginResponse.message);
+      showMessageDialog(context, "로그인 실패", loginResponse.message);
       return;
     }
   }
@@ -89,12 +120,12 @@ class AuthService {
     });
   }
 
-  void showMessageDialog(BuildContext context, String? message) {
+  void showMessageDialog(BuildContext context, String title, String? message) {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
-        title: const Text("로그인 실패"),
+        title: Text(title),
         content: Text(message!),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(14.0),

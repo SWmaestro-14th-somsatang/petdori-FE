@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:wooyoungsoo/models/base_response_model.dart';
+import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_button_widget.dart';
@@ -25,7 +23,8 @@ class SignupScreen extends StatefulWidget {
 /// [_userName], [_dogName], [_dogType], [_dogGender], [_isNeutered], [_dogAge] 유저가 입력하는 값
 /// [_isReady] 모든 필드가 입력되었는지 여부
 class _SignupScreenState extends State<SignupScreen> {
-  final storage = const FlutterSecureStorage();
+  AuthService authService = AuthService();
+
   // TODO(Cho-SangHyun): 추후 DB에서 강아지 종류를 받아와야 함
   final List<String> _dogTypes = [
     '프렌치 불독',
@@ -52,39 +51,6 @@ class _SignupScreenState extends State<SignupScreen> {
         _dogGender != null &&
         _isNeutered != null &&
         _dogAge != null;
-  }
-
-  /// 회원가입 기능을 수행하는 메서드
-  void signup(String email, String oauth2Provider) async {
-    Dio dio = Dio();
-    try {
-      var res = await dio.post(
-        "http://localhost:8080/api/auth/signup?provider=$oauth2Provider",
-        data: {
-          "email": email,
-          "name": _userName,
-          "dog_name": _dogName,
-          "dog_type": _dogType,
-          "dog_gender": _dogGender,
-          "is_neutered": _isNeutered,
-          "dog_age": _dogAge,
-        },
-      );
-
-      var signupResponse = BaseResponseModel.fromJson(res.data);
-      if (signupResponse.status == "success") {
-        String accessToken = signupResponse.data["access_token"];
-        String refreshToken = signupResponse.data["refresh_token"];
-
-        await storage.write(key: "accessToken", value: accessToken);
-        await storage.write(key: "refreshToken", value: refreshToken);
-
-        Navigator.of(context).pushReplacementNamed("/");
-        return;
-      }
-    } on DioException {
-      return;
-    }
   }
 
   @override
@@ -228,7 +194,24 @@ class _SignupScreenState extends State<SignupScreen> {
                   margin: const EdgeInsets.only(top: 40),
                   child: SignupButton(
                     isReady: _isReady,
-                    onPressed: () => signup(email, resourceServerName),
+                    onPressed: () async {
+                      Map<String, dynamic> data = {
+                        "email": email,
+                        "name": _userName,
+                        "dog_name": _dogName,
+                        "dog_type": _dogType,
+                        "dog_gender": _dogGender,
+                        "is_neutered": _isNeutered,
+                        "dog_age": _dogAge,
+                      };
+
+                      await authService.signup(
+                        context: context,
+                        email: email,
+                        oauth2Provider: resourceServerName,
+                        data: data,
+                      );
+                    },
                   ),
                 ),
               ],
