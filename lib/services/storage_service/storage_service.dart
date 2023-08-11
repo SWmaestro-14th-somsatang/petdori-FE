@@ -1,5 +1,8 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+/// 로컬 저장소 접근을 위한 서비스(싱글턴)
+///
+/// [storage] 로컬 저장소
 class StorageService {
   final storage = const FlutterSecureStorage();
 

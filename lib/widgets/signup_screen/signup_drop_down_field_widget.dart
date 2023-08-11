@@ -5,19 +5,23 @@ import 'package:flutter/material.dart';
 /// [_label] 드롭다운 버튼 위젯의 라벨
 /// [_items] 드롭다운 버튼 위젯의 아이템 리스트
 /// [_onChanged] 드롭다운 버튼 위젯의 아이템 선택 시 실행될 콜백 함수
+/// [_width] 드롭다운 버튼 위젯의 너비
 class SignupDropDownField extends StatefulWidget {
   const SignupDropDownField({
     super.key,
     required String label,
     required List<String> items,
     required Function onChanged,
+    required double width,
   })  : _label = label,
         _items = items,
-        _onChanged = onChanged;
+        _onChanged = onChanged,
+        _width = width;
 
   final String _label;
   final List<String> _items;
   final Function _onChanged;
+  final double _width;
 
   @override
   State<SignupDropDownField> createState() => _SignupDropDownFieldState();
@@ -28,11 +32,8 @@ class _SignupDropDownFieldState extends State<SignupDropDownField> {
 
   @override
   Widget build(BuildContext context) {
-    // 화면 너비
-    final double screenWidth = MediaQuery.of(context).size.width;
-
     return Container(
-      width: screenWidth * 0.9,
+      width: widget._width,
       margin: const EdgeInsets.only(bottom: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
