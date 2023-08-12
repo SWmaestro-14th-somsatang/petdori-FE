@@ -27,6 +27,15 @@ class AdditionalFeatureButtons extends StatelessWidget {
     "지금 당장 1 : 1 실시간 진료를 받아보세요!",
   ];
 
+  final List<Function> onPressedFuntions = [
+    () {
+      print("산책 및 경로 추천");
+    },
+    () {
+      print("화상 상담");
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -64,6 +73,7 @@ class AdditionalFeatureButtons extends StatelessWidget {
                   assetName: featureImagePaths[index],
                   featureName: featureNames[index],
                   description: descriptions[index],
+                  onPressed: onPressedFuntions[index],
                 ),
               );
             },

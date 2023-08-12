@@ -13,17 +13,19 @@ class AdditionalFeatureButton extends StatelessWidget {
     required this.assetName,
     required this.featureName,
     required this.description,
+    required this.onPressed,
   });
 
   final String assetName;
   final String featureName;
   final String description;
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       // TODO: 버튼 눌렀을 때 실제 페이지로 가는 메서드를 이어야 함
-      onPressed: () {},
+      onPressed: onPressed(),
       style: ElevatedButton.styleFrom(
         backgroundColor: whiteColor,
         foregroundColor: blackColor,
