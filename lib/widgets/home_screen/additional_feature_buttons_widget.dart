@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wooyoungsoo/screens/activity/activity_screen.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/home_screen/additional_feature_button_widget.dart';
 
@@ -27,17 +28,17 @@ class AdditionalFeatureButtons extends StatelessWidget {
     "지금 당장 1 : 1 실시간 진료를 받아보세요!",
   ];
 
-  final List<Function> onPressedFuntions = [
-    () {
-      print("산책 및 경로 추천");
-    },
-    () {
-      print("화상 상담");
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Function> onPressedFuntions = [
+      () {
+        Navigator.pushNamed(context, "/activity");
+      },
+      () {
+        print("화상 상담");
+      },
+    ];
+
     return Padding(
       padding: const EdgeInsets.only(
         top: 15,
