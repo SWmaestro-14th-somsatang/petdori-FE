@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:wooyoungsoo/screens/activity/activity_screen.dart';
 import 'package:wooyoungsoo/screens/login_screen.dart';
 import 'package:wooyoungsoo/screens/home_screen.dart';
 import 'package:wooyoungsoo/screens/signup_screen.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         "/": (context) => const HomeScreen(),
         "/login": (context) => const LoginScreen(),
         "/signup": (context) => const SignupScreen(),
+        "/activity": (context) => const ActivityScreen(),
       },
     );
   }
