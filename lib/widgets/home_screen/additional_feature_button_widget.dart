@@ -25,7 +25,9 @@ class AdditionalFeatureButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       // TODO: 버튼 눌렀을 때 실제 페이지로 가는 메서드를 이어야 함
-      onPressed: onPressed(),
+      onPressed: () {
+        onPressed();
+      },
       style: ElevatedButton.styleFrom(
         backgroundColor: whiteColor,
         foregroundColor: blackColor,
