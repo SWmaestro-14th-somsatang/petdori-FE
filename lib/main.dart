@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
+import 'package:wooyoungsoo/provider/gps_util_provider.dart';
 import 'package:wooyoungsoo/provider/walk_state_provider.dart';
 import 'package:wooyoungsoo/screens/activity/activity_screen.dart';
 import 'package:wooyoungsoo/screens/login_screen.dart';
@@ -18,6 +19,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => WalkStateProvider()),
+        ChangeNotifierProvider(create: (_) => GpsUtilProvider()),
       ],
       child: const MyApp(),
     ),

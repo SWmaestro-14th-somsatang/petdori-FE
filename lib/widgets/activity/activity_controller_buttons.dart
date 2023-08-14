@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wooyoungsoo/provider/walk_state_provider.dart';
 
 class ActivityControllerButtons extends StatelessWidget {
   const ActivityControllerButtons({super.key});
@@ -29,7 +31,7 @@ class ActivityControllerButtons extends StatelessWidget {
                 heroTag: "activity_start_btn",
                 backgroundColor: const Color.fromARGB(255, 136, 140, 247),
                 onPressed: () => {
-                  // context.read<PlayProvider>().ready(),
+                  context.read<WalkStateProvider>().ready(),
                   // context.read<ConsoleStatusWidgetProvider>().startTimer(),
                   // context.read<MapWidgetProvider>().ready(),
                 },

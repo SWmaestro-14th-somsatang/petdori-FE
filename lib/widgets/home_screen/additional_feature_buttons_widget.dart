@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wooyoungsoo/screens/activity/activity_screen.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/home_screen/additional_feature_button_widget.dart';
 

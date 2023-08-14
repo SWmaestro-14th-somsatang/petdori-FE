@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wooyoungsoo/provider/walk_state_provider.dart';
+import 'package:wooyoungsoo/screens/activity/walk/walk_session_screen.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/activity/activity_controller_buttons.dart';
 
@@ -24,6 +27,14 @@ class ActivityScreen extends StatelessWidget {
             height: activityControllerHeight,
             child: const ActivityControllerButtons(),
           ),
+          if (context.watch<WalkStateProvider>().isStartted)
+            Positioned(
+              top: 0,
+              left: 0,
+              width: screenWidth,
+              height: screenHeight,
+              child: const WalkSessionScreen(),
+            ),
         ],
       ),
     );

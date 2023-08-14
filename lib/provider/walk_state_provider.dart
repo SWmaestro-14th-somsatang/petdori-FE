@@ -5,11 +5,13 @@ class WalkStateProvider with ChangeNotifier, DiagnosticableTreeMixin {
   bool _isStartted = false;
   bool _isPaused = false;
   bool _isFinished = true;
+  bool _isExpanded = false;
 
   bool get isReady => _isReady;
   bool get isStartted => _isStartted;
   bool get isPaused => _isPaused;
   bool get isFinished => _isFinished;
+  bool get isExpanded => _isExpanded;
 
   void ready() {
     _isStartted = true;
@@ -38,6 +40,11 @@ class WalkStateProvider with ChangeNotifier, DiagnosticableTreeMixin {
     _isStartted = false;
     _isPaused = false;
     _isFinished = true;
+    notifyListeners();
+  }
+
+  void toggleMapExpanded() {
+    _isExpanded = !_isExpanded;
     notifyListeners();
   }
 
