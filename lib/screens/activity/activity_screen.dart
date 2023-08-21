@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wooyoungsoo/provider/walk_state_provider.dart';
+import 'package:wooyoungsoo/provider/gps_util_provider.dart';
+import 'package:wooyoungsoo/provider/session_state_provider.dart';
 import 'package:wooyoungsoo/screens/activity/walk/walk_session_screen.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/activity/activity_controller_buttons.dart';
@@ -15,6 +16,7 @@ class ActivityScreen extends StatelessWidget {
     final double activityControllerHeight = screenWidth * 0.45;
     final double activityControllerTop =
         screenHeight - activityControllerHeight;
+    context.read<GpsUtilProvider>().isGpsOnAndGetPermission();
 
     return Scaffold(
       backgroundColor: screenBackgroundColor,
@@ -27,7 +29,7 @@ class ActivityScreen extends StatelessWidget {
             height: activityControllerHeight,
             child: const ActivityControllerButtons(),
           ),
-          if (context.watch<WalkStateProvider>().isStartted)
+          if (context.watch<SessionStateProvider>().isStartted)
             Positioned(
               top: 0,
               left: 0,

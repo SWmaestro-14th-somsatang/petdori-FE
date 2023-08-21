@@ -3,13 +3,15 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 import 'package:wooyoungsoo/provider/gps_util_provider.dart';
-import 'package:wooyoungsoo/provider/walk_state_provider.dart';
+import 'package:wooyoungsoo/provider/session_state_provider.dart';
+import 'package:wooyoungsoo/provider/session_stats_provider.dart';
 import 'package:wooyoungsoo/screens/activity/activity_screen.dart';
 import 'package:wooyoungsoo/screens/login_screen.dart';
 import 'package:wooyoungsoo/screens/home_screen.dart';
 import 'package:wooyoungsoo/screens/signup_screen.dart';
 
 void main() async {
+  Provider.debugCheckInvalidValueType = null;
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   KakaoSdk.init(
@@ -18,8 +20,11 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => WalkStateProvider()),
         ChangeNotifierProvider(create: (_) => GpsUtilProvider()),
+        ProxyProvider<GpsUtilProvider, SessionStatsProvider>(
+            update: (_, gpsUtilProvider, __) =>
+                SessionStatsProvider(gpsUtilProvider: gpsUtilProvider)),
+        ChangeNotifierProvider(create: (_) => SessionStateProvider()),
       ],
       child: const MyApp(),
     ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wooyoungsoo/provider/walk_state_provider.dart';
+import 'package:wooyoungsoo/provider/session_state_provider.dart';
 import 'package:wooyoungsoo/screens/activity/walk/walk_console_screen.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
-import 'package:wooyoungsoo/widgets/activity/walk/count_down_widget.dart';
+import 'package:wooyoungsoo/widgets/activity/walk/session/count_down_widget.dart';
 
 class WalkSessionScreen extends StatelessWidget {
   const WalkSessionScreen({super.key});
@@ -26,7 +26,7 @@ class WalkSessionScreen extends StatelessWidget {
               height: screenHeight,
               child: const WalkConsoleScreen(),
             ),
-            if (context.watch<WalkStateProvider>().isReady)
+            if (context.watch<SessionStateProvider>().isReady)
               Positioned(
                 top: 0,
                 left: 0,

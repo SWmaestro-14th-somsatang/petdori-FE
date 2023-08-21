@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wooyoungsoo/provider/walk_state_provider.dart';
+import 'package:wooyoungsoo/provider/session_state_provider.dart';
 
 class CountDownWidget extends StatefulWidget {
   const CountDownWidget({super.key});
@@ -23,7 +23,7 @@ class _CountDownWidgetState extends State<CountDownWidget> {
           _count -= 1;
         } else {
           timer.cancel();
-          context.read<WalkStateProvider>().start();
+          context.read<SessionStateProvider>().start();
         }
       });
     });

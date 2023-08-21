@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wooyoungsoo/provider/walk_state_provider.dart';
+import 'package:wooyoungsoo/provider/gps_util_provider.dart';
+import 'package:wooyoungsoo/provider/session_state_provider.dart';
+import 'package:wooyoungsoo/provider/session_stats_provider.dart';
 
 class ActivityControllerButtons extends StatelessWidget {
   const ActivityControllerButtons({super.key});
@@ -31,9 +33,21 @@ class ActivityControllerButtons extends StatelessWidget {
                 heroTag: "activity_start_btn",
                 backgroundColor: const Color.fromARGB(255, 136, 140, 247),
                 onPressed: () => {
-                  context.read<WalkStateProvider>().ready(),
-                  // context.read<ConsoleStatusWidgetProvider>().startTimer(),
-                  // context.read<MapWidgetProvider>().ready(),
+                  context
+                      .read<GpsUtilProvider>()
+                      .isGpsOnAndGetPermission()
+                      .then((state) => {
+                            if (state)
+                              {
+                                context.read<SessionStateProvider>().ready(),
+                                context.read<SessionStatsProvider>().ready(),
+                                context.read<GpsUtilProvider>().ready(),
+                              }
+                            else
+                              {
+                                print("GPS가 꺼져있거나 권한이 없습니다."),
+                              }
+                          }),
                 },
                 child: const Text(
                   "시작",

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wooyoungsoo/provider/walk_state_provider.dart';
+import 'package:wooyoungsoo/provider/session_state_provider.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
-import 'package:wooyoungsoo/widgets/activity/walk/map_widget.dart';
+import 'package:wooyoungsoo/widgets/activity/walk/session/console/console_widget.dart';
+import 'package:wooyoungsoo/widgets/activity/walk/session/map/map_widget.dart';
 
 class WalkConsoleScreen extends StatelessWidget {
   const WalkConsoleScreen({super.key});
@@ -11,30 +12,25 @@ class WalkConsoleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    bool isPaused = context.watch<WalkStateProvider>().isPaused;
-    bool isExpanded = context.watch<WalkStateProvider>().isExpanded;
-    double mapHeight = screenHeight * 0.34;
-    double consoleHeight = screenHeight * 0.66;
+    bool isPaused = context.watch<SessionStateProvider>().isPaused;
+    bool isExpanded = context.watch<SessionStateProvider>().isExpanded;
+    double mapHeight = screenHeight * mapHeightRatio;
+    double consoleHeight = screenHeight * consoleHeightRatio;
     return Stack(
       children: [
-        AnimatedPositioned(
+        Positioned(
           top: mapHeight,
           left: 0,
           width: screenWidth,
           height: consoleHeight,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.fastOutSlowIn,
-          // child: const PlayConsoleWidget(),
-          child: Container(
-            color: Colors.amber,
-          ),
+          child: const ConsoleWidget(),
         ),
         AnimatedPositioned(
           top: 0,
           left: 0,
           width: screenWidth,
           height: isExpanded ? screenHeight : mapHeight,
-          duration: const Duration(milliseconds: 500),
+          duration: animationDuration,
           curve: Curves.fastOutSlowIn,
           child: const MapWidget(),
         ),

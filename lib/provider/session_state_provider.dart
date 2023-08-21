@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class WalkStateProvider with ChangeNotifier, DiagnosticableTreeMixin {
+class SessionStateProvider with ChangeNotifier, DiagnosticableTreeMixin {
   bool _isReady = false;
   bool _isStartted = false;
   bool _isPaused = false;
@@ -16,7 +16,7 @@ class WalkStateProvider with ChangeNotifier, DiagnosticableTreeMixin {
   void ready() {
     _isStartted = true;
     _isReady = true;
-    _isPaused = true;
+    _isPaused = false;
     _isFinished = false;
     notifyListeners();
   }
