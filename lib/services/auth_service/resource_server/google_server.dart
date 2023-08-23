@@ -43,7 +43,7 @@ class GoogleServer implements ResourceServer {
     try {
       var res = await dio.post(
           "http://localhost:8080/api/auth/login?provider=google",
-          data: {"access_token": googleAccessToken});
+          data: {"oauth2_token": googleAccessToken});
       return BaseResponseModel.fromJson(res.data);
     } on DioException catch (e) {
       return BaseResponseModel.fromJson(e.response!.data);

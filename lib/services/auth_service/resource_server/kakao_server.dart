@@ -63,7 +63,7 @@ class KakaoServer implements ResourceServer {
     try {
       var res = await dio.post(
           "http://localhost:8080/api/auth/login?provider=kakao",
-          data: {"access_token": kakaoAccessToken});
+          data: {"oauth2_token": kakaoAccessToken});
       return BaseResponseModel.fromJson(res.data);
     } on DioException catch (e) {
       return BaseResponseModel.fromJson(e.response!.data);
