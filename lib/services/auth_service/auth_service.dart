@@ -79,7 +79,7 @@ class AuthService {
       return;
     }
 
-    if (loginResponse.message!.startsWith("이미")) {
+    if (loginResponse.status == "error") {
       showMessageDialog(context, "로그인 실패", loginResponse.message);
       return;
     }
