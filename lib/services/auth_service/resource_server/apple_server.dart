@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/services/auth_service/resource_server/resource_server.dart';
@@ -8,6 +9,10 @@ class AppleServer implements ResourceServer {
 
   @override
   Future<BaseResponseModel?> login() async {
+    await dotenv.load(fileName: ".env");
+    var cliendId = dotenv.env['CLIENT_ID'];
+    var redirectUri = dotenv.env['APPLE_REDIRECT_URI'];
+
     try {
       credential = await SignInWithApple.getAppleIDCredential(
         scopes: [
@@ -15,9 +20,9 @@ class AppleServer implements ResourceServer {
           AppleIDAuthorizationScopes.fullName,
         ],
         webAuthenticationOptions: WebAuthenticationOptions(
-          clientId: 'com.example.wooyoungsoo',
+          clientId: cliendId!,
           redirectUri: Uri.parse(
-            'https://torch-cheerful-pamphlet.glitch.me/callbacks/sign_in_with_apple',
+            redirectUri!,
           ),
         ),
       );
