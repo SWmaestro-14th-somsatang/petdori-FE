@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
+import 'package:wooyoungsoo/services/auth_service/resource_server/apple_server.dart';
 import 'package:wooyoungsoo/services/auth_service/resource_server/google_server.dart';
 import 'package:wooyoungsoo/services/auth_service/resource_server/kakao_server.dart';
 import 'package:wooyoungsoo/services/storage_service/storage_service.dart';
@@ -90,8 +91,10 @@ class _LoginScreenState extends State<LoginScreen> {
               buttonText: "Apple 계정으로 로그인",
               buttonColor: appleButtonColor,
               textColor: appleTextColor,
-              // TODO: Apple 로그인 구현해야 함~
-              onPressed: () {},
+              onPressed: () {
+                authService.setResourceServer(AppleServer());
+                authService.login(context);
+              },
             ),
           ],
         ),

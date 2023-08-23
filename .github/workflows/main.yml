@@ -27,6 +27,8 @@ jobs:
       - name: Create .env file
         run: |
           echo "KAKAO_NATIVE_APP_KEY=${{ secrets.KAKAO_NATIVE_APP_KEY }}" >> .env
+          echo "CLIENT_ID=${{ secrets.CLIENT_ID }}" >> .env
+          echo "APPLE_REDIRECT_URI=${{ secrets.APPLE_REDIRECT_URI }}" >> .env
           cat .env
       - name: Create google-services.json file
         run: |
@@ -58,6 +60,8 @@ jobs:
     - name: Create .env file
       run: |
         echo "KAKAO_NATIVE_APP_KEY=${{ secrets.KAKAO_NATIVE_APP_KEY }}" >> .env
+        echo "CLIENT_ID=${{ secrets.CLIENT_ID }}" >> .env
+        echo "APPLE_REDIRECT_URI=${{ secrets.APPLE_REDIRECT_URI }}" >> .env
         cat .env
     - name: Create Info.plist file
       run: |
