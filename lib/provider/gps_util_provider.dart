@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:apple_maps_flutter/apple_maps_flutter.dart';
 import 'package:flutter/foundation.dart';
@@ -48,6 +47,13 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
     print("GpsUtilProvider pause");
     _timer.cancel();
     _stopwatch.stop();
+  }
+
+  void end() {
+    print("GpsUtilProvider end");
+    _timer.cancel();
+    _stopwatch.reset();
+    path.clear();
   }
 
   Future<Duration> getElapsedTime() async {

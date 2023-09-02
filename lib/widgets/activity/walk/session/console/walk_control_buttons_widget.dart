@@ -27,6 +27,7 @@ class WalkControlButtonsWidget extends StatelessWidget {
                 onLongPress: () => {
                   context.read<SessionStateProvider>().end(),
                   context.read<SessionStatsProvider>().end(),
+                  context.read<GpsUtilProvider>().end(),
                 },
                 onPressed: () => {
                   print("TOUCH stop button"),
