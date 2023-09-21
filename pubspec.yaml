@@ -43,6 +43,11 @@ dependencies:
   dio: ^5.2.1+1
   flutter_secure_storage: ^8.0.0
   font_awesome_flutter: ^10.5.0
+  provider: ^6.0.5
+  apple_maps_flutter: ^1.2.0
+  google_maps_flutter: ^2.4.0
+  geolocator: ^9.0.2
+  permission_handler: ^10.4.3
   sign_in_with_apple: ^5.0.0
 
 dev_dependencies:

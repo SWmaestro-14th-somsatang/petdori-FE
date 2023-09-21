@@ -32,3 +32,26 @@ const fontWeightRegular = FontWeight.w400;
 const fontWeightMedium = FontWeight.w500;
 const fontWeightBold = FontWeight.w700;
 const fontWeightBlack = FontWeight.w900;
+
+// 애니메이션 관련 상수들
+const animationDuration = Duration(milliseconds: 500);
+
+// 화면 위젯 비율 상수들
+const mapHeightRatio = 0.34;
+const consoleHeightRatio = 0.66;
+const statsGridHeightRatio = 0.4;
+const statsGridColumnCount = 3;
+const statsGridItemWidthHeightRatio = 0.9;
+const controlButtonsWidgetHeightRatio = 0.15;
+const testWidgetHeightRatio = 0.45;
+
+// 위젯 State 관리 주기 상수들
+const mapWidgetRebuildCycle = 1000; // milliseconds
+const distanceStatsUpdateCycle = 3000; // milliseconds
+const speedStatsUpdateCycle = 2000; // milliseconds
+const caloriesStatsUpdateCycle = 5000; // milliseconds
+const elapsedTimeStatsUpdateCycle = 500; // milliseconds
+const paceStatsUpdateCycle = 10000; // milliseconds
+const stepStatsUpdateCycle = 1000; // milliseconds
+const altitudeStatsUpdateCycle = 5000; // milliseconds
+const heartRateStatsUpdateCycle = 3000; // milliseconds

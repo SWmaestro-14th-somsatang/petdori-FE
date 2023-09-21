@@ -29,6 +29,15 @@ class AdditionalFeatureButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Function> onPressedFuntions = [
+      () {
+        Navigator.pushNamed(context, "/activity");
+      },
+      () {
+        print("화상 상담");
+      },
+    ];
+
     return Padding(
       padding: const EdgeInsets.only(
         top: 15,
@@ -64,6 +73,7 @@ class AdditionalFeatureButtons extends StatelessWidget {
                   assetName: featureImagePaths[index],
                   featureName: featureNames[index],
                   description: descriptions[index],
+                  onPressed: onPressedFuntions[index],
                 ),
               );
             },
