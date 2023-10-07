@@ -1,7 +1,7 @@
 ---
-name: "✅FEATURE "
-about: 작업 사항을 입력해주세요
-title: ''
+name: "✅ FEATURE "
+about: 새로운 기능 관련 이슈 템플릿
+title: "[FEATURE]"
 labels: ''
 assignees: ''
 
