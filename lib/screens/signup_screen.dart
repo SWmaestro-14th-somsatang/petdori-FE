@@ -3,9 +3,8 @@ import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_button_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_screen/signup_drop_down_field_widget.dart';
+import 'package:wooyoungsoo/widgets/signup_screen/signup_email_field_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_text_field_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_screen/signup_number_field_widget.dart';
 
 /// 회원가입 화면
 class SignupScreen extends StatefulWidget {
@@ -25,32 +24,22 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   AuthService authService = AuthService();
 
-  // TODO(Cho-SangHyun): 추후 DB에서 강아지 종류를 받아와야 함
-  final List<String> _dogTypes = [
-    '프렌치 불독',
-    '푸들',
-    '시바견',
-    '말티즈',
-    '치와와',
-    '포메라니안',
-    '요크셔테리어'
-  ];
-  final List<String> _genderTypes = ['수컷', '암컷'];
-  final List<String> _neuteredTypes = ['중성화함', '중성화하지 않음'];
-
-  String? _userName, _dogName, _dogType, _dogGender;
-  bool? _isNeutered;
-  int? _dogAge;
+  String? _userName;
+  bool _isAgreeTerms = false;
+  bool _isAgreePrivacy = false;
   bool _isReady = false;
 
   /// 모든 필드가 입력됐는지 체크하는 메서드
   bool areAllFieldFilled() {
-    return _userName != null &&
-        _dogName != null &&
-        _dogType != null &&
-        _dogGender != null &&
-        _isNeutered != null &&
-        _dogAge != null;
+    return _userName != null && _isAgreeTerms && _isAgreePrivacy;
+  }
+
+  void checkReady() {
+    if (areAllFieldFilled()) {
+      _isReady = true;
+      return;
+    }
+    _isReady = false;
   }
 
   @override
@@ -69,21 +58,6 @@ class _SignupScreenState extends State<SignupScreen> {
         leading: const GoBackButton(),
         backgroundColor: screenBackgroundColor,
         shadowColor: transparentColor,
-        shape: const Border(
-          bottom: BorderSide(
-            width: 0.5,
-            color: Colors.grey,
-          ),
-        ),
-        centerTitle: true,
-        title: const Text(
-          "회원가입",
-          style: TextStyle(
-            color: blackColor,
-            fontSize: 16,
-            fontWeight: fontWeightBold,
-          ),
-        ),
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -91,120 +65,101 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Center(
             child: Column(
               children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: screenWidth * 0.05),
+                      child: const Text(
+                        "회원가입",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: fontWeightBold,
+                          color: blackColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(
-                  height: screenHeight * 0.05,
+                  height: screenHeight * 0.025,
+                ),
+                const ProfileImagePickerButton(),
+                SizedBox(
+                  height: screenHeight * 0.025,
+                ),
+                SignupEmailField(
+                  email: email,
+                  provider: resourceServerName,
                 ),
                 SignupTextField(
                   label: '이름',
-                  hintText: '이름을 입력하세요.',
+                  hintText: '이름 입력',
                   onChanged: (value) {
                     setState(() {
                       _userName = value.isEmpty ? null : value;
-                      if (areAllFieldFilled()) {
-                        _isReady = true;
-                        return;
-                      }
-                      _isReady = false;
+                      checkReady();
                     });
                   },
-                ),
-                SignupTextField(
-                  label: '강아지 이름',
-                  hintText: '강아지 이름을 입력하세요.',
-                  onChanged: (value) {
-                    setState(() {
-                      _dogName = value.isEmpty ? null : value;
-                      if (areAllFieldFilled()) {
-                        _isReady = true;
-                        return;
-                      }
-                      _isReady = false;
-                    });
-                  },
-                ),
-                SignupNumberField(
-                  label: "강아지 나이",
-                  hintText: "강아지 나이를 입력하세요.",
-                  onChanged: (value) {
-                    setState(() {
-                      _dogAge = int.tryParse(value);
-                      if (areAllFieldFilled()) {
-                        _isReady = true;
-                        return;
-                      }
-                      _isReady = false;
-                    });
-                  },
-                ),
-                SignupDropDownField(
-                  label: "강아지 종류",
-                  items: _dogTypes,
-                  onChanged: (value) {
-                    setState(() {
-                      _dogType = value;
-                      if (areAllFieldFilled()) {
-                        _isReady = true;
-                        return;
-                      }
-                      _isReady = false;
-                    });
-                  },
-                  width: screenWidth * 0.9,
-                ),
-                SizedBox(
-                  width: screenWidth * 0.9,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SignupDropDownField(
-                        label: "강아지 성별",
-                        items: _genderTypes,
-                        onChanged: (value) {
-                          setState(() {
-                            _dogGender = value;
-                            if (areAllFieldFilled()) {
-                              _isReady = true;
-                              return;
-                            }
-                            _isReady = false;
-                          });
-                        },
-                        width: screenWidth * 0.425,
-                      ),
-                      SignupDropDownField(
-                        label: "중성화 여부",
-                        items: _neuteredTypes,
-                        onChanged: (value) {
-                          setState(() {
-                            _isNeutered =
-                                value == _neuteredTypes[0] ? true : false;
-                            if (areAllFieldFilled()) {
-                              _isReady = true;
-                              return;
-                            }
-                            _isReady = false;
-                          });
-                        },
-                        width: screenWidth * 0.425,
-                      ),
-                    ],
-                  ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 40),
+                  height: 4,
+                  color: lightGreyColor,
+                ),
+                AllPolicyAgreeWidget(
+                  screenWidth: screenWidth,
+                  isAgreeTerms: _isAgreeTerms,
+                  isAgreePrivacy: _isAgreePrivacy,
+                  handleAllAgree: () {
+                    setState(() {
+                      if (!_isAgreeTerms || !_isAgreePrivacy) {
+                        _isAgreeTerms = true;
+                        _isAgreePrivacy = true;
+                      } else {
+                        _isAgreeTerms = false;
+                        _isAgreePrivacy = false;
+                      }
+
+                      checkReady();
+                    });
+                  },
+                ),
+                PolicyAgreeWidget(
+                  policyName: "서비스 이용약관(필수)",
+                  isAgree: _isAgreeTerms,
+                  screenWidth: screenWidth,
+                  handleAgree: () {
+                    setState(() {
+                      _isAgreeTerms = !_isAgreeTerms;
+                      checkReady();
+                    });
+                  },
+                  showPolicy: () {
+                    print("서비스 이용약관");
+                  },
+                ),
+                PolicyAgreeWidget(
+                  policyName: "개인정보 처리방침(필수)",
+                  isAgree: _isAgreePrivacy,
+                  screenWidth: screenWidth,
+                  handleAgree: () {
+                    setState(() {
+                      _isAgreePrivacy = !_isAgreePrivacy;
+                      checkReady();
+                    });
+                  },
+                  showPolicy: () {
+                    print("개인정보처리방침");
+                  },
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 90),
                   child: SignupButton(
                     isReady: _isReady,
                     onPressed: () async {
                       Map<String, dynamic> data = {
                         "email": email,
                         "name": _userName,
-                        "dog_name": _dogName,
-                        "dog_type": _dogType,
-                        "dog_gender": _dogGender,
-                        "is_neutered": _isNeutered,
-                        "dog_age": _dogAge,
                       };
-
                       await authService.signup(
                         context: context,
                         email: email,
@@ -218,6 +173,180 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class PolicyAgreeWidget extends StatelessWidget {
+  const PolicyAgreeWidget({
+    super.key,
+    required this.screenWidth,
+    required this.policyName,
+    required this.isAgree,
+    required this.handleAgree,
+    required this.showPolicy,
+  });
+
+  final String policyName;
+  final bool isAgree;
+  final double screenWidth;
+  final VoidCallback handleAgree, showPolicy;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: screenWidth * 0.9,
+      margin: const EdgeInsets.only(
+        top: 20,
+      ),
+      child: Row(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              left: screenWidth * 0.03,
+              right: screenWidth * 0.015,
+            ),
+            child: SizedBox(
+              width: 20,
+              height: 20,
+              child: ElevatedButton(
+                onPressed: handleAgree,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isAgree ? mainColor : lightGreyColor,
+                  padding: EdgeInsets.zero,
+                  shape: const CircleBorder(),
+                  shadowColor: Colors.transparent,
+                ),
+                child: const Icon(
+                  Icons.check,
+                  color: whiteColor,
+                  size: 14,
+                ),
+              ),
+            ),
+          ),
+          Baseline(
+            baselineType: TextBaseline.alphabetic,
+            baseline: 14,
+            child: Text(
+              policyName,
+              style: TextStyle(
+                fontSize: 14,
+                color: isAgree ? blackColor : mediumGreyColor,
+                fontWeight: fontWeightMedium,
+              ),
+            ),
+          ),
+          const Spacer(),
+          IconButton(
+            onPressed: showPolicy,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: isAgree ? blackColor : darkGreyColor,
+              size: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AllPolicyAgreeWidget extends StatelessWidget {
+  const AllPolicyAgreeWidget({
+    super.key,
+    required this.screenWidth,
+    required this.isAgreeTerms,
+    required this.isAgreePrivacy,
+    required this.handleAllAgree,
+  });
+  final bool isAgreeTerms, isAgreePrivacy;
+  final double screenWidth;
+  final VoidCallback handleAllAgree;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: screenWidth * 0.9,
+      margin: const EdgeInsets.only(top: 20),
+      height: 50,
+      decoration: BoxDecoration(
+        color: isAgreeTerms && isAgreePrivacy ? lightBlueColor : lightGreyColor,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.03,
+            ),
+            child: SizedBox(
+              width: 26,
+              height: 26,
+              child: ElevatedButton(
+                onPressed: handleAllAgree,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isAgreeTerms && isAgreePrivacy
+                      ? mainColor
+                      : mediumGreyColor,
+                  fixedSize: const Size(30, 30),
+                  padding: EdgeInsets.zero,
+                  shape: const CircleBorder(),
+                  shadowColor: Colors.transparent,
+                ),
+                child: const Icon(
+                  Icons.check,
+                  color: whiteColor,
+                  size: 18,
+                ),
+              ),
+            ),
+          ),
+          Baseline(
+            baselineType: TextBaseline.alphabetic,
+            baseline: 21,
+            child: Text(
+              "전체 동의",
+              style: TextStyle(
+                  color: isAgreeTerms && isAgreePrivacy
+                      ? mainColor
+                      : mediumGreyColor,
+                  fontSize: 16,
+                  fontWeight: fontWeightBold,
+                  height: 2.0,
+                  leadingDistribution: TextLeadingDistribution.even),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ProfileImagePickerButton extends StatelessWidget {
+  const ProfileImagePickerButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        print("사진 선택");
+      },
+      style: ElevatedButton.styleFrom(
+        fixedSize: const Size(120, 120),
+        backgroundColor: lightGreyColor,
+        shape: const CircleBorder(),
+        shadowColor: Colors.transparent,
+      ),
+      child: const Icon(
+        Icons.camera_alt_rounded,
+        size: 28,
+        color: darkGreyColor,
       ),
     );
   }

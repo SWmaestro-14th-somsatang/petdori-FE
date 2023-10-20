@@ -39,7 +39,7 @@ class IntroductoryPhrase extends StatelessWidget {
                       TextSpan(
                         text: "영양 ",
                         style: TextStyle(
-                          color: mainPurpleColor,
+                          color: mainColor,
                           fontSize: 34,
                           fontWeight: fontWeightBlack,
                           fontFamily: "NotoSansKR",

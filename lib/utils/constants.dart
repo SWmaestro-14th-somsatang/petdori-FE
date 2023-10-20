@@ -21,12 +21,16 @@ const appleTextColor = Color(0xFFFFFFFF);
 const appLogoPath = "assets/images/wooyoungsoo-logo.png";
 
 // 컬러 관련 상수들
-const screenBackgroundColor = Color(0xFFF4F4F4);
-const mainPurpleColor = Color(0xFF8889f3);
+const screenBackgroundColor = Color(0xFFffffff);
+const mainColor = Color(0xFF3c99f8);
+const lightBlueColor = Color(0xFFe1f0ff);
+const lightGreyColor = Color(0xFFefefef);
+const mediumGreyColor = Color(0xFFa0a0a0);
+const darkGreyColor = Color(0xFF8c8c8c);
 const deepPurpleColor = Color(0xFF8f59f5);
 const transparentColor = Colors.transparent;
-const blackColor = Colors.black;
-const whiteColor = Colors.white;
+const blackColor = Color(0xFF292929);
+const whiteColor = Color(0xFFffffff);
 
 // 폰트 굵기 관련 상수들
 const fontWeightThin = FontWeight.w100;
