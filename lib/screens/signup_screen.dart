@@ -4,6 +4,8 @@ import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
+import 'package:wooyoungsoo/widgets/signup_screen/all_policy_agree_widget.dart';
+import 'package:wooyoungsoo/widgets/signup_screen/policy_agree_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/profile_image_picker_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_email_field_widget.dart';
@@ -146,7 +148,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     });
                   },
                   showPolicy: () {
-                    print("서비스 이용약관");
+                    print("서비스 이용약관"); // TODO : 약관 보여주는 페이지로 이동하는 함수를 전달해야 함
                   },
                 ),
                 PolicyAgreeWidget(
@@ -190,154 +192,6 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class PolicyAgreeWidget extends StatelessWidget {
-  const PolicyAgreeWidget({
-    super.key,
-    required this.screenWidth,
-    required this.policyName,
-    required this.isAgree,
-    required this.handleAgree,
-    required this.showPolicy,
-  });
-
-  final String policyName;
-  final bool isAgree;
-  final double screenWidth;
-  final VoidCallback handleAgree, showPolicy;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: screenWidth * 0.9,
-      margin: const EdgeInsets.only(
-        top: 20,
-      ),
-      child: Row(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-              left: screenWidth * 0.03,
-              right: screenWidth * 0.015,
-            ),
-            child: SizedBox(
-              width: 20,
-              height: 20,
-              child: ElevatedButton(
-                onPressed: handleAgree,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: isAgree ? mainColor : lightGreyColor,
-                  padding: EdgeInsets.zero,
-                  shape: const CircleBorder(),
-                  shadowColor: Colors.transparent,
-                ),
-                child: const Icon(
-                  Icons.check,
-                  color: whiteColor,
-                  size: 14,
-                ),
-              ),
-            ),
-          ),
-          Baseline(
-            baselineType: TextBaseline.alphabetic,
-            baseline: 14,
-            child: Text(
-              policyName,
-              style: TextStyle(
-                fontSize: 14,
-                color: isAgree ? blackColor : mediumGreyColor,
-                fontWeight: fontWeightMedium,
-              ),
-            ),
-          ),
-          const Spacer(),
-          IconButton(
-            onPressed: showPolicy,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            icon: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: isAgree ? blackColor : darkGreyColor,
-              size: 16,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class AllPolicyAgreeWidget extends StatelessWidget {
-  const AllPolicyAgreeWidget({
-    super.key,
-    required this.screenWidth,
-    required this.isAgreeTerms,
-    required this.isAgreePrivacy,
-    required this.handleAllAgree,
-  });
-  final bool isAgreeTerms, isAgreePrivacy;
-  final double screenWidth;
-  final VoidCallback handleAllAgree;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: screenWidth * 0.9,
-      margin: const EdgeInsets.only(top: 20),
-      height: 50,
-      decoration: BoxDecoration(
-        color: isAgreeTerms && isAgreePrivacy ? lightBlueColor : lightGreyColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: screenWidth * 0.03,
-            ),
-            child: SizedBox(
-              width: 26,
-              height: 26,
-              child: ElevatedButton(
-                onPressed: handleAllAgree,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: isAgreeTerms && isAgreePrivacy
-                      ? mainColor
-                      : mediumGreyColor,
-                  fixedSize: const Size(30, 30),
-                  padding: EdgeInsets.zero,
-                  shape: const CircleBorder(),
-                  shadowColor: Colors.transparent,
-                ),
-                child: const Icon(
-                  Icons.check,
-                  color: whiteColor,
-                  size: 18,
-                ),
-              ),
-            ),
-          ),
-          Baseline(
-            baselineType: TextBaseline.alphabetic,
-            baseline: 21,
-            child: Text(
-              "전체 동의",
-              style: TextStyle(
-                  color: isAgreeTerms && isAgreePrivacy
-                      ? mainColor
-                      : mediumGreyColor,
-                  fontSize: 16,
-                  fontWeight: fontWeightBold,
-                  height: 2.0,
-                  leadingDistribution: TextLeadingDistribution.even),
-            ),
-          ),
-        ],
       ),
     );
   }
