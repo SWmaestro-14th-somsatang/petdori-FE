@@ -28,15 +28,14 @@ class AuthService {
 
   Future signup({
     required BuildContext context,
-    required email,
     required String oauth2Provider,
-    required Map<String, dynamic> data,
+    required FormData formData,
   }) async {
     Dio dio = Dio();
     try {
       var res = await dio.post(
         "$baseURL/api/auth/signup?provider=$oauth2Provider",
-        data: data,
+        data: formData,
       );
 
       var signupResponse = BaseResponseModel.fromJson(res.data);

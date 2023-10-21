@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 // BASE URL
 const baseURL = "http://www.petdori.com";
+// const baseURL = "http://localhost:8080";
 
 // 소셜 플랫폼 지정 컬러 - 카카오
 const kakaoButtonColor = Color(0xFFFEE500);

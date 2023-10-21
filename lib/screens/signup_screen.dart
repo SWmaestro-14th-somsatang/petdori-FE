@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
+import 'package:wooyoungsoo/widgets/signup_screen/profile_image_picker_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_email_field_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_text_field_widget.dart';
@@ -23,11 +26,17 @@ class SignupScreen extends StatefulWidget {
 /// [_isReady] 모든 필드가 입력되었는지 여부
 class _SignupScreenState extends State<SignupScreen> {
   AuthService authService = AuthService();
-
+  XFile? _profileImage;
   String? _userName;
   bool _isAgreeTerms = false;
   bool _isAgreePrivacy = false;
   bool _isReady = false;
+
+  void setImage(XFile pickedFile) {
+    setState(() {
+      _profileImage = XFile(pickedFile.path);
+    });
+  }
 
   /// 모든 필드가 입력됐는지 체크하는 메서드
   bool areAllFieldFilled() {
@@ -83,7 +92,10 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   height: screenHeight * 0.025,
                 ),
-                const ProfileImagePickerButton(),
+                ProfileImagePickerButton(
+                  setImage: setImage,
+                  profileImage: _profileImage,
+                ),
                 SizedBox(
                   height: screenHeight * 0.025,
                 ),
@@ -156,15 +168,20 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: SignupButton(
                     isReady: _isReady,
                     onPressed: () async {
-                      Map<String, dynamic> data = {
-                        "email": email,
+                      final formData = FormData.fromMap({
+                        'email': email,
                         "name": _userName,
-                      };
+                        "profile_image": _profileImage != null
+                            ? await MultipartFile.fromFile(
+                                _profileImage!.path,
+                              )
+                            : null,
+                      });
+
                       await authService.signup(
                         context: context,
-                        email: email,
                         oauth2Provider: resourceServerName,
-                        data: data,
+                        formData: formData,
                       );
                     },
                   ),
@@ -321,32 +338,6 @@ class AllPolicyAgreeWidget extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class ProfileImagePickerButton extends StatelessWidget {
-  const ProfileImagePickerButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        print("사진 선택");
-      },
-      style: ElevatedButton.styleFrom(
-        fixedSize: const Size(120, 120),
-        backgroundColor: lightGreyColor,
-        shape: const CircleBorder(),
-        shadowColor: Colors.transparent,
-      ),
-      child: const Icon(
-        Icons.camera_alt_rounded,
-        size: 28,
-        color: darkGreyColor,
       ),
     );
   }
