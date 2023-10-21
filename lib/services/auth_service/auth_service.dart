@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/services/auth_service/resource_server/apple_server.dart';
 import 'package:wooyoungsoo/services/auth_service/resource_server/google_server.dart';
@@ -27,15 +28,14 @@ class AuthService {
 
   Future signup({
     required BuildContext context,
-    required email,
     required String oauth2Provider,
-    required Map<String, dynamic> data,
+    required FormData formData,
   }) async {
     Dio dio = Dio();
     try {
       var res = await dio.post(
-        "http://localhost:8080/api/auth/signup?provider=$oauth2Provider",
-        data: data,
+        "$baseURL/api/auth/signup?provider=$oauth2Provider",
+        data: formData,
       );
 
       var signupResponse = BaseResponseModel.fromJson(res.data);
@@ -147,7 +147,7 @@ class AuthService {
     try {
       Dio dio = Dio();
       var res = await dio.post(
-        "http://localhost:8080/api/auth/reissue",
+        "$baseURL/api/auth/reissue",
         options: Options(
           headers: {
             "Content-Type": "application/json",

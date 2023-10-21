@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
@@ -12,7 +13,6 @@ class AppleServer implements ResourceServer {
     await dotenv.load(fileName: ".env");
     var cliendId = dotenv.env['CLIENT_ID'];
     var redirectUri = dotenv.env['APPLE_REDIRECT_URI'];
-
     try {
       credential = await SignInWithApple.getAppleIDCredential(
         scopes: [
@@ -52,8 +52,7 @@ class AppleServer implements ResourceServer {
     final identityToken = credential!.identityToken;
     final dio = Dio();
     try {
-      var res = await dio.post(
-          "http://localhost:8080/api/auth/login?provider=apple",
+      var res = await dio.post("$baseURL/api/auth/login?provider=apple",
           data: {"oauth2_token": identityToken});
       return BaseResponseModel.fromJson(res.data);
     } on DioException catch (e) {

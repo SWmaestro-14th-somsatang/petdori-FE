@@ -15,7 +15,8 @@ class GoBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.arrow_back_ios),
+      icon: const Icon(Icons.arrow_back),
+      iconSize: 28,
       color: blackColor,
       onPressed: () => goBack(context),
     );

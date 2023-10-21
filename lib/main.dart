@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         fontFamily: "NotoSansKR",
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: "/",
+      initialRoute: "/login",
       routes: {
         "/": (context) => const HomeScreen(),
         "/login": (context) => const LoginScreen(),

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/services/auth_service/resource_server/resource_server.dart';
@@ -41,8 +42,7 @@ class GoogleServer implements ResourceServer {
 
     final dio = Dio();
     try {
-      var res = await dio.post(
-          "http://localhost:8080/api/auth/login?provider=google",
+      var res = await dio.post("$baseURL/api/auth/login?provider=google",
           data: {"oauth2_token": googleAccessToken});
       return BaseResponseModel.fromJson(res.data);
     } on DioException catch (e) {

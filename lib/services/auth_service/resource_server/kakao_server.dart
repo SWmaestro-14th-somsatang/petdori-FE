@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
+import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/services/auth_service/resource_server/resource_server.dart';
@@ -61,11 +62,11 @@ class KakaoServer implements ResourceServer {
     final dio = Dio();
 
     try {
-      var res = await dio.post(
-          "http://localhost:8080/api/auth/login?provider=kakao",
+      var res = await dio.post("$baseURL/api/auth/login?provider=kakao",
           data: {"oauth2_token": kakaoAccessToken});
       return BaseResponseModel.fromJson(res.data);
     } on DioException catch (e) {
+      print(e.response);
       return BaseResponseModel.fromJson(e.response!.data);
     }
   }

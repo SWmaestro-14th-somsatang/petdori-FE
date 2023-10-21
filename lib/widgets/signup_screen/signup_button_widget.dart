@@ -24,15 +24,21 @@ class SignupButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: _isReady ? _onPressed : null,
       style: ElevatedButton.styleFrom(
-        fixedSize: Size(screenWidth * 0.9, 55),
-        backgroundColor: _isReady ? mainPurpleColor : Colors.grey.shade300,
+        fixedSize: Size(screenWidth * 0.9, 50),
+        backgroundColor: _isReady ? mainColor : Colors.grey.shade300,
         foregroundColor: _isReady ? whiteColor : Colors.grey,
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(10),
         ),
       ),
-      child: const Text('회원가입 완료'),
+      child: const Text(
+        '가입하기',
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: fontWeightBold,
+        ),
+      ),
     );
   }
 }
