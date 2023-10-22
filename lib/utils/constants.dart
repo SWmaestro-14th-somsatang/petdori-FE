@@ -19,7 +19,7 @@ const appleButtonColor = Color(0xFF000000);
 const appleTextColor = Color(0xFFFFFFFF);
 
 // 앱 로고 경로
-const appLogoPath = "assets/images/wooyoungsoo-logo.png";
+const appLogoPath = "assets/images/petdori-logo.svg";
 
 // 컬러 관련 상수들
 const screenBackgroundColor = Color(0xFFffffff);

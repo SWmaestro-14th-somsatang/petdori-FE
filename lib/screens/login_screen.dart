@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
 import 'package:wooyoungsoo/services/auth_service/resource_server/apple_server.dart';
 import 'package:wooyoungsoo/services/auth_service/resource_server/google_server.dart';
@@ -51,12 +52,59 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               width: screenWidth * 0.66,
-              height: screenWidth * 0.66,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(appLogoPath),
+              height: screenWidth * 0.90,
+              child: SvgPicture.asset(
+                appLogoPath,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.135,
+              ),
+              child: const SizedBox(
+                height: 60,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Spacer(),
+                          Divider(
+                            color: mediumGreyColor,
+                            thickness: 1,
+                          ),
+                          Spacer(),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 25,
+                      ),
+                      child: Text(
+                        "빠르게 시작하기",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: fontWeightMedium,
+                          color: darkGreyColor,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Spacer(),
+                          Divider(
+                            color: mediumGreyColor,
+                            thickness: 1,
+                          ),
+                          Spacer(),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -71,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
               },
             ),
             const SizedBox(
-              height: 8,
+              height: 12,
             ),
             SosialLoginButton(
               assetName: "assets/images/google-logo.svg",
@@ -84,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
               },
             ),
             const SizedBox(
-              height: 8,
+              height: 12,
             ),
             SosialLoginButton(
               assetName: "assets/images/apple-logo.svg",
