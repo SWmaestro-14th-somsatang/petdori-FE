@@ -30,7 +30,7 @@ class SosialLoginButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-          fixedSize: Size(screenWidth * 0.8, 45),
+          fixedSize: Size(screenWidth * 0.8, 50),
           backgroundColor: buttonColor,
           foregroundColor: textColor,
           shadowColor: transparentColor,
@@ -39,6 +39,11 @@ class SosialLoginButton extends StatelessWidget {
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
+            side: BorderSide(
+              color: buttonText.startsWith("Google")
+                  ? lightGreyColor
+                  : transparentColor,
+            ),
           )),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
