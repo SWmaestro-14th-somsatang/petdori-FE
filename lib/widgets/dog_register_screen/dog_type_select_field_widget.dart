@@ -9,14 +9,14 @@ import 'package:wooyoungsoo/utils/constants.dart';
 class DogTypeSelectField extends StatefulWidget {
   const DogTypeSelectField({
     super.key,
-    required List<String> items,
+    required List<String>? items,
     required Function onChanged,
     required double width,
   })  : _items = items,
         _onChanged = onChanged,
         _width = width;
 
-  final List<String> _items;
+  final List<String>? _items;
   final Function _onChanged;
   final double _width;
 
@@ -79,12 +79,14 @@ class _DogTypeSelectFieldState extends State<DogTypeSelectField> {
               isExpanded: true,
               borderRadius: BorderRadius.circular(10),
               value: _selectedItem,
-              items: widget._items.map((e) {
-                return DropdownMenuItem(
-                  value: e,
-                  child: Text(e),
-                );
-              }).toList(),
+              items: widget._items != null
+                  ? widget._items!.map((e) {
+                      return DropdownMenuItem(
+                        value: e,
+                        child: Text(e),
+                      );
+                    }).toList()
+                  : null,
               onChanged: (value) {
                 setState(() {
                   _selectedItem = value!;

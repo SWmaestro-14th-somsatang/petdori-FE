@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
+import 'package:wooyoungsoo/services/dog_service/dog_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
 import 'package:wooyoungsoo/widgets/dog_register_screen/dog_gender_select_field_widget.dart';
@@ -9,7 +9,6 @@ import 'package:wooyoungsoo/widgets/common/register_button_widget.dart';
 import 'package:wooyoungsoo/widgets/dog_register_screen/dog_type_select_field_widget.dart';
 import 'package:wooyoungsoo/widgets/common/text_input_field_widget.dart';
 import 'package:wooyoungsoo/widgets/dog_register_screen/dog_birth_input_field_widget.dart';
-
 import '../widgets/common/image_picker_button_widget.dart';
 
 /// 강아지 등록 화면
@@ -24,22 +23,12 @@ class DogRegisterScreen extends StatefulWidget {
 ///
 /// [_dogTypes] 강아지 종류로 선택가능한 목록
 /// [_genderTypes] 강아지 성별로 선택가능한 목록
-/// [_neuteredTypes] 강아지 중성화 여부로 선택가능한 목록
 /// [_dogName], [_dogType], [_dogGender], [_isNeutered], [_dogBirth] 유저가 입력하는 값
 /// [_isReady] 모든 필드가 입력되었는지 여부
 class _DogRegisterScreenState extends State<DogRegisterScreen> {
-  AuthService authService = AuthService();
+  DogService dogService = DogService();
 
-  // TODO(Cho-SangHyun): 추후 DB에서 강아지 종류를 받아와야 함
-  final List<String> _dogTypes = [
-    '프렌치 불독',
-    '푸들',
-    '시바견',
-    '말티즈',
-    '치와와',
-    '포메라니안',
-    '요크셔테리어'
-  ];
+  late List<String> _dogTypes = [];
   final List<String> _genderTypes = ['수컷', '암컷'];
 
   XFile? _dogImage;
@@ -89,6 +78,17 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
       return;
     }
     _isReady = false;
+  }
+
+  void loadDogTypes() async {
+    _dogTypes = await dogService.getDogTypes();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadDogTypes();
   }
 
   @override
@@ -177,11 +177,7 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
                   onChanged: (value) {
                     setState(() {
                       _dogType = value;
-                      if (areAllFieldFilled()) {
-                        _isReady = true;
-                        return;
-                      }
-                      _isReady = false;
+                      checkReady();
                     });
                   },
                   width: screenWidth * 0.9,
