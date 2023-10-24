@@ -53,7 +53,7 @@
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/SWmaestro-14th-somsatang/petdori-api-server.git
+   git clone https://github.com/SWmaestro-14th-somsatang/petdori-FE.git
    ```
 2. Add Info.plist, google-services.json, GoogleService-Info.plist
 3. Create .env and set KAKAO_NATIVE_APP_KEY, CLIENT_ID, APPLE_REDIRECT_URI
