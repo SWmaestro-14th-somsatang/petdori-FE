@@ -45,6 +45,8 @@ class DogService {
       );
 
       var dogRegisterResponse = BaseResponseModel.fromJson(res.data);
+
+      // TODO : 에러 처리 및 등록 성공 후 이어질 페이지 연결이 필요
     } on DioException {
       return;
     }

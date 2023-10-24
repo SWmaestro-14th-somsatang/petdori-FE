@@ -24,7 +24,7 @@ class DogRegisterScreen extends StatefulWidget {
 ///
 /// [_dogTypes] 강아지 종류로 선택가능한 목록
 /// [_genderTypes] 강아지 성별로 선택가능한 목록
-/// [_dogName], [_dogType], [_dogGender], [_isNeutered], [_dogBirth] 유저가 입력하는 값
+/// [_dogImage], [_dogName], [_dogType], [_dogGender], [_dogBirth], [_dogWeight], [_isNeutered] 유저가 입력하는 값
 /// [_isReady] 모든 필드가 입력되었는지 여부
 class _DogRegisterScreenState extends State<DogRegisterScreen> {
   DogService dogService = DogService();

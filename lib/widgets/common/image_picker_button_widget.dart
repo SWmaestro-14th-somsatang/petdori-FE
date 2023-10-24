@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
+/// 프로필 & 반려견 이미지를 선택하는 버튼 위젯
+///
+/// [setImage] 이미지를 선택했을 때 수행할 메서드
+/// [image] 이미지 파일
 class ImagePickerButton extends StatelessWidget {
   ImagePickerButton({
     super.key,

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
+/// 강아지 생일 입력 필드 위젯
+///
+/// [selectedDogBirth] 선택한 강아지 생일
+/// [onChanged] 강아지 생일 선택 시 실행될 콜백 함수
 class DogBirthInputField extends StatelessWidget {
   const DogBirthInputField({
     super.key,

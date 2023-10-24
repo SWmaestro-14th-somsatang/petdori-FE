@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
+/// 강아지 몸무게 입력 필드 위젯
+///
+/// [_onChanged] 값이 변경될 때 실행될 콜백 함수
 class DogWeightInputField extends StatelessWidget {
   const DogWeightInputField({
     super.key,
@@ -46,6 +49,7 @@ class DogWeightInputField extends StatelessWidget {
               onChanged: (value) => _onChanged(value),
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(
+                  // x, xx, x.x, xx.x 형태만 입력 가능
                   RegExp(r'^\d{1,2}(\.\d{0,1})?$'),
                 ),
               ],

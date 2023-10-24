@@ -21,10 +21,8 @@ class SignupScreen extends StatefulWidget {
 
 /// 회원가입 화면의 state
 ///
-/// [_dogTypes] 강아지 종류로 선택가능한 목록
-/// [_genderTypes] 강아지 성별로 선택가능한 목록
-/// [_neuteredTypes] 강아지 중성화 여부로 선택가능한 목록
-/// [_userName], [_dogName], [_dogType], [_dogGender], [_isNeutered], [_dogAge] 유저가 입력하는 값
+/// [_profileImage], [_userName] 유저가 입력하는 값
+/// [_isAgreeTerms], [_isAgreePrivacy] 유저가 약관에 동의하는지 여부
 /// [_isReady] 모든 필드가 입력되었는지 여부
 class _SignupScreenState extends State<SignupScreen> {
   AuthService authService = AuthService();

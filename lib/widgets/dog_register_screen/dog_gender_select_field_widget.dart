@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
+/// 강아지 성별 선택 시 사용되는 위젯
+///
+/// [screenWidth] 화면 너비
+/// [dogGender] 선택한 강아지 성별
+/// [isNeutered] 선택한 강아지 중성화 여부
+/// [setGenderToMale] 강아지 성별을 수컷으로 설정하는 콜백 함수
+/// [setGenderToFemale] 강아지 성별을 암컷으로 설정하는 콜백 함수
+/// [setIsNeutered] 강아지 중성화 여부를 설정하는 콜백 함수
 class DogGenderSelectField extends StatelessWidget {
   const DogGenderSelectField({
     super.key,
-    required this.dogGender,
     required this.screenWidth,
+    required this.dogGender,
     required this.isNeutered,
     required this.setGenderToMale,
     required this.setGenderToFemale,
     required this.setIsNeutered,
   });
 
-  final String? dogGender;
   final double screenWidth;
+  final String? dogGender;
   final bool? isNeutered;
 
   final VoidCallback setGenderToMale, setGenderToFemale, setIsNeutered;

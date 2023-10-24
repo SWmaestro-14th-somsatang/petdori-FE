@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
+/// 회원가입 시 모든 약관 동의 시 사용되는 위젯
+///
+/// [screenWidth] 화면 너비
+/// [isAgreeTerms] 약관 동의 여부
+/// [isAgreePrivacy] 개인정보 이용 동의 여부
+/// [handleAllAgree] 모든 약관 동의 여부를 설정하는 콜백 함수
 class AllPolicyAgreeWidget extends StatelessWidget {
   const AllPolicyAgreeWidget({
     super.key,
