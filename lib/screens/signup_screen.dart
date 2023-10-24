@@ -7,7 +7,7 @@ import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/all_policy_agree_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/policy_agree_widget.dart';
 import 'package:wooyoungsoo/widgets/common/image_picker_button_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_screen/register_button_widget.dart';
+import 'package:wooyoungsoo/widgets/common/register_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_email_field_widget.dart';
 import 'package:wooyoungsoo/widgets/common/text_input_field_widget.dart';
 

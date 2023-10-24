@@ -3,15 +3,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
+import 'package:wooyoungsoo/widgets/dog_register_screen/dog_gender_select_field_widget.dart';
 import 'package:wooyoungsoo/widgets/dog_register_screen/dog_weight_input_field_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_screen/register_button_widget.dart';
+import 'package:wooyoungsoo/widgets/common/register_button_widget.dart';
 import 'package:wooyoungsoo/widgets/dog_register_screen/dog_type_select_field_widget.dart';
 import 'package:wooyoungsoo/widgets/common/text_input_field_widget.dart';
 import 'package:wooyoungsoo/widgets/dog_register_screen/dog_birth_input_field_widget.dart';
 
 import '../widgets/common/image_picker_button_widget.dart';
 
-/// 회원가입 화면
+/// 강아지 등록 화면
 class DogRegisterScreen extends StatefulWidget {
   const DogRegisterScreen({Key? key}) : super(key: key);
 
@@ -19,12 +20,12 @@ class DogRegisterScreen extends StatefulWidget {
   State<DogRegisterScreen> createState() => _DogRegisterScreenState();
 }
 
-/// 회원가입 화면의 state
+/// 강아지 등록 화면의 state
 ///
 /// [_dogTypes] 강아지 종류로 선택가능한 목록
 /// [_genderTypes] 강아지 성별로 선택가능한 목록
 /// [_neuteredTypes] 강아지 중성화 여부로 선택가능한 목록
-/// [_userName], [_dogName], [_dogType], [_dogGender], [_isNeutered], [_dogAge] 유저가 입력하는 값
+/// [_dogName], [_dogType], [_dogGender], [_isNeutered], [_dogBirth] 유저가 입력하는 값
 /// [_isReady] 모든 필드가 입력되었는지 여부
 class _DogRegisterScreenState extends State<DogRegisterScreen> {
   AuthService authService = AuthService();
@@ -43,9 +44,8 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
   final List<String> _neuteredTypes = ['중성화함', '중성화하지 않음'];
 
   XFile? _dogImage;
-  String? _dogName, _dogType, _dogGender;
-  bool? _isNeutered;
-  int? _dogAge;
+  String? _dogName, _dogType, _dogGender, _dogBirth;
+  bool _isNeutered = false;
   bool _isReady = false;
 
   void setImage(XFile pickedFile) {
@@ -54,13 +54,41 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
     });
   }
 
+  void setGenderToMale() {
+    setState(() {
+      _dogGender = _genderTypes[0];
+      checkReady();
+    });
+  }
+
+  void setGenderToFemale() {
+    setState(() {
+      _dogGender = _genderTypes[1];
+      checkReady();
+    });
+  }
+
+  void setisNeutered() {
+    setState(() {
+      _isNeutered = !_isNeutered;
+      checkReady();
+    });
+  }
+
   /// 모든 필드가 입력됐는지 체크하는 메서드
   bool areAllFieldFilled() {
     return _dogName != null &&
         _dogType != null &&
         _dogGender != null &&
-        _isNeutered != null &&
-        _dogAge != null;
+        _dogBirth != null;
+  }
+
+  void checkReady() {
+    if (areAllFieldFilled()) {
+      _isReady = true;
+      return;
+    }
+    _isReady = false;
   }
 
   @override
@@ -119,7 +147,7 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
                   hintText: "생일 선택",
                   onChanged: (value) {
                     setState(() {
-                      _dogAge = int.tryParse(value);
+                      _dogBirth = value.isEmpty ? null : value;
                       if (areAllFieldFilled()) {
                         _isReady = true;
                         return;
@@ -128,146 +156,13 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
                     });
                   },
                 ),
-                Container(
-                  width: screenWidth * 0.9,
-                  margin: const EdgeInsets.only(bottom: 20),
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      top:
-                          BorderSide(width: 1.0, color: thinGreyColor), // 위쪽 실선
-                      bottom: BorderSide(
-                          width: 1.0, color: thinGreyColor), // 아래쪽 실선
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        "성별이 무엇인가요?",
-                        style: TextStyle(
-                          color: blackColor,
-                          fontSize: 14.0,
-                          fontWeight: fontWeightMedium,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 46,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                fixedSize: Size(screenWidth * 0.3, 46),
-                                backgroundColor:
-                                    _isReady ? mainColor : whiteColor,
-                                foregroundColor:
-                                    _isReady ? whiteColor : mainColor,
-                                shadowColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    width: 1,
-                                    color:
-                                        _isReady ? transparentColor : mainColor,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: const Text(
-                                "남",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: fontWeightBold,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                fixedSize: Size(screenWidth * 0.3, 46),
-                                backgroundColor:
-                                    _isReady ? mainColor : whiteColor,
-                                foregroundColor:
-                                    _isReady ? whiteColor : mainColor,
-                                shadowColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    width: 1,
-                                    color:
-                                        _isReady ? transparentColor : mainColor,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: const Text(
-                                "여",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: fontWeightBold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 24,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      1 == 1 ? mainColor : lightGreyColor,
-                                  padding: EdgeInsets.zero,
-                                  shape: const CircleBorder(),
-                                  shadowColor: Colors.transparent,
-                                ),
-                                child: const Icon(
-                                  Icons.check,
-                                  color: whiteColor,
-                                  size: 14,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 6,
-                            ),
-                            const Baseline(
-                              baselineType: TextBaseline.alphabetic,
-                              baseline: 15,
-                              child: Text(
-                                "중성화를 했어요!",
-                                style: TextStyle(
-                                    color: blackColor,
-                                    fontSize: 14,
-                                    fontWeight: fontWeightMedium),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
+                DogGenderSelectField(
+                  screenWidth: screenWidth,
+                  dogGender: _dogGender,
+                  isNeutered: _isNeutered,
+                  setGenderToMale: setGenderToMale,
+                  setGenderToFemale: setGenderToFemale,
+                  setIsNeutered: setisNeutered,
                 ),
                 DogWeightInputField(onChanged: () {}),
                 DogTypeSelectField(
@@ -297,7 +192,7 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
                         "dog_type": _dogType,
                         "dog_gender": _dogGender,
                         "is_neutered": _isNeutered,
-                        "dog_age": _dogAge,
+                        "dog_birth": _dogBirth,
                       };
 
                       debugPrint("clicked!");
