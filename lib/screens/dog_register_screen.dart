@@ -32,7 +32,8 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
   final List<String> _genderTypes = ['수컷', '암컷'];
 
   XFile? _dogImage;
-  String? _dogName, _dogType, _dogGender, _dogBirth;
+  String? _dogName, _dogType, _dogGender;
+  DateTime? _dogBirth;
   double? _dogWeight;
   bool _isNeutered = false;
   bool _isReady = false;
@@ -143,17 +144,11 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
                   },
                 ),
                 DogBirthInputField(
-                  label: "생일이 언제인가요?",
-                  hintText: "생일 선택",
+                  selectedDogBirth: _dogBirth,
                   onChanged: (value) {
-                    setState(() {
-                      _dogBirth = value.isEmpty ? null : value;
-                      if (areAllFieldFilled()) {
-                        _isReady = true;
-                        return;
-                      }
-                      _isReady = false;
-                    });
+                    _dogBirth = value;
+                    checkReady();
+                    setState(() {});
                   },
                 ),
                 DogGenderSelectField(

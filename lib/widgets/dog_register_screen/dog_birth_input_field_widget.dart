@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
 class DogBirthInputField extends StatelessWidget {
   const DogBirthInputField({
     super.key,
-    required String label,
-    required String hintText,
-    required Function onChanged,
-  })  : _label = label,
-        _hintText = hintText,
-        _onChanged = onChanged;
+    required this.selectedDogBirth,
+    required this.onChanged,
+  });
 
-  final String _label, _hintText;
-  final Function _onChanged;
+  final DateTime? selectedDogBirth;
+  final Function onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +23,9 @@ class DogBirthInputField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            _label,
-            style: const TextStyle(
+          const Text(
+            "생일이 언제인가요?",
+            style: TextStyle(
               color: blackColor,
               fontSize: 14.0,
               fontWeight: fontWeightMedium,
@@ -37,36 +34,60 @@ class DogBirthInputField extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          SizedBox(
-            height: 46,
-            child: TextField(
-              minLines: null,
-              maxLines: null,
-              expands: true,
-              style: const TextStyle(
-                fontSize: 14,
-                color: blackColor,
+          ElevatedButton(
+            onPressed: () {
+              showCupertinoDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      color: whiteColor,
+                      height: 300,
+                      child: CupertinoDatePicker(
+                        mode: CupertinoDatePickerMode.date,
+                        onDateTimeChanged: (DateTime value) {
+                          onChanged(value);
+                        },
+                        initialDateTime: DateTime(2010, 1, 1),
+                        maximumDate: DateTime.now(),
+                      ),
+                    ),
+                  );
+                },
+                barrierDismissible: true,
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              fixedSize: Size(screenWidth * 0.9, 46),
+              padding: EdgeInsets.zero,
+              splashFactory: NoSplash.splashFactory,
+              backgroundColor: transparentColor,
+              foregroundColor:
+                  selectedDogBirth != null ? blackColor : mediumGreyColor,
+              shadowColor: transparentColor,
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(
+                  width: 1,
+                  color: lightGreyColor,
+                ),
+                borderRadius: BorderRadius.circular(10),
               ),
-              textInputAction: TextInputAction.done,
-              onChanged: (value) => _onChanged(value),
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
+            ),
+            child: Row(
+              children: [
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  selectedDogBirth == null
+                      ? "생일 선택"
+                      : selectedDogBirth.toString().split(" ")[0],
+                  style: const TextStyle(
+                    fontWeight: fontWeightRegular,
+                  ),
+                ),
               ],
-              decoration: InputDecoration(
-                hintText: _hintText,
-                hintStyle: const TextStyle(color: mediumGreyColor),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                focusedBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(width: 1, color: mainColor),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(width: 1, color: lightGreyColor),
-                ),
-              ),
             ),
           ),
         ],

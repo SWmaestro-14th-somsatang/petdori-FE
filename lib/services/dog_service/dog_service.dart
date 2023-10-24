@@ -1,11 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
-/// 로컬 저장소 접근을 위한 서비스(싱글턴)
-///
-///
+/// 반려견 CRUD 관련 기능을 위한 서비스(싱글턴)
 class DogService {
   final Dio dio = Dio();
 
@@ -19,7 +16,6 @@ class DogService {
 
   Future<List<String>> getDogTypes() async {
     try {
-      debugPrint("getDogTypes start");
       var res = await dio.get(
         "$baseURL/api/dog/dog-types",
       );
