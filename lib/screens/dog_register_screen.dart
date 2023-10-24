@@ -41,10 +41,10 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
     '요크셔테리어'
   ];
   final List<String> _genderTypes = ['수컷', '암컷'];
-  final List<String> _neuteredTypes = ['중성화함', '중성화하지 않음'];
 
   XFile? _dogImage;
   String? _dogName, _dogType, _dogGender, _dogBirth;
+  double? _dogWeight;
   bool _isNeutered = false;
   bool _isReady = false;
 
@@ -164,7 +164,14 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
                   setGenderToFemale: setGenderToFemale,
                   setIsNeutered: setisNeutered,
                 ),
-                DogWeightInputField(onChanged: () {}),
+                DogWeightInputField(
+                  onChanged: (value) {
+                    setState(() {
+                      _dogWeight = double.tryParse(value);
+                      checkReady();
+                    });
+                  },
+                ),
                 DogTypeSelectField(
                   items: _dogTypes,
                   onChanged: (value) {

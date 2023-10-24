@@ -44,13 +44,19 @@ class DogWeightInputField extends StatelessWidget {
               ),
               textInputAction: TextInputAction.done,
               onChanged: (value) => _onChanged(value),
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(
+                  RegExp(r'^\d{1,2}(\.\d{0,1})?$'),
+                ),
               ],
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               decoration: const InputDecoration(
-                hintText: "몸무게 입력",
+                hintText: "몸무게 입력 (kg)",
+                suffixText: "kg",
                 hintStyle: TextStyle(color: mediumGreyColor),
+                suffixStyle: TextStyle(color: blackColor),
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                 focusedBorder: OutlineInputBorder(
