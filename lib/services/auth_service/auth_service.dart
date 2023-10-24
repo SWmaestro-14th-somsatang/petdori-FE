@@ -54,7 +54,8 @@ class AuthService {
 
   Future login(BuildContext context) async {
     if (resourceServer == null) {
-      // TODO: 순수 이메일 로그인 기능을 추가해야 함~
+      debugPrint("resourceServer is null");
+      showMessageDialog(context, "로그인 오류", "서버와의 연결에 실패했습니다. 다시 시도해주세요");
       return;
     }
 
