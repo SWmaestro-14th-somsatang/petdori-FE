@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
-class ProfileImagePickerButton extends StatelessWidget {
-  ProfileImagePickerButton({
+class ImagePickerButton extends StatelessWidget {
+  ImagePickerButton({
     super.key,
     required this.setImage,
-    required this.profileImage,
+    required this.image,
   });
 
   final Function setImage;
-  final XFile? profileImage;
+  final XFile? image;
   final ImagePicker picker = ImagePicker();
 
   Future pickImage(ImageSource source) async {
@@ -28,7 +28,6 @@ class ProfileImagePickerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(profileImage);
     return ElevatedButton(
       onPressed: () {
         pickImage(ImageSource.gallery);
@@ -40,7 +39,7 @@ class ProfileImagePickerButton extends StatelessWidget {
         shape: const CircleBorder(),
         shadowColor: Colors.transparent,
       ),
-      child: profileImage != null
+      child: image != null
           ? Container(
               width: 120,
               height: 120,
@@ -48,7 +47,7 @@ class ProfileImagePickerButton extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   image: FileImage(
-                    File(profileImage!.path),
+                    File(image!.path),
                   ),
                   fit: BoxFit.cover,
                 ),

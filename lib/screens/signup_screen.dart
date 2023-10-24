@@ -94,9 +94,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   height: screenHeight * 0.025,
                 ),
-                ProfileImagePickerButton(
+                ImagePickerButton(
                   setImage: setImage,
-                  profileImage: _profileImage,
+                  image: _profileImage,
                 ),
                 SizedBox(
                   height: screenHeight * 0.025,
