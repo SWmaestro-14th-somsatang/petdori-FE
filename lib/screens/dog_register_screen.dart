@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wooyoungsoo/services/dog_service/dog_service.dart';
@@ -70,7 +71,8 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
     return _dogName != null &&
         _dogType != null &&
         _dogGender != null &&
-        _dogBirth != null;
+        _dogBirth != null &&
+        _dogWeight != null;
   }
 
   void checkReady() {
@@ -108,7 +110,7 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
           "새 반려견 등록",
           style: TextStyle(
             color: blackColor,
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: fontWeightBold,
           ),
         ),
@@ -185,15 +187,21 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
                     buttonText: "등록하기",
                     isReady: _isReady,
                     onPressed: () async {
-                      Map<String, dynamic> data = {
+                      final formData = FormData.fromMap({
+                        "dog_image": _dogImage != null
+                            ? await MultipartFile.fromFile(
+                                _dogImage!.path,
+                              )
+                            : null,
                         "dog_name": _dogName,
                         "dog_type": _dogType,
                         "dog_gender": _dogGender,
                         "is_neutered": _isNeutered,
-                        "dog_birth": _dogBirth,
-                      };
+                        "dog_birth": _dogBirth.toString().split(" ")[0],
+                        "dog_weight": _dogWeight,
+                      });
 
-                      debugPrint("clicked!");
+                      await dogService.registerDog(formData: formData);
                     },
                   ),
                 ),

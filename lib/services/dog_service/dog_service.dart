@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
+import 'package:wooyoungsoo/services/storage_service/storage_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
 /// 반려견 CRUD 관련 기능을 위한 서비스(싱글턴)
 class DogService {
   final Dio dio = Dio();
+  final storageService = StorageService();
 
   // private한 생성자 생성 => public 생성자가 없어짐
   DogService._privateConstructor();
@@ -24,6 +26,27 @@ class DogService {
       return List<String>.from(dogTypesResponse.data);
     } on DioException {
       return [];
+    }
+  }
+
+  Future registerDog({required FormData formData}) async {
+    try {
+      var accessToken = await storageService.getValue(key: "accessToken");
+
+      var res = await dio.post(
+        "$baseURL/api/dog/register",
+        options: Options(
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+        data: formData,
+      );
+
+      var dogRegisterResponse = BaseResponseModel.fromJson(res.data);
+    } on DioException {
+      return;
     }
   }
 }
