@@ -6,10 +6,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/all_policy_agree_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/policy_agree_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_screen/profile_image_picker_button_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_screen/signup_button_widget.dart';
+import 'package:wooyoungsoo/widgets/common/image_picker_button_widget.dart';
+import 'package:wooyoungsoo/widgets/common/register_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_email_field_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_screen/signup_text_field_widget.dart';
+import 'package:wooyoungsoo/widgets/common/text_input_field_widget.dart';
 
 /// 회원가입 화면
 class SignupScreen extends StatefulWidget {
@@ -21,10 +21,8 @@ class SignupScreen extends StatefulWidget {
 
 /// 회원가입 화면의 state
 ///
-/// [_dogTypes] 강아지 종류로 선택가능한 목록
-/// [_genderTypes] 강아지 성별로 선택가능한 목록
-/// [_neuteredTypes] 강아지 중성화 여부로 선택가능한 목록
-/// [_userName], [_dogName], [_dogType], [_dogGender], [_isNeutered], [_dogAge] 유저가 입력하는 값
+/// [_profileImage], [_userName] 유저가 입력하는 값
+/// [_isAgreeTerms], [_isAgreePrivacy] 유저가 약관에 동의하는지 여부
 /// [_isReady] 모든 필드가 입력되었는지 여부
 class _SignupScreenState extends State<SignupScreen> {
   AuthService authService = AuthService();
@@ -94,9 +92,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   height: screenHeight * 0.025,
                 ),
-                ProfileImagePickerButton(
+                ImagePickerButton(
                   setImage: setImage,
-                  profileImage: _profileImage,
+                  image: _profileImage,
                 ),
                 SizedBox(
                   height: screenHeight * 0.025,
@@ -105,7 +103,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   email: email,
                   provider: resourceServerName,
                 ),
-                SignupTextField(
+                TextInputField(
                   label: '이름',
                   hintText: '이름 입력',
                   onChanged: (value) {
@@ -167,7 +165,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 90),
-                  child: SignupButton(
+                  child: RegisterButton(
+                    buttonText: "가입하기",
                     isReady: _isReady,
                     onPressed: () async {
                       final formData = FormData.fromMap({

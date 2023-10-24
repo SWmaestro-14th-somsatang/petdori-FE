@@ -6,8 +6,9 @@ import 'package:wooyoungsoo/provider/gps_util_provider.dart';
 import 'package:wooyoungsoo/provider/session_state_provider.dart';
 import 'package:wooyoungsoo/provider/session_stats_provider.dart';
 import 'package:wooyoungsoo/screens/activity/activity_screen.dart';
-import 'package:wooyoungsoo/screens/login_screen.dart';
+import 'package:wooyoungsoo/screens/dog_register_screen.dart';
 import 'package:wooyoungsoo/screens/home_screen.dart';
+import 'package:wooyoungsoo/screens/login_screen.dart';
 import 'package:wooyoungsoo/screens/signup_screen.dart';
 
 void main() async {
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         "/": (context) => const HomeScreen(),
         "/login": (context) => const LoginScreen(),
         "/signup": (context) => const SignupScreen(),
+        "/dog-register": (context) => const DogRegisterScreen(),
         "/activity": (context) => const ActivityScreen(),
       },
     );

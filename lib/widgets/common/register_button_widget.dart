@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
-/// 회원가입 버튼 위젯
+/// 회원가입, 강아지 등록 시 쓰이는 버튼 위젯
 ///
+/// [_buttonText] 버튼 위젯의 텍스트
 /// [_isReady] 값이 true일 때만 버튼이 활성화됨
 /// [_onPressed] 버튼 클릭 시 실행될 콜백 함수
-class SignupButton extends StatelessWidget {
-  const SignupButton({
+class RegisterButton extends StatelessWidget {
+  const RegisterButton({
     super.key,
+    required String buttonText,
     required bool isReady,
     required VoidCallback onPressed,
-  })  : _isReady = isReady,
+  })  : _buttonText = buttonText,
+        _isReady = isReady,
         _onPressed = onPressed;
 
+  final String _buttonText;
   final bool _isReady;
   final VoidCallback _onPressed;
 
@@ -32,9 +36,9 @@ class SignupButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
       ),
-      child: const Text(
-        '가입하기',
-        style: TextStyle(
+      child: Text(
+        _buttonText,
+        style: const TextStyle(
           fontSize: 16,
           fontWeight: fontWeightBold,
         ),

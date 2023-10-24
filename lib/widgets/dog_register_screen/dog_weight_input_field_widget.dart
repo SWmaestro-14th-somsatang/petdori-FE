@@ -2,22 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
-/// 회원가입 시 사용되는 텍스트 필드 위젯
+/// 강아지 몸무게 입력 필드 위젯
 ///
-/// [_label] 텍스트 필드 위젯의 라벨
-/// [_hintText] 텍스트 필드 위젯의 힌트 텍스트(placeholer)
-/// [_onChanged] 텍스트 필드 위젯의 텍스트가 변경될 때 실행될 콜백 함수
-class SignupTextField extends StatelessWidget {
-  const SignupTextField({
+/// [_onChanged] 값이 변경될 때 실행될 콜백 함수
+class DogWeightInputField extends StatelessWidget {
+  const DogWeightInputField({
     super.key,
-    required String label,
-    required String hintText,
     required Function onChanged,
-  })  : _label = label,
-        _hintText = hintText,
-        _onChanged = onChanged;
+  }) : _onChanged = onChanged;
 
-  final String _label, _hintText;
   final Function _onChanged;
 
   @override
@@ -31,9 +24,9 @@ class SignupTextField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            _label,
-            style: const TextStyle(
+          const Text(
+            "몸무게가 몇인가요?",
+            style: TextStyle(
               color: blackColor,
               fontSize: 14.0,
               fontWeight: fontWeightMedium,
@@ -54,20 +47,27 @@ class SignupTextField extends StatelessWidget {
               ),
               textInputAction: TextInputAction.done,
               onChanged: (value) => _onChanged(value),
-              inputFormatters: [
+              inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(
-                    RegExp(r'[a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ]'))
+                  // x, xx, x.x, xx.x 형태만 입력 가능
+                  RegExp(r'^\d{1,2}(\.\d{0,1})?$'),
+                ),
               ],
-              decoration: InputDecoration(
-                hintText: _hintText,
-                hintStyle: const TextStyle(color: mediumGreyColor),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              decoration: const InputDecoration(
+                hintText: "몸무게 입력 (kg)",
+                suffixText: "kg",
+                hintStyle: TextStyle(color: mediumGreyColor),
+                suffixStyle: TextStyle(color: blackColor),
                 contentPadding:
-                    const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                focusedBorder: const OutlineInputBorder(
+                    EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(width: 1, color: mainColor),
                 ),
-                enabledBorder: const OutlineInputBorder(
+                enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(width: 1, color: lightGreyColor),
                 ),

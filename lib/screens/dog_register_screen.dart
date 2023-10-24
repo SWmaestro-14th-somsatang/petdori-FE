@@ -1,224 +1,215 @@
-// import 'package:flutter/material.dart';
-// import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
-// import 'package:wooyoungsoo/utils/constants.dart';
-// import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
-// import 'package:wooyoungsoo/widgets/signup_screen/signup_button_widget.dart';
-// import 'package:wooyoungsoo/widgets/signup_screen/signup_drop_down_field_widget.dart';
-// import 'package:wooyoungsoo/widgets/signup_screen/signup_text_field_widget.dart';
-// import 'package:wooyoungsoo/widgets/signup_screen/signup_number_field_widget.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:wooyoungsoo/services/dog_service/dog_service.dart';
+import 'package:wooyoungsoo/utils/constants.dart';
+import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
+import 'package:wooyoungsoo/widgets/dog_register_screen/dog_gender_select_field_widget.dart';
+import 'package:wooyoungsoo/widgets/dog_register_screen/dog_weight_input_field_widget.dart';
+import 'package:wooyoungsoo/widgets/common/register_button_widget.dart';
+import 'package:wooyoungsoo/widgets/dog_register_screen/dog_type_select_field_widget.dart';
+import 'package:wooyoungsoo/widgets/common/text_input_field_widget.dart';
+import 'package:wooyoungsoo/widgets/dog_register_screen/dog_birth_input_field_widget.dart';
+import '../widgets/common/image_picker_button_widget.dart';
 
-// /// 회원가입 화면
-// class SignupScreen extends StatefulWidget {
-//   const SignupScreen({Key? key}) : super(key: key);
+/// 강아지 등록 화면
+class DogRegisterScreen extends StatefulWidget {
+  const DogRegisterScreen({Key? key}) : super(key: key);
 
-//   @override
-//   State<SignupScreen> createState() => _SignupScreenState();
-// }
+  @override
+  State<DogRegisterScreen> createState() => _DogRegisterScreenState();
+}
 
-// /// 회원가입 화면의 state
-// ///
-// /// [_dogTypes] 강아지 종류로 선택가능한 목록
-// /// [_genderTypes] 강아지 성별로 선택가능한 목록
-// /// [_neuteredTypes] 강아지 중성화 여부로 선택가능한 목록
-// /// [_userName], [_dogName], [_dogType], [_dogGender], [_isNeutered], [_dogAge] 유저가 입력하는 값
-// /// [_isReady] 모든 필드가 입력되었는지 여부
-// class _SignupScreenState extends State<SignupScreen> {
-//   AuthService authService = AuthService();
+/// 강아지 등록 화면의 state
+///
+/// [_dogTypes] 강아지 종류로 선택가능한 목록
+/// [_genderTypes] 강아지 성별로 선택가능한 목록
+/// [_dogImage], [_dogName], [_dogType], [_dogGender], [_dogBirth], [_dogWeight], [_isNeutered] 유저가 입력하는 값
+/// [_isReady] 모든 필드가 입력되었는지 여부
+class _DogRegisterScreenState extends State<DogRegisterScreen> {
+  DogService dogService = DogService();
 
-//   // TODO(Cho-SangHyun): 추후 DB에서 강아지 종류를 받아와야 함
-//   final List<String> _dogTypes = [
-//     '프렌치 불독',
-//     '푸들',
-//     '시바견',
-//     '말티즈',
-//     '치와와',
-//     '포메라니안',
-//     '요크셔테리어'
-//   ];
-//   final List<String> _genderTypes = ['수컷', '암컷'];
-//   final List<String> _neuteredTypes = ['중성화함', '중성화하지 않음'];
+  late List<String> _dogTypes = [];
+  final List<String> _genderTypes = ['수컷', '암컷'];
 
-//   String? _userName, _dogName, _dogType, _dogGender;
-//   bool? _isNeutered;
-//   int? _dogAge;
-//   bool _isReady = false;
+  XFile? _dogImage;
+  String? _dogName, _dogType, _dogGender;
+  DateTime? _dogBirth;
+  double? _dogWeight;
+  bool _isNeutered = false;
+  bool _isReady = false;
 
-//   /// 모든 필드가 입력됐는지 체크하는 메서드
-//   bool areAllFieldFilled() {
-//     return _userName != null &&
-//         _dogName != null &&
-//         _dogType != null &&
-//         _dogGender != null &&
-//         _isNeutered != null &&
-//         _dogAge != null;
-//   }
+  void setImage(XFile pickedFile) {
+    setState(() {
+      _dogImage = XFile(pickedFile.path);
+    });
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final double screenWidth = MediaQuery.of(context).size.width;
-//     final double screenHeight = MediaQuery.of(context).size.height;
+  void setGenderToMale() {
+    setState(() {
+      _dogGender = _genderTypes[0];
+      checkReady();
+    });
+  }
 
-//     final arguments =
-//         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-//     String email = arguments["email"];
-//     String resourceServerName = arguments["resourceServerName"];
+  void setGenderToFemale() {
+    setState(() {
+      _dogGender = _genderTypes[1];
+      checkReady();
+    });
+  }
 
-//     return Scaffold(
-//       backgroundColor: screenBackgroundColor,
-//       appBar: AppBar(
-//         leading: const GoBackButton(),
-//         backgroundColor: screenBackgroundColor,
-//         shadowColor: transparentColor,
-//         shape: const Border(
-//           bottom: BorderSide(
-//             width: 0.5,
-//             color: Colors.grey,
-//           ),
-//         ),
-//         centerTitle: true,
-//         title: const Text(
-//           "회원가입",
-//           style: TextStyle(
-//             color: blackColor,
-//             fontSize: 16,
-//             fontWeight: fontWeightBold,
-//           ),
-//         ),
-//       ),
-//       body: GestureDetector(
-//         onTap: () => FocusScope.of(context).unfocus(),
-//         child: SingleChildScrollView(
-//           child: Center(
-//             child: Column(
-//               children: [
-//                 SizedBox(
-//                   height: screenHeight * 0.05,
-//                 ),
-//                 SignupTextField(
-//                   label: '이름',
-//                   hintText: '이름을 입력하세요.',
-//                   onChanged: (value) {
-//                     setState(() {
-//                       _userName = value.isEmpty ? null : value;
-//                       if (areAllFieldFilled()) {
-//                         _isReady = true;
-//                         return;
-//                       }
-//                       _isReady = false;
-//                     });
-//                   },
-//                 ),
-//                 SignupTextField(
-//                   label: '강아지 이름',
-//                   hintText: '강아지 이름을 입력하세요.',
-//                   onChanged: (value) {
-//                     setState(() {
-//                       _dogName = value.isEmpty ? null : value;
-//                       if (areAllFieldFilled()) {
-//                         _isReady = true;
-//                         return;
-//                       }
-//                       _isReady = false;
-//                     });
-//                   },
-//                 ),
-//                 SignupNumberField(
-//                   label: "강아지 나이",
-//                   hintText: "강아지 나이를 입력하세요.",
-//                   onChanged: (value) {
-//                     setState(() {
-//                       _dogAge = int.tryParse(value);
-//                       if (areAllFieldFilled()) {
-//                         _isReady = true;
-//                         return;
-//                       }
-//                       _isReady = false;
-//                     });
-//                   },
-//                 ),
-//                 SignupDropDownField(
-//                   label: "강아지 종류",
-//                   items: _dogTypes,
-//                   onChanged: (value) {
-//                     setState(() {
-//                       _dogType = value;
-//                       if (areAllFieldFilled()) {
-//                         _isReady = true;
-//                         return;
-//                       }
-//                       _isReady = false;
-//                     });
-//                   },
-//                   width: screenWidth * 0.9,
-//                 ),
-//                 SizedBox(
-//                   width: screenWidth * 0.9,
-//                   child: Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                     children: [
-//                       SignupDropDownField(
-//                         label: "강아지 성별",
-//                         items: _genderTypes,
-//                         onChanged: (value) {
-//                           setState(() {
-//                             _dogGender = value;
-//                             if (areAllFieldFilled()) {
-//                               _isReady = true;
-//                               return;
-//                             }
-//                             _isReady = false;
-//                           });
-//                         },
-//                         width: screenWidth * 0.425,
-//                       ),
-//                       SignupDropDownField(
-//                         label: "중성화 여부",
-//                         items: _neuteredTypes,
-//                         onChanged: (value) {
-//                           setState(() {
-//                             _isNeutered =
-//                                 value == _neuteredTypes[0] ? true : false;
-//                             if (areAllFieldFilled()) {
-//                               _isReady = true;
-//                               return;
-//                             }
-//                             _isReady = false;
-//                           });
-//                         },
-//                         width: screenWidth * 0.425,
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//                 Container(
-//                   margin: const EdgeInsets.only(top: 40),
-//                   child: SignupButton(
-//                     isReady: _isReady,
-//                     onPressed: () async {
-//                       Map<String, dynamic> data = {
-//                         "email": email,
-//                         "name": _userName,
-//                         "dog_name": _dogName,
-//                         "dog_type": _dogType,
-//                         "dog_gender": _dogGender,
-//                         "is_neutered": _isNeutered,
-//                         "dog_age": _dogAge,
-//                       };
+  void setisNeutered() {
+    setState(() {
+      _isNeutered = !_isNeutered;
+      checkReady();
+    });
+  }
 
-//                       await authService.signup(
-//                         context: context,
-//                         email: email,
-//                         oauth2Provider: resourceServerName,
-//                         data: data,
-//                       );
-//                     },
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  /// 모든 필드가 입력됐는지 체크하는 메서드
+  bool areAllFieldFilled() {
+    return _dogName != null &&
+        _dogType != null &&
+        _dogGender != null &&
+        _dogBirth != null &&
+        _dogWeight != null;
+  }
+
+  void checkReady() {
+    if (areAllFieldFilled()) {
+      _isReady = true;
+      return;
+    }
+    _isReady = false;
+  }
+
+  void loadDogTypes() async {
+    _dogTypes = await dogService.getDogTypes();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadDogTypes();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
+    return Scaffold(
+      backgroundColor: screenBackgroundColor,
+      appBar: AppBar(
+        leading: const GoBackButton(),
+        backgroundColor: screenBackgroundColor,
+        shadowColor: transparentColor,
+        centerTitle: true,
+        title: const Text(
+          "새 반려견 등록",
+          style: TextStyle(
+            color: blackColor,
+            fontSize: 18,
+            fontWeight: fontWeightBold,
+          ),
+        ),
+      ),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: screenHeight * 0.025,
+                ),
+                ImagePickerButton(
+                  setImage: setImage,
+                  image: _dogImage,
+                ),
+                SizedBox(
+                  height: screenHeight * 0.025,
+                ),
+                TextInputField(
+                  label: '이름이 무엇인가요?',
+                  hintText: '이름 입력',
+                  onChanged: (value) {
+                    setState(() {
+                      _dogName = value.isEmpty ? null : value;
+                      if (areAllFieldFilled()) {
+                        _isReady = true;
+                        return;
+                      }
+                      _isReady = false;
+                    });
+                  },
+                ),
+                DogBirthInputField(
+                  selectedDogBirth: _dogBirth,
+                  onChanged: (value) {
+                    _dogBirth = value;
+                    checkReady();
+                    setState(() {});
+                  },
+                ),
+                DogGenderSelectField(
+                  screenWidth: screenWidth,
+                  dogGender: _dogGender,
+                  isNeutered: _isNeutered,
+                  setGenderToMale: setGenderToMale,
+                  setGenderToFemale: setGenderToFemale,
+                  setIsNeutered: setisNeutered,
+                ),
+                DogWeightInputField(
+                  onChanged: (value) {
+                    setState(() {
+                      _dogWeight = double.tryParse(value);
+                      checkReady();
+                    });
+                  },
+                ),
+                DogTypeSelectField(
+                  items: _dogTypes,
+                  onChanged: (value) {
+                    setState(() {
+                      _dogType = value;
+                      checkReady();
+                    });
+                  },
+                  width: screenWidth * 0.9,
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 60,
+                  ),
+                  child: RegisterButton(
+                    buttonText: "등록하기",
+                    isReady: _isReady,
+                    onPressed: () async {
+                      final formData = FormData.fromMap({
+                        "dog_image": _dogImage != null
+                            ? await MultipartFile.fromFile(
+                                _dogImage!.path,
+                              )
+                            : null,
+                        "dog_name": _dogName,
+                        "dog_type": _dogType,
+                        "dog_gender": _dogGender,
+                        "is_neutered": _isNeutered,
+                        "dog_birth": _dogBirth.toString().split(" ")[0],
+                        "dog_weight": _dogWeight,
+                      });
+
+                      await dogService.registerDog(formData: formData);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

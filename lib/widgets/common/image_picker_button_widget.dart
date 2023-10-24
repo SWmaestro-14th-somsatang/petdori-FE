@@ -4,15 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
-class ProfileImagePickerButton extends StatelessWidget {
-  ProfileImagePickerButton({
+/// 프로필 & 반려견 이미지를 선택하는 버튼 위젯
+///
+/// [setImage] 이미지를 선택했을 때 수행할 메서드
+/// [image] 이미지 파일
+class ImagePickerButton extends StatelessWidget {
+  ImagePickerButton({
     super.key,
     required this.setImage,
-    required this.profileImage,
+    required this.image,
   });
 
   final Function setImage;
-  final XFile? profileImage;
+  final XFile? image;
   final ImagePicker picker = ImagePicker();
 
   Future pickImage(ImageSource source) async {
@@ -28,7 +32,6 @@ class ProfileImagePickerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(profileImage);
     return ElevatedButton(
       onPressed: () {
         pickImage(ImageSource.gallery);
@@ -40,7 +43,7 @@ class ProfileImagePickerButton extends StatelessWidget {
         shape: const CircleBorder(),
         shadowColor: Colors.transparent,
       ),
-      child: profileImage != null
+      child: image != null
           ? Container(
               width: 120,
               height: 120,
@@ -48,7 +51,7 @@ class ProfileImagePickerButton extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   image: FileImage(
-                    File(profileImage!.path),
+                    File(image!.path),
                   ),
                   fit: BoxFit.cover,
                 ),

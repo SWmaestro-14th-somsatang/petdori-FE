@@ -25,6 +25,7 @@ const appLogoPath = "assets/images/petdori-logo.svg";
 const screenBackgroundColor = Color(0xFFffffff);
 const mainColor = Color(0xFF3c99f8);
 const lightBlueColor = Color(0xFFe1f0ff);
+const thinGreyColor = Color(0xFFf8f8f8);
 const lightGreyColor = Color(0xFFefefef);
 const mediumGreyColor = Color(0xFFa0a0a0);
 const darkGreyColor = Color(0xFF8c8c8c);
