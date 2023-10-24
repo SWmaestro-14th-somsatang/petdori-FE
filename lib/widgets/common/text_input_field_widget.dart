@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
-/// 회원가입 시 사용되는 텍스트 필드 위젯
+/// 회원가입, 강아지 등록 등에 사용되는 텍스트 필드 위젯
 ///
 /// [_label] 텍스트 필드 위젯의 라벨
 /// [_hintText] 텍스트 필드 위젯의 힌트 텍스트(placeholer)
 /// [_onChanged] 텍스트 필드 위젯의 텍스트가 변경될 때 실행될 콜백 함수
-class SignupTextField extends StatelessWidget {
-  const SignupTextField({
+class TextInputField extends StatelessWidget {
+  const TextInputField({
     super.key,
     required String label,
     required String hintText,

@@ -105,7 +105,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   email: email,
                   provider: resourceServerName,
                 ),
-                SignupTextField(
+                TextInputField(
                   label: '이름',
                   hintText: '이름 입력',
                   onChanged: (value) {

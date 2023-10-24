@@ -5,7 +5,7 @@ import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_drop_down_field_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_screen/signup_text_field_widget.dart';
+import 'package:wooyoungsoo/widgets/common/text_input_field_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_number_field_widget.dart';
 
 import '../widgets/common/image_picker_button_widget.dart';
@@ -99,7 +99,7 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
                 SizedBox(
                   height: screenHeight * 0.025,
                 ),
-                SignupTextField(
+                TextInputField(
                   label: '이름이 무엇인가요?',
                   hintText: '이름 입력',
                   onChanged: (value) {
