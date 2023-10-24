@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
-class SignupNumberField extends StatelessWidget {
-  const SignupNumberField({
+class DogBirthInputField extends StatelessWidget {
+  const DogBirthInputField({
     super.key,
     required String label,
     required String hintText,
@@ -22,26 +22,31 @@ class SignupNumberField extends StatelessWidget {
 
     return Container(
       width: screenWidth * 0.9,
-      margin: const EdgeInsets.only(bottom: 15),
+      margin: const EdgeInsets.only(bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             _label,
             style: const TextStyle(
-              fontSize: 12.0,
-              fontWeight: FontWeight.w600,
+              color: blackColor,
+              fontSize: 14.0,
+              fontWeight: fontWeightMedium,
             ),
           ),
           const SizedBox(
-            height: 5,
+            height: 8,
           ),
           SizedBox(
-            height: 50,
+            height: 46,
             child: TextField(
               minLines: null,
               maxLines: null,
               expands: true,
+              style: const TextStyle(
+                fontSize: 14,
+                color: blackColor,
+              ),
               textInputAction: TextInputAction.done,
               onChanged: (value) => _onChanged(value),
               keyboardType: TextInputType.number,
@@ -50,16 +55,16 @@ class SignupNumberField extends StatelessWidget {
               ],
               decoration: InputDecoration(
                 hintText: _hintText,
-                hintStyle: TextStyle(color: Colors.grey.shade400),
+                hintStyle: const TextStyle(color: mediumGreyColor),
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                 focusedBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(14)),
-                  borderSide: BorderSide(width: 1, color: blackColor),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(width: 1, color: mainColor),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(14)),
-                  borderSide: BorderSide(width: 1, color: Colors.grey.shade400),
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(width: 1, color: lightGreyColor),
                 ),
               ),
             ),

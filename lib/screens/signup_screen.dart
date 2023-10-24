@@ -7,9 +7,9 @@ import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/all_policy_agree_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/policy_agree_widget.dart';
 import 'package:wooyoungsoo/widgets/common/image_picker_button_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_screen/signup_button_widget.dart';
+import 'package:wooyoungsoo/widgets/signup_screen/register_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_email_field_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_screen/signup_text_field_widget.dart';
+import 'package:wooyoungsoo/widgets/common/text_input_field_widget.dart';
 
 /// 회원가입 화면
 class SignupScreen extends StatefulWidget {
@@ -167,7 +167,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 90),
-                  child: SignupButton(
+                  child: RegisterButton(
+                    buttonText: "가입하기",
                     isReady: _isReady,
                     onPressed: () async {
                       final formData = FormData.fromMap({

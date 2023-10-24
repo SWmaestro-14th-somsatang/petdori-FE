@@ -3,10 +3,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_screen/signup_button_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_screen/signup_drop_down_field_widget.dart';
+import 'package:wooyoungsoo/widgets/dog_register_screen/dog_weight_input_field_widget.dart';
+import 'package:wooyoungsoo/widgets/signup_screen/register_button_widget.dart';
+import 'package:wooyoungsoo/widgets/dog_register_screen/dog_type_select_field_widget.dart';
 import 'package:wooyoungsoo/widgets/common/text_input_field_widget.dart';
-import 'package:wooyoungsoo/widgets/signup_screen/signup_number_field_widget.dart';
+import 'package:wooyoungsoo/widgets/dog_register_screen/dog_birth_input_field_widget.dart';
 
 import '../widgets/common/image_picker_button_widget.dart';
 
@@ -113,9 +114,9 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
                     });
                   },
                 ),
-                SignupNumberField(
-                  label: "강아지 나이",
-                  hintText: "강아지 나이를 입력하세요.",
+                DogBirthInputField(
+                  label: "생일이 언제인가요?",
+                  hintText: "생일 선택",
                   onChanged: (value) {
                     setState(() {
                       _dogAge = int.tryParse(value);
@@ -127,8 +128,149 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
                     });
                   },
                 ),
-                SignupDropDownField(
-                  label: "강아지 종류",
+                Container(
+                  width: screenWidth * 0.9,
+                  margin: const EdgeInsets.only(bottom: 20),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      top:
+                          BorderSide(width: 1.0, color: thinGreyColor), // 위쪽 실선
+                      bottom: BorderSide(
+                          width: 1.0, color: thinGreyColor), // 아래쪽 실선
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text(
+                        "성별이 무엇인가요?",
+                        style: TextStyle(
+                          color: blackColor,
+                          fontSize: 14.0,
+                          fontWeight: fontWeightMedium,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 46,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: Size(screenWidth * 0.3, 46),
+                                backgroundColor:
+                                    _isReady ? mainColor : whiteColor,
+                                foregroundColor:
+                                    _isReady ? whiteColor : mainColor,
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    width: 1,
+                                    color:
+                                        _isReady ? transparentColor : mainColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: const Text(
+                                "남",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: fontWeightBold,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: Size(screenWidth * 0.3, 46),
+                                backgroundColor:
+                                    _isReady ? mainColor : whiteColor,
+                                foregroundColor:
+                                    _isReady ? whiteColor : mainColor,
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    width: 1,
+                                    color:
+                                        _isReady ? transparentColor : mainColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: const Text(
+                                "여",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: fontWeightBold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 24,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      1 == 1 ? mainColor : lightGreyColor,
+                                  padding: EdgeInsets.zero,
+                                  shape: const CircleBorder(),
+                                  shadowColor: Colors.transparent,
+                                ),
+                                child: const Icon(
+                                  Icons.check,
+                                  color: whiteColor,
+                                  size: 14,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 6,
+                            ),
+                            const Baseline(
+                              baselineType: TextBaseline.alphabetic,
+                              baseline: 15,
+                              child: Text(
+                                "중성화를 했어요!",
+                                style: TextStyle(
+                                    color: blackColor,
+                                    fontSize: 14,
+                                    fontWeight: fontWeightMedium),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                ),
+                DogWeightInputField(onChanged: () {}),
+                DogTypeSelectField(
                   items: _dogTypes,
                   onChanged: (value) {
                     setState(() {
@@ -142,48 +284,12 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
                   },
                   width: screenWidth * 0.9,
                 ),
-                SizedBox(
-                  width: screenWidth * 0.9,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SignupDropDownField(
-                        label: "강아지 성별",
-                        items: _genderTypes,
-                        onChanged: (value) {
-                          setState(() {
-                            _dogGender = value;
-                            if (areAllFieldFilled()) {
-                              _isReady = true;
-                              return;
-                            }
-                            _isReady = false;
-                          });
-                        },
-                        width: screenWidth * 0.425,
-                      ),
-                      SignupDropDownField(
-                        label: "중성화 여부",
-                        items: _neuteredTypes,
-                        onChanged: (value) {
-                          setState(() {
-                            _isNeutered =
-                                value == _neuteredTypes[0] ? true : false;
-                            if (areAllFieldFilled()) {
-                              _isReady = true;
-                              return;
-                            }
-                            _isReady = false;
-                          });
-                        },
-                        width: screenWidth * 0.425,
-                      ),
-                    ],
-                  ),
-                ),
                 Container(
-                  margin: const EdgeInsets.only(top: 40),
-                  child: SignupButton(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 60,
+                  ),
+                  child: RegisterButton(
+                    buttonText: "등록하기",
                     isReady: _isReady,
                     onPressed: () async {
                       Map<String, dynamic> data = {
