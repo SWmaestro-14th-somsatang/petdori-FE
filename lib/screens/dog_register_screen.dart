@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/common/go_back_button_widget.dart';
@@ -6,6 +7,8 @@ import 'package:wooyoungsoo/widgets/signup_screen/signup_button_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_drop_down_field_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_text_field_widget.dart';
 import 'package:wooyoungsoo/widgets/signup_screen/signup_number_field_widget.dart';
+
+import '../widgets/common/image_picker_button_widget.dart';
 
 /// 회원가입 화면
 class DogRegisterScreen extends StatefulWidget {
@@ -38,10 +41,17 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
   final List<String> _genderTypes = ['수컷', '암컷'];
   final List<String> _neuteredTypes = ['중성화함', '중성화하지 않음'];
 
+  XFile? _dogImage;
   String? _dogName, _dogType, _dogGender;
   bool? _isNeutered;
   int? _dogAge;
   bool _isReady = false;
+
+  void setImage(XFile pickedFile) {
+    setState(() {
+      _dogImage = XFile(pickedFile.path);
+    });
+  }
 
   /// 모든 필드가 입력됐는지 체크하는 메서드
   bool areAllFieldFilled() {
@@ -63,12 +73,6 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
         leading: const GoBackButton(),
         backgroundColor: screenBackgroundColor,
         shadowColor: transparentColor,
-        shape: const Border(
-          bottom: BorderSide(
-            width: 0.5,
-            color: Colors.grey,
-          ),
-        ),
         centerTitle: true,
         title: const Text(
           "새 반려견 등록",
@@ -86,7 +90,14 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: screenHeight * 0.05,
+                  height: screenHeight * 0.025,
+                ),
+                ImagePickerButton(
+                  setImage: setImage,
+                  image: _dogImage,
+                ),
+                SizedBox(
+                  height: screenHeight * 0.025,
                 ),
                 SignupTextField(
                   label: '이름이 무엇인가요?',
