@@ -23,6 +23,7 @@ const appLogoPath = "assets/images/petdori-logo.svg";
 
 // 컬러 관련 상수들
 const screenBackgroundColor = Color(0xFFffffff);
+const mainScreenBackgroundColor = Color(0xFFf9fcff);
 const mainColor = Color(0xFF3c99f8);
 const lightBlueColor = Color(0xFFe1f0ff);
 const thinGreyColor = Color(0xFFf8f8f8);
