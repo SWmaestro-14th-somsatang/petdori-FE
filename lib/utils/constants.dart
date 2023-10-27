@@ -30,6 +30,7 @@ const thinGreyColor = Color(0xFFf8f8f8);
 const lightGreyColor = Color(0xFFefefef);
 const mediumGreyColor = Color(0xFFa0a0a0);
 const darkGreyColor = Color(0xFF8c8c8c);
+const navGreyColor = Color.fromARGB(255, 201, 201, 201);
 const deepPurpleColor = Color(0xFF8f59f5);
 const transparentColor = Colors.transparent;
 const blackColor = Color(0xFF292929);
