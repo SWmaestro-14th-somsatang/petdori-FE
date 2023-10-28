@@ -66,7 +66,6 @@ class KakaoServer implements ResourceServer {
           data: {"oauth2_token": kakaoAccessToken});
       return BaseResponseModel.fromJson(res.data);
     } on DioException catch (e) {
-      print(e.response);
       return BaseResponseModel.fromJson(e.response!.data);
     }
   }
