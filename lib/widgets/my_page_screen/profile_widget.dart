@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:wooyoungsoo/models/profile_model.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/common/provider_icon_widget.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({
+  Profile({
     super.key,
     required this.screenHeight,
     required this.screenWidth,
+    required this.profile,
   });
 
   final double screenHeight;
   final double screenWidth;
+  ProfileModel? profile;
 
   @override
   Widget build(BuildContext context) {
+    print(profile!.profileImageUrl);
     return Container(
       margin: EdgeInsets.only(top: screenHeight * 0.015),
       padding: EdgeInsets.symmetric(
@@ -22,39 +26,43 @@ class Profile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CircleAvatar(
+          CircleAvatar(
             radius: 40,
-            backgroundImage: AssetImage("assets/images/karina.jpeg"),
+            backgroundImage: profile!.profileImageUrl == null
+                ? const AssetImage(
+                    "./assets/images/default_profile.png",
+                  )
+                : NetworkImage(profile!.profileImageUrl!) as ImageProvider,
           ),
           SizedBox(
             width: screenWidth * 0.033,
           ),
-          const SizedBox(
+          SizedBox(
             height: 80,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "카리나 님",
-                  style: TextStyle(
+                  "${profile!.name} 님",
+                  style: const TextStyle(
                     fontSize: 18,
                     color: blackColor,
                     fontWeight: fontWeightBold,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 Row(
                   children: [
-                    ProviderIcon(provider: "kakao"),
-                    SizedBox(
+                    ProviderIcon(provider: profile!.provider.toLowerCase()),
+                    const SizedBox(
                       width: 5,
                     ),
                     Text(
-                      "adasd@naver.com",
-                      style: TextStyle(
+                      profile!.email,
+                      style: const TextStyle(
                         fontSize: 14,
                         color: mediumGreyColor,
                         fontWeight: fontWeightRegular,

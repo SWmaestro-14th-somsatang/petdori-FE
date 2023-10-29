@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:wooyoungsoo/models/profile_model.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/services/auth_service/resource_server/apple_server.dart';
@@ -8,13 +9,15 @@ import 'package:wooyoungsoo/services/auth_service/resource_server/kakao_server.d
 import 'package:wooyoungsoo/services/auth_service/resource_server/resource_server.dart';
 import 'package:wooyoungsoo/services/storage_service/storage_service.dart';
 
-/// 회원가입 및 로그인 등을 담당하는 서비스(싱글턴)
+/// 회원가입, 로그인, 프로필 조회 등을 담당하는 서비스(싱글턴)
 ///
 /// [storageService] 로컬 저장소에 접근하기 위한 필드
 /// [resourceServer] 사용할 ResourceServer (구글, 카카오, 애플)
+/// [dio] http 통신을 위한 dio 인스턴스
 class AuthService {
   final storageService = StorageService();
   ResourceServer? resourceServer;
+  Dio dio = Dio();
 
   // private한 생성자 생성 => public 생성자가 없어짐
   AuthService._privateConstructor() {
@@ -26,12 +29,28 @@ class AuthService {
     return _instance;
   }
 
+  Future<ProfileModel?> getProfile() async {
+    String? accessToken = await storageService.getValue(key: 'accessToken');
+    try {
+      var res = await dio.get(
+        "$baseURL/api/auth/profile",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+      return ProfileModel.fromJson(res.data["data"]);
+    } on DioException {
+      return null;
+    }
+  }
+
   Future signup({
     required BuildContext context,
     required String oauth2Provider,
     required FormData formData,
   }) async {
-    Dio dio = Dio();
     try {
       var res = await dio.post(
         "$baseURL/api/auth/signup?provider=$oauth2Provider",
@@ -146,7 +165,6 @@ class AuthService {
   void reIssueToken(
       BuildContext context, String accessToken, String refreshToken) async {
     try {
-      Dio dio = Dio();
       var res = await dio.post(
         "$baseURL/api/auth/reissue",
         options: Options(
