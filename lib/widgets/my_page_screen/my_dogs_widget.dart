@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
@@ -42,7 +43,34 @@ class MyDogs extends StatelessWidget {
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     shadowColor: Colors.transparent,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    showCupertinoModalPopup(
+                      context: context,
+                      builder: (BuildContext context) => CupertinoAlertDialog(
+                        title: const Text(
+                          "새 반려견을 등록하시겠습니까?",
+                          style: TextStyle(
+                            fontFamily: "NotoSansKR",
+                          ),
+                        ),
+                        actions: [
+                          CupertinoDialogAction(
+                            child: const Text("닫기"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          CupertinoDialogAction(
+                            child: const Text("확인"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pushNamed(context, "/dog-register");
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                   child: const Text(
                     "+ 반려견 추가하기",
                     style: TextStyle(
