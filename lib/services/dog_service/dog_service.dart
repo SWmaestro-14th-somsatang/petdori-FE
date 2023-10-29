@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
+import 'package:wooyoungsoo/models/dog_info_model.dart';
 import 'package:wooyoungsoo/services/storage_service/storage_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
@@ -49,6 +50,31 @@ class DogService {
       // TODO : 에러 처리 및 등록 성공 후 이어질 페이지 연결이 필요
     } on DioException {
       return;
+    }
+  }
+
+  Future<List<DogInfoModel>> getMyDogs() async {
+    try {
+      var accessToken = await storageService.getValue(key: "accessToken");
+
+      var res = await dio.get(
+        "$baseURL/api/dog/my-dogs",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+
+      var myDogsResponse = BaseResponseModel.fromJson(res.data);
+
+      return List<DogInfoModel>.from(
+        myDogsResponse.data.map(
+          (dog) => DogInfoModel.fromJson(dog),
+        ),
+      );
+    } on DioException {
+      return [];
     }
   }
 }
