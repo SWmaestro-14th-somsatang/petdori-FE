@@ -9,6 +9,7 @@ import 'package:wooyoungsoo/screens/activity/activity_screen.dart';
 import 'package:wooyoungsoo/screens/dog_register_screen.dart';
 import 'package:wooyoungsoo/screens/login_screen.dart';
 import 'package:wooyoungsoo/screens/main_screen.dart';
+import 'package:wooyoungsoo/screens/my_page_screen.dart';
 import 'package:wooyoungsoo/screens/signup_screen.dart';
 
 void main() async {
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         "/signup": (context) => const SignupScreen(),
         "/dog-register": (context) => const DogRegisterScreen(),
         "/activity": (context) => const ActivityScreen(),
+        "/mypage": (context) => const MypageScreen(),
       },
     );
   }

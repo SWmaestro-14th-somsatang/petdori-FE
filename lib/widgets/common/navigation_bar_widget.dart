@@ -36,7 +36,7 @@ class PetdoriNavigationBar extends StatelessWidget {
             case 2:
               Navigator.pushNamed(context, "/nearby");
               break;
-            case 4:
+            case 3:
               Navigator.pushNamed(context, "/mypage");
               break;
             default:
