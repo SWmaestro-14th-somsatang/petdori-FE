@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:wooyoungsoo/models/dog_info_model.dart';
 import 'package:wooyoungsoo/models/profile_model.dart';
 import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
+import 'package:wooyoungsoo/services/dog_service/dog_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/common/navigation_bar_widget.dart';
 import 'package:wooyoungsoo/widgets/my_page_screen/go_to_another_page_widget.dart';
@@ -24,11 +26,14 @@ class MypageScreen extends StatefulWidget {
 
 class _MypageScreenState extends State<MypageScreen> {
   final AuthService authService = AuthService();
+  final DogService dogService = DogService();
   late ProfileModel? profile;
+  late List<DogInfoModel> myDogs;
   bool isLoading = true;
 
-  Future loadProfile() async {
+  Future loadProfileAndDogs() async {
     profile = await authService.getProfile();
+    myDogs = await dogService.getMyDogs();
     setState(() {
       isLoading = false;
     });
@@ -37,7 +42,7 @@ class _MypageScreenState extends State<MypageScreen> {
   @override
   void initState() {
     super.initState();
-    loadProfile();
+    loadProfileAndDogs();
   }
 
   @override
@@ -85,7 +90,11 @@ class _MypageScreenState extends State<MypageScreen> {
                       await authService.logout(context);
                     },
                   ),
-                  MyDogs(screenHeight: screenHeight, screenWidth: screenWidth),
+                  MyDogs(
+                    screenHeight: screenHeight,
+                    screenWidth: screenWidth,
+                    myDogs: myDogs,
+                  ),
                   Container(
                     margin: EdgeInsets.only(
                       top: screenHeight * 0.03,

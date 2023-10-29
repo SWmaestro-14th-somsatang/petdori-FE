@@ -20,7 +20,6 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(profile!.profileImageUrl);
     return Container(
       margin: EdgeInsets.only(top: screenHeight * 0.015),
       padding: EdgeInsets.symmetric(

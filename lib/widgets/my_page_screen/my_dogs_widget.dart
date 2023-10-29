@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wooyoungsoo/models/dog_info_model.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
 class MyDogs extends StatelessWidget {
@@ -7,10 +8,12 @@ class MyDogs extends StatelessWidget {
     super.key,
     required this.screenHeight,
     required this.screenWidth,
+    required this.myDogs,
   });
 
   final double screenHeight;
   final double screenWidth;
+  final List<DogInfoModel> myDogs;
 
   @override
   Widget build(BuildContext context) {
@@ -86,82 +89,190 @@ class MyDogs extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          SizedBox(
-            height: 100,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: screenWidth * 0.033,
-                  ),
-                  child: Container(
-                    width: 200,
-                    decoration: BoxDecoration(
-                      color: whiteColor,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: lightGreyColor,
-                          blurRadius: 20,
+          myDogs.isEmpty
+              ? const SizedBox(
+                  height: 100,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundImage: AssetImage(
+                          "assets/images/default_dog_image.png",
                         ),
-                      ],
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 20),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "아직 등록된 반려견이 없어요!",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: mediumGreyColor,
+                          fontWeight: fontWeightMedium,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : myDogs.length == 1
+                  ? SizedBox(
+                      height: 100,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CircleAvatar(
-                            radius: 25,
-                            backgroundImage:
-                                AssetImage("assets/images/dog_profile.jpeg"),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          SizedBox(
-                            height: 50,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "바둑이",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: blackColor,
-                                    fontWeight: fontWeightBold,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                Text(
-                                  "리트리버",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: mainColor,
-                                    fontWeight: fontWeightMedium,
-                                  ),
+                          Container(
+                            width: 200,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: whiteColor,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: lightGreyColor,
+                                  blurRadius: 20,
                                 ),
                               ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 25,
+                                    backgroundImage: myDogs[0].dogImageUrl ==
+                                            null
+                                        ? const AssetImage(
+                                            "assets/images/default_dog_image.png",
+                                          )
+                                        : NetworkImage(myDogs[0].dogImageUrl!)
+                                            as ImageProvider,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  SizedBox(
+                                    height: 50,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          myDogs[0].dogName,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            color: blackColor,
+                                            fontWeight: fontWeightBold,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 2,
+                                        ),
+                                        Text(
+                                          myDogs[0].dogTypeName,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: mainColor,
+                                            fontWeight: fontWeightMedium,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  width: 0,
-                );
-              },
-              itemCount: 4,
-            ),
-          )
+                    )
+                  : SizedBox(
+                      height: 100,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: screenWidth * 0.033,
+                            ),
+                            child: Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                color: whiteColor,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: lightGreyColor,
+                                    blurRadius: 20,
+                                  ),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 25,
+                                      backgroundImage: myDogs[index]
+                                                  .dogImageUrl ==
+                                              null
+                                          ? const AssetImage(
+                                              "assets/images/default_dog_image.png",
+                                            )
+                                          : NetworkImage(
+                                                  myDogs[index].dogImageUrl!)
+                                              as ImageProvider,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 50,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            myDogs[index].dogName,
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color: blackColor,
+                                              fontWeight: fontWeightBold,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 2,
+                                          ),
+                                          Text(
+                                            myDogs[index].dogTypeName,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: mainColor,
+                                              fontWeight: fontWeightMedium,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(
+                            width: 0,
+                          );
+                        },
+                        itemCount: myDogs.length,
+                      ),
+                    )
         ],
       ),
     );
