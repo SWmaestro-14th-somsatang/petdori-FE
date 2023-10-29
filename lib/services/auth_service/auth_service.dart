@@ -105,6 +105,12 @@ class AuthService {
     }
   }
 
+  Future logout(BuildContext context) async {
+    await storageService.deleteAllValues();
+    goToLoginScreen(context);
+    return;
+  }
+
   void setResourceServer(ResourceServer resourceServer) {
     this.resourceServer = resourceServer;
   }
@@ -138,6 +144,10 @@ class AuthService {
       "email": email,
       "resourceServerName": resourceServerName,
     });
+  }
+
+  void goToLoginScreen(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed("/login");
   }
 
   void showMessageDialog(BuildContext context, String title, String? message) {

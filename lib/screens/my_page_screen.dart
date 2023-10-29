@@ -81,6 +81,9 @@ class _MypageScreenState extends State<MypageScreen> {
                     screenHeight: screenHeight,
                     screenWidth: screenWidth,
                     profile: profile,
+                    logout: () async {
+                      await authService.logout(context);
+                    },
                   ),
                   MyDogs(screenHeight: screenHeight, screenWidth: screenWidth),
                   Container(
