@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:apple_maps_flutter/apple_maps_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wooyoungsoo/utils/data.dart';
+import 'package:wooyoungsoo/utils/gps_topic_generator.dart';
 
 class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
   late Timer _timer;
@@ -12,6 +14,7 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
   LatLng _currentPosition = const LatLng(36.579699, 126.977003);
   List<Position> path = <Position>[];
   Map<PolylineId, Polyline> polylines = <PolylineId, Polyline>{};
+  Map<String, BitmapDescriptor> bitmaps = <String, BitmapDescriptor>{};
 
   int colorsIndex = 0;
   List<Color> colors = <Color>[
@@ -119,6 +122,63 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
     }
 
     return Set<Polyline>.of(polylines.values);
+  }
+
+  Set<Annotation> updatePerson() {
+    List<Person> personList = RandomPersonGenerator.generateRandomPersonList();
+    List<Annotation> annotations = <Annotation>[];
+
+    personList.forEach(
+      (person) {
+        if (bitmaps[person.id] == null) {
+          bitmaps[person.id] = BitmapDescriptor.markerAnnotation;
+          BitmapDescriptor.fromAssetImage(
+                  const ImageConfiguration(devicePixelRatio: 1.1),
+                  person.imagePath)
+              .then((value) {
+            _updateMap(value, person.id);
+          });
+        }
+        annotations.add(
+          Annotation(
+            annotationId: AnnotationId(person.name),
+            position: _createLatLng(person.location.lat, person.location.lng),
+            infoWindow: InfoWindow(title: person.name),
+            icon: bitmaps[person.id] ?? BitmapDescriptor.markerAnnotation,
+          ),
+        );
+      },
+    );
+    return Set<Annotation>.of(annotations);
+  }
+
+  void _updateMap(BitmapDescriptor bitmap, String id) {
+    bitmaps[id] = bitmap;
+  }
+
+  Set<Annotation> getAnnotation() {
+    BitmapDescriptor.fromAssetImage(
+      const ImageConfiguration(devicePixelRatio: 1.1),
+      'assets/images/test/out-1.png',
+    ).then(_updateBitmap);
+
+    Annotation annotation = Annotation(
+        anchor: const Offset(0.5, 0.5),
+        annotationId: AnnotationId("TEST ID"),
+        position: _createLatLng(37.57500, 126.977300),
+        infoWindow: const InfoWindow(title: "이진호", snippet: "대형견, 3살, 남"),
+        icon: bitmaps['TEST ID'] ?? BitmapDescriptor.defaultAnnotation);
+    Annotation annotation1 = Annotation(
+        anchor: const Offset(0.5, 0.5),
+        annotationId: AnnotationId("TEST ID1"),
+        position: _createLatLng(37.576, 126.977300),
+        infoWindow: const InfoWindow(title: "TEST INFO WINDOW"),
+        icon: bitmaps['TEST ID'] ?? BitmapDescriptor.defaultAnnotation);
+    return <Annotation>{annotation, annotation1};
+  }
+
+  void _updateBitmap(BitmapDescriptor bitmap) {
+    bitmaps['TEST ID'] = bitmap;
   }
 
   void dummyPointAdd() {}

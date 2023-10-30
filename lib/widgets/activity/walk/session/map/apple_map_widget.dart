@@ -47,9 +47,10 @@ class _AppleMapWidgetState extends State<AppleMapWidget> {
       myLocationEnabled: true,
       initialCameraPosition: CameraPosition(
         target: context.read<GpsUtilProvider>().currentPosition,
-        zoom: 15.0,
+        zoom: 15,
       ),
       polylines: context.read<GpsUtilProvider>().getPolyline(),
+      annotations: context.read<GpsUtilProvider>().updatePerson(),
     );
   }
 }
