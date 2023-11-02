@@ -20,6 +20,7 @@ class _MypageScreenState extends State<NearbyFacilityScreen> {
   late AppleMapController mapController;
   Annotation? selectedAnnotation;
   BitmapDescriptor? defaultIcon;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _onMapCreated(AppleMapController controller) {
     mapController = controller;
@@ -78,10 +79,6 @@ class _MypageScreenState extends State<NearbyFacilityScreen> {
                   (facility) => Annotation(
                     annotationId: AnnotationId(facility.name),
                     position: LatLng(facility.latitude, facility.longitude),
-                    infoWindow: InfoWindow(
-                      title: facility.name,
-                      snippet: facility.address,
-                    ),
                     icon: defaultIcon!,
                   ),
                 ),
@@ -104,11 +101,8 @@ class _MypageScreenState extends State<NearbyFacilityScreen> {
                   (northEast.longitude + southWest.longitude) / 2;
 
               int distance = Geolocator.distanceBetween(
-                      northEast.latitude,
-                      northEast.longitude,
-                      southWest.latitude,
-                      southWest.longitude) ~/
-                  2;
+                      centerLat, centerLng, centerLat, southWest.longitude)
+                  .toInt();
               print("${northEast.latitude}, ${northEast.longitude}");
               print("centerLat: $centerLat, centerLng: $centerLng");
               print("distance: $distance");
@@ -118,20 +112,6 @@ class _MypageScreenState extends State<NearbyFacilityScreen> {
                 longitude: centerLng,
                 radius: distance,
               );
-
-              for (var facility in nearbyFacilities) {
-                print(
-                  "${facility.name}, ${facility.address}, ${facility.latitude}, ${facility.longitude}, ${facility.distanceInfo}, ${facility.operatingHourInfo}",
-                );
-                // Annotation(
-                //   annotationId: AnnotationId(facility.name),
-                //   position: LatLng(facility.latitude, facility.longitude),
-                //   infoWindow: InfoWindow(
-                //     title: facility.name,
-                //     snippet: facility.address,
-                //   ),
-                // ),
-              }
 
               setState(() {});
             },
