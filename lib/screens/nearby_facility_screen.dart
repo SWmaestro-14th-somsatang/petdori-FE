@@ -19,15 +19,25 @@ class _MypageScreenState extends State<NearbyFacilityScreen> {
   List<FacilityModel> nearbyFacilities = [];
   late AppleMapController mapController;
   Annotation? selectedAnnotation;
+  BitmapDescriptor? defaultIcon;
 
   void _onMapCreated(AppleMapController controller) {
     mapController = controller;
-    // await mapController.moveCamera(CameraUpdate.zoomTo(15));
+  }
+
+  void loadDefaultIcon() async {
+    defaultIcon = await BitmapDescriptor.fromAssetImage(
+      const ImageConfiguration(
+        size: Size(12, 12),
+      ),
+      "assets/images/hotel_icon.png",
+    );
   }
 
   @override
   void initState() {
     super.initState();
+    loadDefaultIcon();
   }
 
   @override
@@ -63,6 +73,19 @@ class _MypageScreenState extends State<NearbyFacilityScreen> {
         children: [
           Expanded(
             child: AppleMap(
+              annotations: Set<Annotation>.of(
+                nearbyFacilities.map(
+                  (facility) => Annotation(
+                    annotationId: AnnotationId(facility.name),
+                    position: LatLng(facility.latitude, facility.longitude),
+                    infoWindow: InfoWindow(
+                      title: facility.name,
+                      snippet: facility.address,
+                    ),
+                    icon: defaultIcon!,
+                  ),
+                ),
+              ),
               onMapCreated: _onMapCreated,
               trackingMode: TrackingMode.follow,
               initialCameraPosition: const CameraPosition(
@@ -109,6 +132,8 @@ class _MypageScreenState extends State<NearbyFacilityScreen> {
                 //   ),
                 // ),
               }
+
+              setState(() {});
             },
             child: const Text("버튼"),
           ),
