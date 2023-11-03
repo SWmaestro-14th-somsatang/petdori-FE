@@ -2,6 +2,7 @@ import 'package:apple_maps_flutter/apple_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:wooyoungsoo/models/facility_model.dart';
 import 'package:wooyoungsoo/services/facility_service/facility_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
@@ -255,7 +256,7 @@ class _FacilityMapState extends State<FacilityMap> {
 }
 
 class FacilityBottomSheet extends StatelessWidget {
-  const FacilityBottomSheet({
+  FacilityBottomSheet({
     Key? key,
     required this.facility,
     required this.width,
@@ -264,6 +265,41 @@ class FacilityBottomSheet extends StatelessWidget {
 
   final FacilityModel facility;
   final double width, height;
+  final Map<String, String> dayOfTheWeek = {
+    "Sun": "일",
+    "Mon": "월",
+    "Tue": "화",
+    "Wed": "수",
+    "Thu": "목",
+    "Fri": "금",
+    "Sat": "토",
+  };
+
+  String getCurrentOperatingInfo(String operatingHourInfo) {
+    List<String> operatingDayOfTheWeeks =
+        operatingHourInfo.split(" ")[0].split(",");
+    String openHour = operatingHourInfo.split(" ")[1];
+    String closeHour = operatingHourInfo.split(" ")[3];
+
+    var now = DateTime.now();
+    String? currentDayOfTheWeek = dayOfTheWeek[DateFormat.E().format(now)];
+
+    if (currentDayOfTheWeek != null &&
+        operatingDayOfTheWeeks.contains(currentDayOfTheWeek)) {
+      DateTime openTime = DateTime(now.year, now.month, now.day,
+          int.parse(openHour.split(":")[0]), int.parse(openHour.split(":")[1]));
+      DateTime closeTime = DateTime(
+          now.year,
+          now.month,
+          now.day,
+          int.parse(closeHour.split(":")[0]),
+          int.parse(closeHour.split(":")[1]));
+      if (now.isAfter(openTime) && now.isBefore(closeTime)) {
+        return "영업 중";
+      }
+    }
+    return "영업 종료";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -295,13 +331,28 @@ class FacilityBottomSheet extends StatelessWidget {
             ),
             facility.operatingHourInfo.isEmpty
                 ? const SizedBox.shrink()
-                : Text(
-                    facility.operatingHourInfo,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: fontWeightRegular,
-                      color: blackColor,
-                    ),
+                : Row(
+                    children: [
+                      SizedBox(
+                        width: 70,
+                        child: Text(
+                          getCurrentOperatingInfo(facility.operatingHourInfo),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: fontWeightBold,
+                            color: redColor,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        facility.operatingHourInfo,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: fontWeightRegular,
+                          color: blackColor,
+                        ),
+                      ),
+                    ],
                   ),
             facility.operatingHourInfo.isEmpty
                 ? const SizedBox.shrink()
@@ -309,24 +360,30 @@ class FacilityBottomSheet extends StatelessWidget {
                     height: 10,
                   ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  facility.distanceInfo,
-                  style: const TextStyle(
-                    color: blackColor,
-                    fontSize: 14,
-                    fontWeight: fontWeightBold,
+                SizedBox(
+                  width: 70,
+                  child: Text(
+                    facility.distanceInfo,
+                    style: const TextStyle(
+                      color: blackColor,
+                      fontSize: 14,
+                      fontWeight: fontWeightBold,
+                    ),
                   ),
                 ),
-                Text(
-                  facility.address,
-                  style: const TextStyle(
-                    color: darkGreyColor,
-                    fontSize: 14,
-                    fontWeight: fontWeightRegular,
+                Expanded(
+                  child: Text(
+                    facility.address,
+                    style: const TextStyle(
+                      color: darkGreyColor,
+                      fontSize: 14,
+                      fontWeight: fontWeightRegular,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                const SizedBox(width: 10),
                 TextButton.icon(
                   style: TextButton.styleFrom(
                     minimumSize: Size.zero,
