@@ -1,5 +1,6 @@
 import 'package:apple_maps_flutter/apple_maps_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wooyoungsoo/models/facility_model.dart';
 import 'package:wooyoungsoo/services/facility_service/facility_service.dart';
@@ -11,34 +12,10 @@ class NearbyFacilityScreen extends StatefulWidget {
   const NearbyFacilityScreen({Key? key}) : super(key: key);
 
   @override
-  State<NearbyFacilityScreen> createState() => _MypageScreenState();
+  State<NearbyFacilityScreen> createState() => _NearbyFacilityScreenState();
 }
 
-class _MypageScreenState extends State<NearbyFacilityScreen> {
-  // final FacilityService facilityService = FacilityService();
-  // List<FacilityModel> nearbyFacilities = [];
-  // late AppleMapController mapController;
-  // BitmapDescriptor? defaultIcon;
-
-  // void _onMapCreated(AppleMapController controller) {
-  //   mapController = controller;
-  // }
-
-  // void loadDefaultIcon() async {
-  //   defaultIcon = await BitmapDescriptor.fromAssetImage(
-  //     const ImageConfiguration(
-  //       size: Size(12, 12),
-  //     ),
-  //     "assets/images/hotel_icon.png",
-  //   );
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   loadDefaultIcon();
-  // }
-
+class _NearbyFacilityScreenState extends State<NearbyFacilityScreen> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -90,23 +67,41 @@ class _FacilityMapState extends State<FacilityMap> {
   final FacilityService facilityService = FacilityService();
   List<FacilityModel> nearbyFacilities = [];
   late AppleMapController mapController;
-  BitmapDescriptor? defaultIcon;
+  late Position currentPosition;
+  BitmapDescriptor? hospitalIcon, beautyIcon, hotelIcon;
+  bool isLoading = true;
 
   void _onMapCreated(AppleMapController controller) {
     mapController = controller;
   }
 
-  void loadDefaultIcon() async {
-    defaultIcon = await BitmapDescriptor.fromAssetImage(
+  void loadIcons() async {
+    hospitalIcon = await BitmapDescriptor.fromAssetImage(
+      const ImageConfiguration(),
+      "assets/images/hospital_icon.png",
+    );
+    beautyIcon = await BitmapDescriptor.fromAssetImage(
+      const ImageConfiguration(),
+      "assets/images/beauty_icon.png",
+    );
+    hotelIcon = await BitmapDescriptor.fromAssetImage(
       const ImageConfiguration(),
       "assets/images/hotel_icon.png",
     );
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  void getCurrentPosition() async {
+    currentPosition = await Geolocator.getCurrentPosition();
   }
 
   @override
   void initState() {
     super.initState();
-    loadDefaultIcon();
+    getCurrentPosition();
+    loadIcons();
   }
 
   @override
@@ -114,108 +109,145 @@ class _FacilityMapState extends State<FacilityMap> {
     return Column(
       children: [
         Expanded(
-          child: Stack(
-            children: [
-              AppleMap(
-                annotations: Set<Annotation>.of(
-                  nearbyFacilities.map(
-                    (facility) => Annotation(
-                      annotationId: AnnotationId(facility.name),
-                      position: LatLng(facility.latitude, facility.longitude),
-                      icon: defaultIcon!,
-                      onTap: () {
-                        showBottomSheet(
-                          context: context,
-                          backgroundColor: transparentColor,
-                          builder: (BuildContext context) {
-                            return FacilityBottomSheet(
-                              facility: facility,
-                              width: widget.screenWidth,
-                              height: widget.screenHeight * 0.18,
-                            );
-                          },
-                        );
-                      },
-                    ),
+          child: isLoading
+              ? const SizedBox(
+                  height: 90,
+                  child: SpinKitCircle(
+                    color: mainColor,
+                    size: 50,
                   ),
-                ),
-                onMapCreated: _onMapCreated,
-                trackingMode: TrackingMode.follow,
-                initialCameraPosition: const CameraPosition(
-                  target: LatLng(37.328628, 127.100229),
-                ),
-              ),
-              Positioned(
-                left: widget.screenWidth * 0.5 - 80,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(160, 36),
-                    backgroundColor: whiteColor,
-                    foregroundColor: mainColor,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                        color: mediumGreyColor,
-                        width: 0.5,
-                      ),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                  ),
-                  onPressed: () async {
-                    await mapController.getZoomLevel();
-                    LatLngBounds res = await mapController.getVisibleRegion();
-                    LatLng northEast = res.northeast;
-                    LatLng southWest = res.southwest;
-                    double centerLat =
-                        (northEast.latitude + southWest.latitude) / 2;
-                    double centerLng =
-                        (northEast.longitude + southWest.longitude) / 2;
-
-                    int distance = Geolocator.distanceBetween(centerLat,
-                            centerLng, centerLat, southWest.longitude)
-                        .toInt();
-                    print("${northEast.latitude}, ${northEast.longitude}");
-                    print("centerLat: $centerLat, centerLng: $centerLng");
-                    print("distance: $distance");
-
-                    nearbyFacilities =
-                        await facilityService.getNearbyFacilities(
-                      latitude: centerLat,
-                      longitude: centerLng,
-                      radius: distance,
-                    );
-
-                    setState(() {});
-                  },
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.refresh_rounded,
-                        size: 18,
-                        color: mainColor,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Baseline(
-                        baselineType: TextBaseline.alphabetic,
-                        baseline: 14,
-                        child: Text(
-                          "현 지도에서 검색",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: fontWeightMedium,
-                            color: mainColor,
+                )
+              : Stack(
+                  children: [
+                    AppleMap(
+                      annotations: Set<Annotation>.of(
+                        nearbyFacilities.map(
+                          (facility) => Annotation(
+                            annotationId: AnnotationId(facility.name),
+                            position:
+                                LatLng(facility.latitude, facility.longitude),
+                            icon: hospitalIcon!,
+                            onTap: () {
+                              showBottomSheet(
+                                context: context,
+                                backgroundColor: transparentColor,
+                                builder: (BuildContext context) {
+                                  return FacilityBottomSheet(
+                                    facility: facility,
+                                    width: widget.screenWidth,
+                                    height: widget.screenHeight * 0.18,
+                                  );
+                                },
+                              );
+                            },
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                      onMapCreated: _onMapCreated,
+                      trackingMode: TrackingMode.follow,
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(currentPosition.latitude,
+                            currentPosition.longitude),
+                      ),
+                    ),
+                    Positioned(
+                      left: widget.screenWidth * 0.5 - 80,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: const Size(160, 36),
+                          backgroundColor: whiteColor,
+                          foregroundColor: mainColor,
+                          shadowColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              color: mediumGreyColor,
+                              width: 0.5,
+                            ),
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                        ),
+                        onPressed: () async {
+                          await mapController.getZoomLevel();
+                          LatLngBounds res =
+                              await mapController.getVisibleRegion();
+                          LatLng northEast = res.northeast;
+                          LatLng southWest = res.southwest;
+                          double centerLat =
+                              (northEast.latitude + southWest.latitude) / 2;
+                          double centerLng =
+                              (northEast.longitude + southWest.longitude) / 2;
+
+                          int distance = Geolocator.distanceBetween(centerLat,
+                                  centerLng, centerLat, southWest.longitude)
+                              .toInt();
+                          print(
+                              "${northEast.latitude}, ${northEast.longitude}");
+                          print("centerLat: $centerLat, centerLng: $centerLng");
+                          print("distance: $distance");
+
+                          nearbyFacilities =
+                              await facilityService.getNearbyFacilities(
+                            latitude: centerLat,
+                            longitude: centerLng,
+                            radius: distance,
+                          );
+
+                          setState(() {});
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.refresh_rounded,
+                              size: 18,
+                              color: mainColor,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Baseline(
+                              baselineType: TextBaseline.alphabetic,
+                              baseline: 14,
+                              child: Text(
+                                "현 지도에서 검색",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: fontWeightMedium,
+                                  color: mainColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: widget.screenHeight * 0.5,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            fixedSize: const Size(40, 40),
+                            backgroundColor: whiteColor,
+                            foregroundColor: mainColor,
+                            shadowColor: Colors.transparent,
+                            padding: EdgeInsets.zero,
+                            shape: const CircleBorder()),
+                        onPressed: () {
+                          getCurrentPosition();
+                          mapController
+                              .animateCamera(CameraUpdate.newLatLng(LatLng(
+                            currentPosition.latitude,
+                            currentPosition.longitude,
+                          )));
+                        },
+                        child: const Icon(
+                          Icons.gps_fixed_rounded,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ),
       ],
     );
