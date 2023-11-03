@@ -35,6 +35,7 @@ const deepPurpleColor = Color(0xFF8f59f5);
 const transparentColor = Colors.transparent;
 const blackColor = Color(0xFF292929);
 const whiteColor = Color(0xFFffffff);
+const redColor = Color(0xFFe74133);
 
 // 폰트 굵기 관련 상수들
 const fontWeightThin = FontWeight.w100;
