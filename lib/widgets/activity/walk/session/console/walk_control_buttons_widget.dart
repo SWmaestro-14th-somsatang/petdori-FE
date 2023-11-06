@@ -121,6 +121,7 @@ class _WalkStopAndContinueButtonsState
                   setState(() {
                     _isExpanded = !_isExpanded;
                   }),
+                  Navigator.pop(context),
                 },
                 onPressed: () => {},
                 style: ElevatedButton.styleFrom(

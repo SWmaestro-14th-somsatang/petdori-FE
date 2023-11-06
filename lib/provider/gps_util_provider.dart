@@ -10,20 +10,17 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
   late Timer _timer;
   final Stopwatch _stopwatch = Stopwatch();
   LatLng _currentPosition = const LatLng(36.579699, 126.977003);
+  LatLng _beforePosition = const LatLng(36.579699, 126.977003);
+  double _distance = 0;
   List<Position> path = <Position>[];
   Map<PolylineId, Polyline> polylines = <PolylineId, Polyline>{};
 
   int colorsIndex = 0;
   List<Color> colors = <Color>[
-    // Color.fromARGB(127, 156, 39, 176),
-    // Color.fromARGB(127, 156, 39, 176),
-    // Colors.purple,
-    // Colors.red,
+    Color.fromARGB(255, 86, 151, 241),
     Color.fromARGB(125, 76, 175, 80),
     Color.fromARGB(125, 76, 175, 80),
     Color.fromARGB(125, 76, 175, 80),
-    Color.fromARGB(125, 76, 175, 80),
-    // Colors.pink,
   ];
 
   get currentPosition => _currentPosition;
@@ -54,10 +51,19 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
     _timer.cancel();
     _stopwatch.reset();
     path.clear();
+    polylines.clear();
   }
 
   Future<Duration> getElapsedTime() async {
     return _stopwatch.elapsed;
+  }
+
+  Future<double> getSpeed() async {
+    if (path.length < 2) {
+      return 0;
+    }
+    double distance = await getDistance();
+    return distance;
   }
 
   Future<double> getDistance() async {
@@ -106,7 +112,7 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
 
       final Polyline polyline = Polyline(
         polylineId: polylineId,
-        color: colors[colorsIndex++ % colors.length],
+        color: colors[colorsIndex],
         width: 5,
         points: <LatLng>[startPoint, endPoint],
         polylineCap: Cap.roundCap,
@@ -147,7 +153,6 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
     // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      print("GPS 꺼져있음");
       Geolocator.openLocationSettings();
       return false;
     }
@@ -176,6 +181,13 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
           desiredAccuracy: LocationAccuracy.high);
       path.add(position);
       _currentPosition = _createLatLng(position.latitude, position.longitude);
+      _distance = Geolocator.distanceBetween(
+        _beforePosition.latitude,
+        _beforePosition.longitude,
+        _currentPosition.latitude,
+        _currentPosition.longitude,
+      );
+      _beforePosition = _currentPosition;
     } catch (e) {
       _currentPosition = const LatLng(36.579699, 126.977003);
     }

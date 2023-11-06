@@ -12,7 +12,6 @@ class WalkConsoleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    bool isPaused = context.watch<SessionStateProvider>().isPaused;
     bool isExpanded = context.watch<SessionStateProvider>().isExpanded;
     double mapHeight = screenHeight * mapHeightRatio;
     double consoleHeight = screenHeight * consoleHeightRatio;

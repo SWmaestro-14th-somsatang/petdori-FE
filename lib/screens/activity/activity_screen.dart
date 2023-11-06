@@ -18,31 +18,36 @@ class ActivityScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: screenBackgroundColor,
-      body: Stack(
-        children: [
-          Positioned(
-            top: 0,
-            left: 0,
-            width: screenWidth,
-            height: mapHeight,
-            child: const MapWidget(),
-          ),
-          Positioned(
-            top: mapHeight - 50,
-            left: 0,
-            width: screenWidth,
-            height: screenHeight - mapHeight + 50,
-            child: Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const ActivityConsole(),
+      body: WillPopScope(
+        onWillPop: () {
+          return Future.value(false);
+        },
+        child: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              left: 0,
+              width: screenWidth,
+              height: mapHeight,
+              child: const MapWidget(),
             ),
-          ),
-        ],
+            Positioned(
+              top: mapHeight - 50,
+              left: 0,
+              width: screenWidth,
+              height: screenHeight - mapHeight + 50,
+              child: Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const ActivityConsole(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

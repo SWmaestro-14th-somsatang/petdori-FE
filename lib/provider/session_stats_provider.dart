@@ -94,5 +94,8 @@ class SessionStatsProvider with ChangeNotifier, DiagnosticableTreeMixin {
     print("SessionStatsProvider pause");
   }
 
-  void end() {}
+  void end() {
+    _distance = "0.00km";
+    _speed = "00.0km/h";
+  }
 }
