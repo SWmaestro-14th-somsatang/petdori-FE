@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wooyoungsoo/models/monthly_walk_log_model.dart';
+import 'package:wooyoungsoo/services/walk_log_service/walk_log_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/common/navigation_bar_widget.dart';
 
@@ -14,9 +16,22 @@ class WalkLogScreen extends StatefulWidget {
 }
 
 class _WalkLogScreenState extends State<WalkLogScreen> {
+  final WalkLogService walkLogService = WalkLogService();
+  List<MonthlyWalkLogModel> monthlyWalkLogs = [];
+
+  void loadMonthlyWalkLogs() async {
+    monthlyWalkLogs = await walkLogService.getMonthlyWalkLogs(
+      year: DateTime.now().year,
+      month: DateTime.now().month,
+    );
+
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
+    loadMonthlyWalkLogs();
   }
 
   @override
@@ -357,110 +372,153 @@ class _WalkLogScreenState extends State<WalkLogScreen> {
             const SizedBox(
               height: 20,
             ),
-            Container(
-              width: screenWidth * 0.934,
-              decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: const [
-                  BoxShadow(
-                    color: boxGreyColor,
-                    blurRadius: 50,
-                    offset: Offset(0, 0),
-                  ),
-                ],
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.033,
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: darkGreyColor,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: whiteColor,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: boxGreyColor,
+                          blurRadius: 50,
+                          offset: Offset(0, 0),
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    const Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
                         children: [
-                          Text(
-                            "2023. 11. 05",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: fontWeightBold,
-                              color: mainColor,
+                          monthlyWalkLogs[index].walkingImageUrl == null
+                              ? Container(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                          "assets/images/default_dog_image.png"),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    image: DecorationImage(
+                                      image: NetworkImage(monthlyWalkLogs[index]
+                                          .walkingImageUrl!),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  monthlyWalkLogs[index]
+                                      .startedTime
+                                      .toString()
+                                      .split(" ")[0],
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: fontWeightBold,
+                                    color: mainColor,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                const Divider(
+                                  color: lightGreyColor,
+                                  thickness: 1,
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                const Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 80,
+                                      child: Text(
+                                        "산책 시간",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: fontWeightMedium,
+                                          color: darkGreyColor,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      "거리 (km)",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: fontWeightMedium,
+                                        color: darkGreyColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 80,
+                                      child: Text(
+                                        monthlyWalkLogs[index]
+                                                    .walkingTime
+                                                    .toString()
+                                                    .split(".")[0][0] ==
+                                                "0"
+                                            ? "0${monthlyWalkLogs[index].walkingTime.toString().split(".")[0]}"
+                                            : monthlyWalkLogs[index]
+                                                .walkingTime
+                                                .toString()
+                                                .split(".")[0],
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: fontWeightMedium,
+                                          color: blackColor,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      "${monthlyWalkLogs[index].walkedDistance}km",
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: fontWeightMedium,
+                                        color: blackColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Divider(
-                            color: lightGreyColor,
-                            thickness: 1,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 80,
-                                child: Text(
-                                  "산책 시간",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: fontWeightMedium,
-                                    color: darkGreyColor,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "거리 (km)",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: fontWeightMedium,
-                                  color: darkGreyColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 80,
-                                child: Text(
-                                  "00:09:23",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: fontWeightMedium,
-                                    color: blackColor,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "1.2km",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: fontWeightMedium,
-                                  color: blackColor,
-                                ),
-                              ),
-                            ],
+                          const SizedBox(
+                            width: 10,
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const Gap();
+                },
+                itemCount: monthlyWalkLogs.length,
               ),
             ),
           ],
@@ -478,7 +536,7 @@ class Gap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SizedBox(
-      height: 30,
+      height: 10,
     );
   }
 }
