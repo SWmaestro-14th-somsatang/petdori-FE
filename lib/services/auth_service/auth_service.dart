@@ -191,6 +191,7 @@ class AuthService {
       var reissueResponse = BaseResponseModel.fromJson(res.data);
       if (reissueResponse.status == "success") {
         var accessToken = reissueResponse.data["access_token"];
+        debugPrint("accessToken: $accessToken");
         var refreshToken = reissueResponse.data["refresh_token"];
         goToHomeScreen(context, accessToken, refreshToken);
         return;
