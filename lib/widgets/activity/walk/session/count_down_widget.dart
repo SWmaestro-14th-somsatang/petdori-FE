@@ -21,6 +21,7 @@ class _CountDownWidgetState extends State<CountDownWidget> {
       setState(() {
         if (_count > 0) {
           _count -= 1;
+          print(_count);
         } else {
           timer.cancel();
           context.read<SessionStateProvider>().start();

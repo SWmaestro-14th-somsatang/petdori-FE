@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wooyoungsoo/provider/gps_util_provider.dart';
-import 'package:wooyoungsoo/provider/session_state_provider.dart';
-import 'package:wooyoungsoo/screens/activity/walk/walk_session_screen.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
-import 'package:wooyoungsoo/widgets/activity/activity_controller_buttons.dart';
+import 'package:wooyoungsoo/widgets/activity/activity_contsole.dart';
+import 'package:wooyoungsoo/widgets/activity/walk/session/map/map_widget.dart';
 
 class ActivityScreen extends StatelessWidget {
   const ActivityScreen({super.key});
@@ -13,9 +12,8 @@ class ActivityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    final double activityControllerHeight = screenWidth * 0.45;
-    final double activityControllerTop =
-        screenHeight - activityControllerHeight;
+    final double mapHeight = screenHeight * mapHeightRatio;
+
     context.read<GpsUtilProvider>().isGpsOnAndGetPermission();
 
     return Scaffold(
@@ -23,20 +21,27 @@ class ActivityScreen extends StatelessWidget {
       body: Stack(
         children: [
           Positioned(
-            top: activityControllerTop,
+            top: 0,
             left: 0,
             width: screenWidth,
-            height: activityControllerHeight,
-            child: const ActivityControllerButtons(),
+            height: mapHeight,
+            child: const MapWidget(),
           ),
-          if (context.watch<SessionStateProvider>().isStartted)
-            Positioned(
-              top: 0,
-              left: 0,
-              width: screenWidth,
-              height: screenHeight,
-              child: const WalkSessionScreen(),
+          Positioned(
+            top: mapHeight - 50,
+            left: 0,
+            width: screenWidth,
+            height: screenHeight - mapHeight + 50,
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const ActivityConsole(),
             ),
+          ),
         ],
       ),
     );

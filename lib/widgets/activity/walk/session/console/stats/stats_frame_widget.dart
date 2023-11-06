@@ -14,15 +14,15 @@ class StatsFrameWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        child,
         Text(
           title,
           style: const TextStyle(
-            fontWeight: FontWeight.w900,
-            fontSize: 17,
-            color: Colors.black,
+            fontWeight: FontWeight.w700,
+            fontSize: 13,
+            color: Colors.grey,
           ),
         ),
+        child,
       ],
     );
   }

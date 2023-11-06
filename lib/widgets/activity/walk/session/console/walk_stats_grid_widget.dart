@@ -12,7 +12,14 @@ class WalkStatsGridWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> statsList = [
       StatsFrameWidget(
-        title: "거리",
+        title: "산책 시간",
+        child: StatsValueWidget(
+          milliSecondCycle: elapsedTimeStatsUpdateCycle,
+          getter: context.read<SessionStatsProvider>().getElapsedTime,
+        ),
+      ),
+      StatsFrameWidget(
+        title: "거리(Km)",
         child: StatsValueWidget(
           milliSecondCycle: distanceStatsUpdateCycle,
           getter: context.read<SessionStatsProvider>().getDistance,
@@ -25,34 +32,6 @@ class WalkStatsGridWidget extends StatelessWidget {
           getter: context.read<SessionStatsProvider>().getSpeed,
         ),
       ),
-      StatsFrameWidget(
-        title: "칼로리",
-        child: StatsValueWidget(
-          milliSecondCycle: caloriesStatsUpdateCycle,
-          getter: context.read<SessionStatsProvider>().getCalorie,
-        ),
-      ),
-      StatsFrameWidget(
-        title: "경과 시간",
-        child: StatsValueWidget(
-          milliSecondCycle: elapsedTimeStatsUpdateCycle,
-          getter: context.read<SessionStatsProvider>().getElapsedTime,
-        ),
-      ),
-      StatsFrameWidget(
-        title: "평균 속력",
-        child: StatsValueWidget(
-          milliSecondCycle: paceStatsUpdateCycle,
-          getter: context.read<SessionStatsProvider>().getPace,
-        ),
-      ),
-      StatsFrameWidget(
-        title: "걸음 수",
-        child: StatsValueWidget(
-          milliSecondCycle: stepStatsUpdateCycle,
-          getter: context.read<SessionStatsProvider>().getStep,
-        ),
-      ),
     ];
 
     return Container(
@@ -62,9 +41,6 @@ class WalkStatsGridWidget extends StatelessWidget {
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [statsList[0], statsList[1], statsList[2]]),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [statsList[3], statsList[4], statsList[5]]),
           ],
         ));
   }

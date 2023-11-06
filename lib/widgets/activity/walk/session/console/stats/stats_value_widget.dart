@@ -62,9 +62,8 @@ class _StatsValueWidgetState extends State<StatsValueWidget> {
     return Text(
       value,
       style: TextStyle(
-        fontSize: 30,
+        fontSize: 20,
         fontWeight: FontWeight.w900,
-        fontStyle: FontStyle.italic,
       ),
     );
   }

@@ -48,7 +48,7 @@ const fontWeightBlack = FontWeight.w900;
 const animationDuration = Duration(milliseconds: 500);
 
 // 화면 위젯 비율 상수들
-const mapHeightRatio = 0.34;
+const mapHeightRatio = 0.6;
 const consoleHeightRatio = 0.66;
 const statsGridHeightRatio = 0.4;
 const statsGridColumnCount = 3;
