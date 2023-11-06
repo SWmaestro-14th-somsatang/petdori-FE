@@ -189,7 +189,9 @@ class _CurrentWeatherState extends State<CurrentWeather> {
                     ),
               const SizedBox(height: 25),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, "/activity");
+                },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(widget.screenWidth * 0.868, 50),
                   backgroundColor: mainColor,

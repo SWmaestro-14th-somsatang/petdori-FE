@@ -26,7 +26,7 @@ class WalkStatsGridWidget extends StatelessWidget {
         ),
       ),
       StatsFrameWidget(
-        title: "현재 속력",
+        title: "평균 속력",
         child: StatsValueWidget(
           milliSecondCycle: speedStatsUpdateCycle,
           getter: context.read<SessionStatsProvider>().getSpeed,
