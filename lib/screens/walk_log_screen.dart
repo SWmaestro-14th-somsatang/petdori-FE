@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:wooyoungsoo/models/monthly_walk_log_model.dart';
+import 'package:wooyoungsoo/models/recently_walk_log_model.dart';
 import 'package:wooyoungsoo/services/walk_log_service/walk_log_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/common/navigation_bar_widget.dart';
@@ -17,13 +19,22 @@ class WalkLogScreen extends StatefulWidget {
 
 class _WalkLogScreenState extends State<WalkLogScreen> {
   final WalkLogService walkLogService = WalkLogService();
+  List<RecentlyWalkLogModel> recentlyWalkLogs = [];
   List<MonthlyWalkLogModel> monthlyWalkLogs = [];
 
-  void loadMonthlyWalkLogs() async {
+  void loadWalkLogs() async {
+    recentlyWalkLogs = await walkLogService.getRecentlyWalkLogs();
+
     monthlyWalkLogs = await walkLogService.getMonthlyWalkLogs(
       year: DateTime.now().year,
       month: DateTime.now().month,
     );
+
+    for (var i = 0; i < recentlyWalkLogs.length; i++) {
+      print(recentlyWalkLogs[i].walkDate);
+      print(recentlyWalkLogs[i].totalWalkedDistance);
+      print("=============");
+    }
 
     setState(() {});
   }
@@ -31,7 +42,7 @@ class _WalkLogScreenState extends State<WalkLogScreen> {
   @override
   void initState() {
     super.initState();
-    loadMonthlyWalkLogs();
+    loadWalkLogs();
   }
 
   @override
@@ -114,211 +125,119 @@ class _WalkLogScreenState extends State<WalkLogScreen> {
                   width: 1,
                 ),
               ),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: 270,
-                    height: 30,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: mainColor,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          width: 10,
-                        );
-                      },
-                      itemCount: 7,
+              child: recentlyWalkLogs.isEmpty
+                  ? const SizedBox(
+                      height: 220,
+                      child: SpinKitCircle(
+                        color: mainColor,
+                        size: 50,
+                      ),
+                    )
+                  : Column(
+                      children: [
+                        WalkingFarmRow(
+                          walkLogs: recentlyWalkLogs.sublist(0, 7),
+                        ),
+                        const SizedBox(height: 8),
+                        WalkingFarmRow(
+                          walkLogs: recentlyWalkLogs.sublist(7, 14),
+                        ),
+                        const SizedBox(height: 8),
+                        WalkingFarmRow(
+                          walkLogs: recentlyWalkLogs.sublist(14, 21),
+                        ),
+                        const SizedBox(height: 8),
+                        WalkingFarmRow(
+                          walkLogs: recentlyWalkLogs.sublist(21, 28),
+                        ),
+                        const SizedBox(height: 8),
+                        WalkingFarmRow(
+                          walkLogs: recentlyWalkLogs.sublist(28, 30),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "0km",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: fontWeightMedium,
+                                color: darkGreyColor,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: blueColorLv1,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: blueColorLv2,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: blueColorLv3,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: blueColorLv4,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: blueColorLv5,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            const Text(
+                              "3km",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: fontWeightMedium,
+                                color: darkGreyColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: 270,
-                    height: 30,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: mainColor,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          width: 10,
-                        );
-                      },
-                      itemCount: 7,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: 270,
-                    height: 30,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: mainColor,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          width: 10,
-                        );
-                      },
-                      itemCount: 7,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: 270,
-                    height: 30,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: mainColor,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          width: 10,
-                        );
-                      },
-                      itemCount: 7,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: 270,
-                    height: 30,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: mainColor,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          width: 10,
-                        );
-                      },
-                      itemCount: 2,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "0km",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: fontWeightMedium,
-                          color: darkGreyColor,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: blueColorLv1,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: blueColorLv2,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: blueColorLv3,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: blueColorLv4,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: blueColorLv5,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      const Text(
-                        "5km",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: fontWeightMedium,
-                          color: darkGreyColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -523,6 +442,79 @@ class _WalkLogScreenState extends State<WalkLogScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class WalkingFarmRow extends StatelessWidget {
+  const WalkingFarmRow({
+    super.key,
+    required this.walkLogs,
+  });
+
+  final List<RecentlyWalkLogModel> walkLogs;
+
+  Color getWalkLogColor(double walkedDistance) {
+    if (walkedDistance == 0) {
+      return blueColorLv1;
+    }
+    if (walkedDistance < 1) {
+      return blueColorLv2;
+    }
+    if (walkedDistance < 2) {
+      return blueColorLv3;
+    }
+    if (walkedDistance < 3) {
+      return blueColorLv4;
+    }
+    return blueColorLv5;
+  }
+
+  Color getDayColor(double walkedDistance) {
+    if (walkedDistance < 2) {
+      return darkGreyColor;
+    }
+    return whiteColor;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 270,
+      height: 30,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+              color: getWalkLogColor(walkLogs[index].totalWalkedDistance),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  walkLogs[index].walkDate.day.toString(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: fontWeightBold,
+                    color: getDayColor(walkLogs[index].totalWalkedDistance),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return const SizedBox(
+            width: 10,
+          );
+        },
+        itemCount: walkLogs.length,
       ),
     );
   }

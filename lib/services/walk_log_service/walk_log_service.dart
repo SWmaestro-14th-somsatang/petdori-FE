@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/models/monthly_walk_log_model.dart';
+import 'package:wooyoungsoo/models/recently_walk_log_model.dart';
 import 'package:wooyoungsoo/services/storage_service/storage_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
@@ -15,6 +16,31 @@ class WalkLogService {
 
   factory WalkLogService() {
     return _instance;
+  }
+
+  Future<List<RecentlyWalkLogModel>> getRecentlyWalkLogs() async {
+    try {
+      var accessToken = await storageService.getValue(key: "accessToken");
+
+      var res = await dio.get(
+        "$baseURL/api/walk-log/recently-logs",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+
+      var recentlyWalkLogsResponse = BaseResponseModel.fromJson(res.data);
+
+      return List<RecentlyWalkLogModel>.from(
+        recentlyWalkLogsResponse.data.map(
+          (walkLog) => RecentlyWalkLogModel.fromJson(walkLog),
+        ),
+      );
+    } on DioException {
+      return [];
+    }
   }
 
   Future<List<MonthlyWalkLogModel>> getMonthlyWalkLogs({
