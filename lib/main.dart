@@ -12,6 +12,7 @@ import 'package:wooyoungsoo/screens/main_screen.dart';
 import 'package:wooyoungsoo/screens/my_page_screen.dart';
 import 'package:wooyoungsoo/screens/nearby_facility_screen.dart';
 import 'package:wooyoungsoo/screens/signup_screen.dart';
+import 'package:wooyoungsoo/screens/walk_log_screen.dart';
 
 void main() async {
   Provider.debugCheckInvalidValueType = null;
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
         "/activity": (context) => const ActivityScreen(),
         "/mypage": (context) => const MypageScreen(),
         "/nearby": (context) => const NearbyFacilityScreen(),
+        "/log": (context) => const WalkLogScreen(),
       },
     );
   }
