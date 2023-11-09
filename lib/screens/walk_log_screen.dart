@@ -186,7 +186,9 @@ class _WalkLogScreenState extends State<WalkLogScreen> {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       shadowColor: Colors.transparent,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/monthly-log");
+                    },
                     child: const Row(
                       children: [
                         Baseline(
