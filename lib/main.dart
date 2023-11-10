@@ -9,6 +9,7 @@ import 'package:wooyoungsoo/screens/activity/activity_screen.dart';
 import 'package:wooyoungsoo/screens/dog_register_screen.dart';
 import 'package:wooyoungsoo/screens/login_screen.dart';
 import 'package:wooyoungsoo/screens/main_screen.dart';
+import 'package:wooyoungsoo/screens/monthly_log_screen.dart';
 import 'package:wooyoungsoo/screens/my_page_screen.dart';
 import 'package:wooyoungsoo/screens/nearby_facility_screen.dart';
 import 'package:wooyoungsoo/screens/signup_screen.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
         "/mypage": (context) => const MypageScreen(),
         "/nearby": (context) => const NearbyFacilityScreen(),
         "/log": (context) => const WalkLogScreen(),
+        "/monthly-log": (context) => const MonthlyLogScreen(),
       },
     );
   }
