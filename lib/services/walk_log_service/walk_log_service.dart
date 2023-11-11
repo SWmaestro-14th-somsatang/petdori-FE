@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/models/monthly_walk_log_model.dart';
 import 'package:wooyoungsoo/models/recently_walk_log_model.dart';
+import 'package:wooyoungsoo/models/walk_log_detail_model.dart';
 import 'package:wooyoungsoo/services/storage_service/storage_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
@@ -63,6 +64,61 @@ class WalkLogService {
 
       return List<MonthlyWalkLogModel>.from(
         monthlyWalkLogsResponse.data.map(
+          (walkLog) => MonthlyWalkLogModel.fromJson(walkLog),
+        ),
+      );
+    } on DioException {
+      return [];
+    }
+  }
+
+  Future<WalkLogDetailModel?> getWalkLogDetail({required int walkLogId}) async {
+    try {
+      var accessToken = await storageService.getValue(key: "accessToken");
+
+      var res = await dio.get(
+        "$baseURL/api/walk-log/$walkLogId",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+
+      var walkLogDetailResponse = BaseResponseModel.fromJson(res.data);
+
+      return WalkLogDetailModel.fromJson(walkLogDetailResponse.data);
+    } on DioException {
+      return null;
+    }
+  }
+
+  Future<List<MonthlyWalkLogModel>> getDailyWalkLogs({
+    required int year,
+    required int month,
+    required int day,
+  }) async {
+    String formattedYear = year.toString().padLeft(4, '0');
+    String formattedMonth = month.toString().padLeft(2, '0');
+    String formattedDay = day.toString().padLeft(2, '0');
+    String formattedDate = "$formattedYear-$formattedMonth-$formattedDay";
+
+    try {
+      var accessToken = await storageService.getValue(key: "accessToken");
+
+      var res = await dio.get(
+        "$baseURL/api/walk-log/daily-logs?date=$formattedDate",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+
+      var dailyWalkLogsResponse = BaseResponseModel.fromJson(res.data);
+
+      return List<MonthlyWalkLogModel>.from(
+        dailyWalkLogsResponse.data.map(
           (walkLog) => MonthlyWalkLogModel.fromJson(walkLog),
         ),
       );

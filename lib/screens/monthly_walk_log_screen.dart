@@ -11,11 +11,11 @@ import 'package:wooyoungsoo/widgets/walk_log_screen/monthly_walking_log_view_wid
 ///
 /// [screenWidth], [screenHeight] 화면의 너비와 높이
 /// [currentIndex] 현재 화면의 인덱스
-class MonthlyLogScreen extends StatefulWidget {
-  const MonthlyLogScreen({Key? key}) : super(key: key);
+class MonthlyWalkLogScreen extends StatefulWidget {
+  const MonthlyWalkLogScreen({Key? key}) : super(key: key);
 
   @override
-  State<MonthlyLogScreen> createState() => _MonthlyLogScreenState();
+  State<MonthlyWalkLogScreen> createState() => _MonthlyLogScreenState();
 }
 
 /// 월별 산책 로그 화면의 상태
@@ -23,7 +23,7 @@ class MonthlyLogScreen extends StatefulWidget {
 /// [walkLogService] 산책 로그 서비스
 /// [recentlyWalkLogs] 최근 30일 산책 로그 리스트
 /// [monthlyWalkLogs] 이번 달 산책 로그 리스트
-class _MonthlyLogScreenState extends State<MonthlyLogScreen> {
+class _MonthlyLogScreenState extends State<MonthlyWalkLogScreen> {
   final WalkLogService walkLogService = WalkLogService();
   int year = DateTime.now().year;
   int month = DateTime.now().month;
