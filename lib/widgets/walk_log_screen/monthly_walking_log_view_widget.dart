@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wooyoungsoo/models/monthly_walk_log_model.dart';
+import 'package:wooyoungsoo/screens/walk_log_detail_screen.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
 /// 월별 산책 기록 리스트 위젯
@@ -28,9 +29,11 @@ class MonthlyWalkingLogView extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              Navigator.pushNamed(
+              Navigator.push(
                 context,
-                "/log-detail",
+                MaterialPageRoute(
+                    builder: (context) => WalkLogDetailScreen(
+                        walkLogId: monthlyWalkLogs[index].logId)),
               );
             },
             child: Container(
@@ -133,8 +136,9 @@ class MonthlyWalkingLogView extends StatelessWidget {
                                   monthlyWalkLogs[index]
                                               .walkingTime
                                               .toString()
-                                              .split(".")[0][0] ==
-                                          "0"
+                                              .split(":")[0]
+                                              .length ==
+                                          1
                                       ? "0${monthlyWalkLogs[index].walkingTime.toString().split(".")[0]}"
                                       : monthlyWalkLogs[index]
                                           .walkingTime

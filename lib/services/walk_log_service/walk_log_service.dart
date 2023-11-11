@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
 import 'package:wooyoungsoo/models/monthly_walk_log_model.dart';
 import 'package:wooyoungsoo/models/recently_walk_log_model.dart';
+import 'package:wooyoungsoo/models/walk_log_detail_model.dart';
 import 'package:wooyoungsoo/services/storage_service/storage_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
@@ -68,6 +69,34 @@ class WalkLogService {
       );
     } on DioException {
       return [];
+    }
+  }
+
+  Future<WalkLogDetailModel> getWalkLogDetail({required int walkLogId}) async {
+    try {
+      var accessToken = await storageService.getValue(key: "accessToken");
+
+      var res = await dio.get(
+        "$baseURL/api/walk-log/$walkLogId",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+
+      var walkLogDetailResponse = BaseResponseModel.fromJson(res.data);
+
+      return WalkLogDetailModel.fromJson(walkLogDetailResponse.data);
+    } on DioException {
+      return WalkLogDetailModel(
+        walkingRouteFileUrl: "",
+        walkingImageUrl: "",
+        walkedDistance: 0,
+        startedTime: DateTime.now(),
+        walkingTime: const Duration(),
+        walkedDogs: [],
+      );
     }
   }
 }
