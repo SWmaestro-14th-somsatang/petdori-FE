@@ -52,6 +52,7 @@ class _WalkLogDetailScreenState extends State<WalkLogDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
@@ -77,51 +78,69 @@ class _WalkLogDetailScreenState extends State<WalkLogDetailScreen> {
                 size: 50,
               ),
             )
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  WalkSummary(
-                    screenWidth: screenWidth,
-                    startedTime: walkLogDetail!.startedTime,
-                    walkingRouteFileUrl: walkLogDetail!.walkingRouteFileUrl,
-                    walkingTime: walkLogDetail!.walkingTime,
-                    walkedDistance: walkLogDetail!.walkedDistance,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(
-                      top: 20,
-                      bottom: 20,
+          : walkLogDetail == null
+              ? Container(
+                  height: double.infinity,
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: screenHeight * 0.175,
                     ),
-                    width: screenWidth * 0.934,
-                    child: const Divider(
-                      color: lightGreyColor,
-                      thickness: 1,
+                    child: const Text(
+                      "산책 기록을 불러오지 못했습니다.",
+                      style: TextStyle(
+                        color: darkGreyColor,
+                        fontSize: 16,
+                        fontWeight: fontWeightRegular,
+                      ),
                     ),
                   ),
-                  WalkedDogs(
-                    screenWidth: screenWidth,
-                    walkedDogs: walkLogDetail!.walkedDogs,
+                )
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      WalkSummary(
+                        screenWidth: screenWidth,
+                        startedTime: walkLogDetail!.startedTime,
+                        walkingRouteFileUrl: walkLogDetail!.walkingRouteFileUrl,
+                        walkingTime: walkLogDetail!.walkingTime,
+                        walkedDistance: walkLogDetail!.walkedDistance,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                          top: 20,
+                          bottom: 20,
+                        ),
+                        width: screenWidth * 0.934,
+                        child: const Divider(
+                          color: lightGreyColor,
+                          thickness: 1,
+                        ),
+                      ),
+                      WalkedDogs(
+                        screenWidth: screenWidth,
+                        walkedDogs: walkLogDetail!.walkedDogs,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 20,
+                        ),
+                        width: screenWidth * 0.934,
+                        child: const Divider(
+                          color: lightGreyColor,
+                          thickness: 1,
+                        ),
+                      ),
+                      WalkingImage(
+                        screenWidth: screenWidth,
+                        walkingImageUrl: walkLogDetail!.walkingImageUrl,
+                      ),
+                    ],
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 20,
-                    ),
-                    width: screenWidth * 0.934,
-                    child: const Divider(
-                      color: lightGreyColor,
-                      thickness: 1,
-                    ),
-                  ),
-                  WalkingImage(
-                    screenWidth: screenWidth,
-                    walkingImageUrl: walkLogDetail!.walkingImageUrl,
-                  ),
-                ],
-              ),
-            ),
+                ),
     );
   }
 }

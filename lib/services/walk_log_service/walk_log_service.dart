@@ -72,7 +72,7 @@ class WalkLogService {
     }
   }
 
-  Future<WalkLogDetailModel> getWalkLogDetail({required int walkLogId}) async {
+  Future<WalkLogDetailModel?> getWalkLogDetail({required int walkLogId}) async {
     try {
       var accessToken = await storageService.getValue(key: "accessToken");
 
@@ -89,14 +89,7 @@ class WalkLogService {
 
       return WalkLogDetailModel.fromJson(walkLogDetailResponse.data);
     } on DioException {
-      return WalkLogDetailModel(
-        walkingRouteFileUrl: "",
-        walkingImageUrl: "",
-        walkedDistance: 0,
-        startedTime: DateTime.now(),
-        walkingTime: const Duration(),
-        walkedDogs: [],
-      );
+      return null;
     }
   }
 }
