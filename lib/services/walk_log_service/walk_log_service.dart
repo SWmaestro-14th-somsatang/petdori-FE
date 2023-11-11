@@ -92,4 +92,38 @@ class WalkLogService {
       return null;
     }
   }
+
+  Future<List<MonthlyWalkLogModel>> getDailyWalkLogs({
+    required int year,
+    required int month,
+    required int day,
+  }) async {
+    String formattedYear = year.toString().padLeft(4, '0');
+    String formattedMonth = month.toString().padLeft(2, '0');
+    String formattedDay = day.toString().padLeft(2, '0');
+    String formattedDate = "$formattedYear-$formattedMonth-$formattedDay";
+
+    try {
+      var accessToken = await storageService.getValue(key: "accessToken");
+
+      var res = await dio.get(
+        "$baseURL/api/walk-log/daily-logs?date=$formattedDate",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $accessToken",
+          },
+        ),
+      );
+
+      var dailyWalkLogsResponse = BaseResponseModel.fromJson(res.data);
+
+      return List<MonthlyWalkLogModel>.from(
+        dailyWalkLogsResponse.data.map(
+          (walkLog) => MonthlyWalkLogModel.fromJson(walkLog),
+        ),
+      );
+    } on DioException {
+      return [];
+    }
+  }
 }

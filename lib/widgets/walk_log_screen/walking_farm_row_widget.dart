@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wooyoungsoo/models/recently_walk_log_model.dart';
+import 'package:wooyoungsoo/screens/daily_walk_log_screen.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
 /// 최근 산책 기록 밭 위젯
@@ -44,26 +45,38 @@ class WalkingFarmRow extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              color: getWalkLogColor(walkLogs[index].totalWalkedDistance),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  walkLogs[index].walkDate.day.toString(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: fontWeightBold,
-                    color: getDayColor(walkLogs[index].totalWalkedDistance),
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DailyWalkLogScreen(
+                    walkedDate: walkLogs[index].walkDate,
                   ),
                 ),
-              ],
+              );
+            },
+            child: Container(
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                color: getWalkLogColor(walkLogs[index].totalWalkedDistance),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    walkLogs[index].walkDate.day.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: fontWeightBold,
+                      color: getDayColor(walkLogs[index].totalWalkedDistance),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },
