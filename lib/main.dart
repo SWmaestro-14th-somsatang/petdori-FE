@@ -13,6 +13,7 @@ import 'package:wooyoungsoo/screens/monthly_walk_log_screen.dart';
 import 'package:wooyoungsoo/screens/my_page_screen.dart';
 import 'package:wooyoungsoo/screens/nearby_facility_screen.dart';
 import 'package:wooyoungsoo/screens/signup_screen.dart';
+import 'package:wooyoungsoo/screens/walk_log_detail_screen.dart';
 import 'package:wooyoungsoo/screens/walk_log_screen.dart';
 
 void main() async {
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         "/nearby": (context) => const NearbyFacilityScreen(),
         "/log": (context) => const WalkLogScreen(),
         "/monthly-log": (context) => const MonthlyWalkLogScreen(),
+        "/log-detail": (context) => const WalkLogDetailScreen(),
       },
     );
   }
