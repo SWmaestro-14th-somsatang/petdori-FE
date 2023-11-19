@@ -12,45 +12,24 @@ class WalkStatsGridWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> statsList = [
       StatsFrameWidget(
-        title: "거리",
-        child: StatsValueWidget(
-          milliSecondCycle: distanceStatsUpdateCycle,
-          getter: context.read<SessionStatsProvider>().getDistance,
-        ),
-      ),
-      StatsFrameWidget(
-        title: "현재 속력",
-        child: StatsValueWidget(
-          milliSecondCycle: speedStatsUpdateCycle,
-          getter: context.read<SessionStatsProvider>().getSpeed,
-        ),
-      ),
-      StatsFrameWidget(
-        title: "칼로리",
-        child: StatsValueWidget(
-          milliSecondCycle: caloriesStatsUpdateCycle,
-          getter: context.read<SessionStatsProvider>().getCalorie,
-        ),
-      ),
-      StatsFrameWidget(
-        title: "경과 시간",
+        title: "산책 시간",
         child: StatsValueWidget(
           milliSecondCycle: elapsedTimeStatsUpdateCycle,
           getter: context.read<SessionStatsProvider>().getElapsedTime,
         ),
       ),
       StatsFrameWidget(
-        title: "평균 속력",
+        title: "거리(Km)",
         child: StatsValueWidget(
-          milliSecondCycle: paceStatsUpdateCycle,
-          getter: context.read<SessionStatsProvider>().getPace,
+          milliSecondCycle: distanceStatsUpdateCycle,
+          getter: context.read<SessionStatsProvider>().getDistance,
         ),
       ),
       StatsFrameWidget(
-        title: "걸음 수",
+        title: "평균 속력",
         child: StatsValueWidget(
-          milliSecondCycle: stepStatsUpdateCycle,
-          getter: context.read<SessionStatsProvider>().getStep,
+          milliSecondCycle: speedStatsUpdateCycle,
+          getter: context.read<SessionStatsProvider>().getSpeed,
         ),
       ),
     ];
@@ -62,9 +41,6 @@ class WalkStatsGridWidget extends StatelessWidget {
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [statsList[0], statsList[1], statsList[2]]),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [statsList[3], statsList[4], statsList[5]]),
           ],
         ));
   }

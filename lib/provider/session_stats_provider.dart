@@ -51,6 +51,12 @@ class SessionStatsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   Future<String> getSpeed() async {
+    gpsUtilProvider.getSpeed().then((value) {
+      _speed = "${value.toStringAsFixed(1)}km/h";
+      return _speed;
+    }).onError((error, stackTrace) {
+      return _speed;
+    });
     return _speed;
   }
 
@@ -94,5 +100,8 @@ class SessionStatsProvider with ChangeNotifier, DiagnosticableTreeMixin {
     print("SessionStatsProvider pause");
   }
 
-  void end() {}
+  void end() {
+    _distance = "0.00km";
+    _speed = "00.0km/h";
+  }
 }

@@ -2,19 +2,19 @@ import 'package:flutter/foundation.dart';
 
 class SessionStateProvider with ChangeNotifier, DiagnosticableTreeMixin {
   bool _isReady = false;
-  bool _isStartted = false;
+  bool _isStarted = false;
   bool _isPaused = false;
   bool _isFinished = true;
   bool _isExpanded = false;
 
   bool get isReady => _isReady;
-  bool get isStartted => _isStartted;
+  bool get isStarted => _isStarted;
   bool get isPaused => _isPaused;
   bool get isFinished => _isFinished;
   bool get isExpanded => _isExpanded;
 
   void ready() {
-    _isStartted = true;
+    _isStarted = false;
     _isReady = true;
     _isPaused = false;
     _isFinished = false;
@@ -22,7 +22,7 @@ class SessionStateProvider with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   void start() {
-    _isStartted = true;
+    _isStarted = true;
     _isReady = false;
     _isPaused = false;
     _isFinished = false;
@@ -30,14 +30,13 @@ class SessionStateProvider with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   void pause() {
-    _isPaused = !_isPaused;
-    print(_isPaused);
+    _isPaused = true;
     notifyListeners();
   }
 
   void end() {
     _isReady = false;
-    _isStartted = false;
+    _isStarted = false;
     _isPaused = false;
     _isFinished = true;
     notifyListeners();
@@ -53,8 +52,8 @@ class SessionStateProvider with ChangeNotifier, DiagnosticableTreeMixin {
     super.debugFillProperties(properties);
     properties.add(FlagProperty('isReady',
         value: isReady, ifTrue: 'isReady', ifFalse: 'isNotReady'));
-    properties.add(FlagProperty('isStartted',
-        value: isStartted, ifTrue: 'isStartted', ifFalse: 'isNotStartted'));
+    properties.add(FlagProperty('isStarted',
+        value: isStarted, ifTrue: 'isStarted', ifFalse: 'isNotStartted'));
     properties.add(FlagProperty('isPaused',
         value: isPaused, ifTrue: 'isPaused', ifFalse: 'isNotPaused'));
     properties.add(FlagProperty('isFinished',
