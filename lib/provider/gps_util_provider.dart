@@ -142,7 +142,6 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
           heading: 0,
           speed: 0,
           speedAccuracy: 0));
-      print("${points[i].lat}, ${points[i].lng}");
     }
   }
 
