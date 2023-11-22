@@ -7,6 +7,7 @@ import 'package:wooyoungsoo/provider/session_state_provider.dart';
 import 'package:wooyoungsoo/provider/session_stats_provider.dart';
 import 'package:wooyoungsoo/screens/activity_log_screen.dart';
 import 'package:wooyoungsoo/screens/activity_screen.dart';
+import 'package:wooyoungsoo/screens/bloodsugar_screen.dart';
 import 'package:wooyoungsoo/screens/dog_register_screen.dart';
 import 'package:wooyoungsoo/screens/login_screen.dart';
 import 'package:wooyoungsoo/screens/main_screen.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
         "/nearby": (context) => const NearbyFacilityScreen(),
         "/log": (context) => const WalkLogScreen(),
         "/monthly-log": (context) => const MonthlyWalkLogScreen(),
+        "/blood-sugar": (context) => BloodSugarScreen(),
       },
     );
   }
