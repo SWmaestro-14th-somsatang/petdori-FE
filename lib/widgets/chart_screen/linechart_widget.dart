@@ -27,14 +27,14 @@ class _LineChartWidgetState extends State<LineChartWidget> {
     animate = true;
     fetchData();
 
-    Timer.periodic(Duration(hours: 1), (Timer timer) {
+    Timer.periodic(const Duration(hours: 1), (Timer timer) {
       fetchData();
     });
   }
 
   Future<void> fetchData() async {
     final response =
-        await http.get(Uri.parse('http://localhost:8080/api/charts/lines'));
+        await http.get(Uri.parse('http://52.78.73.7:8080/api/charts/lines'));
     if (response.statusCode == 200) {
       final List<dynamic> responseData = json.decode(response.body);
 
@@ -70,8 +70,8 @@ class _LineChartWidgetState extends State<LineChartWidget> {
               seriesList!,
               animate: animate!,
               defaultRenderer:
-              charts.LineRendererConfig(includeArea: true, stacked: false),
-              domainAxis: charts.DateTimeAxisSpec(
+                  charts.LineRendererConfig(includeArea: true, stacked: false),
+              domainAxis: const charts.DateTimeAxisSpec(
                 // tickProviderSpec: charts.DayTickProviderSpec(increments: [1]),
                 tickFormatterSpec: charts.AutoDateTimeTickFormatterSpec(
                   day: charts.TimeFormatterSpec(
@@ -80,26 +80,30 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                   ),
                 ),
               ),
-              primaryMeasureAxis: charts.NumericAxisSpec(
-                tickProviderSpec: charts.BasicNumericTickProviderSpec(desiredTickCount: 7),
+              primaryMeasureAxis: const charts.NumericAxisSpec(
+                tickProviderSpec:
+                    charts.BasicNumericTickProviderSpec(desiredTickCount: 7),
               ),
               behaviors: [
                 charts.RangeAnnotation(
-                  [charts.RangeAnnotationSegment(
-                    70,
-                    100,
-                    charts.RangeAnnotationAxisType.measure,
-                    color: charts.ColorUtil.fromDartColor(Colors.green.withOpacity(0.2)),
-                  )],
+                  [
+                    charts.RangeAnnotationSegment(
+                      70,
+                      100,
+                      charts.RangeAnnotationAxisType.measure,
+                      color: charts.ColorUtil.fromDartColor(
+                          Colors.green.withOpacity(0.2)),
+                    )
+                  ],
                   defaultLabelPosition: charts.AnnotationLabelPosition.margin,
                 ),
               ],
             ),
           ),
         if (seriesList == null)
-          Container(
+          SizedBox(
             height: 200,
-            child: Center(
+            child: const Center(
               child: Text('No data available'),
             ),
           ),
