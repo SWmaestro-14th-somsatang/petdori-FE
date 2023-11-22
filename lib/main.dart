@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         fontFamily: "NotoSansKR",
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: "/",
+      initialRoute: "/login",
       routes: {
         "/": (context) => const MainScreen(),
         "/login": (context) => const LoginScreen(),
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
         "/nearby": (context) => const NearbyFacilityScreen(),
         "/log": (context) => const WalkLogScreen(),
         "/monthly-log": (context) => const MonthlyWalkLogScreen(),
-        "/blood-sugar": (context) => BloodSugarScreen(),
+        "/blood-sugar": (context) => const BloodSugarScreen(),
       },
     );
   }

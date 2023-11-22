@@ -31,12 +31,15 @@ class PetdoriNavigationBar extends StatelessWidget {
               Navigator.pushNamed(context, "/");
               break;
             case 1:
-              Navigator.pushNamed(context, "/blood-sugar");
+              Navigator.pushNamed(context, "/log");
               break;
             case 2:
               Navigator.pushNamed(context, "/nearby");
               break;
             case 3:
+              Navigator.pushNamed(context, "/blood-sugar");
+              break;
+            case 4:
               Navigator.pushNamed(context, "/mypage");
               break;
             default:
@@ -60,6 +63,12 @@ class PetdoriNavigationBar extends StatelessWidget {
               Icons.location_on_rounded,
             ),
             label: "내 주변",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.auto_graph_rounded,
+            ),
+            label: "혈당 분석",
           ),
           BottomNavigationBarItem(
             icon: Icon(

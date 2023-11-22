@@ -18,7 +18,7 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    const int currentIndex = 1;
+    const int currentIndex = 3;
 
     return Scaffold(
       appBar: AppBar(
@@ -51,10 +51,10 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
+                  padding: EdgeInsets.only(
                     top: 10.0,
                     left: 20.0,
                   ),
@@ -73,8 +73,8 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
               ],
             ),
             Container(
-              margin: EdgeInsets.all(16.0),
-              padding: EdgeInsets.all(16.0),
+              margin: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Colors.white, // 배경색
                 borderRadius: BorderRadius.circular(30.0), // 모서리 둥글게 설정
@@ -83,14 +83,14 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
               child: LineChartWidget(screenWidth: screenWidth),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
+            const Padding(
+              padding: EdgeInsets.only(
                 top: 5.0,
                 left: 20.0,
                 bottom: 5.0,
@@ -121,14 +121,13 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
                         child: Container(
                           width: 131,
                           height: 133,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Colors.blue,
                             shape: OvalBorder(),
                           ),
                         ),
                       ),
-
-                      Positioned(
+                      const Positioned(
                         top: 22,
                         left: 10,
                         child: Text(
@@ -139,7 +138,7 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Positioned(
+                      const Positioned(
                         bottom: 30,
                         left: 20,
                         child: Column(
@@ -152,13 +151,11 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
                             ),
-                            Text(
-                              'times',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.normal)
-                            )
+                            Text('times',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal))
                           ],
                         ),
                       ),
@@ -180,14 +177,13 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
                         child: Container(
                           width: 131,
                           height: 133,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Colors.blueGrey,
                             shape: OvalBorder(),
                           ),
                         ),
                       ),
-
-                      Positioned(
+                      const Positioned(
                         top: 5,
                         left: 15,
                         child: Text(
@@ -198,7 +194,7 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Positioned(
+                      const Positioned(
                         top: 22,
                         left: 28,
                         child: Text(
@@ -209,7 +205,7 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Positioned(
+                      const Positioned(
                         bottom: 30,
                         left: 20,
                         child: Column(
@@ -222,13 +218,11 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
                             ),
-                            Text(
-                              'mg/dL',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.normal)
-                            )
+                            Text('mg/dL',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal))
                           ],
                         ),
                       ),
@@ -237,8 +231,8 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(
+            const Padding(
+              padding: EdgeInsets.only(
                 top: 12.0,
                 left: 20.0,
                 bottom: 5.0,
@@ -252,8 +246,8 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.all(16.0),
-              padding: EdgeInsets.all(16.0),
+              margin: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Colors.white, // 배경색
                 borderRadius: BorderRadius.circular(30.0), // 모서리 둥글게 설정
@@ -262,7 +256,7 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -274,5 +268,3 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
     );
   }
 }
-
-

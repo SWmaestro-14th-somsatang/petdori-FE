@@ -49,7 +49,7 @@ class _MypageScreenState extends State<MypageScreen> {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    const int currentIndex = 3;
+    const int currentIndex = 4;
 
     return Scaffold(
       appBar: AppBar(

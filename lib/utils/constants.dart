@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 // dart에서는 상수들을 lowerCamelCase로 작성하는 것을 권장한다고 함
 
 // BASE URL
-// const baseURL = "http://www.petdori.com";
-const baseURL = "http://localhost:8080";
+const baseURL = "http://www.petdori.com";
+// const baseURL = "http://localhost:8080";
 
 // 소셜 플랫폼 지정 컬러 - 카카오
 const kakaoButtonColor = Color(0xFFFEE500);
