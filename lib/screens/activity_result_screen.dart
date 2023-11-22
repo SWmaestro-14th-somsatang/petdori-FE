@@ -6,6 +6,8 @@ import 'package:wooyoungsoo/widgets/activity/walk/session/console/walk_stats_gri
 class ActivityResultScreen extends StatelessWidget {
   static const routeName = '/activity-result';
 
+  const ActivityResultScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     // final ActivityResultScreenArguments args =
@@ -55,7 +57,7 @@ class ActivityResultScreen extends StatelessWidget {
                 width: 400,
                 height: 200,
                 child: Image(
-                  image: AssetImage('assets/images/wooyoungsoo.png'),
+                  image: AssetImage('assets/data/walk_res.png'),
                 ),
               ),
               const Padding(padding: EdgeInsets.only(top: 20)),

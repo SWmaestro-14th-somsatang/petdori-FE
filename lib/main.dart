@@ -6,6 +6,7 @@ import 'package:wooyoungsoo/provider/gps_util_provider.dart';
 import 'package:wooyoungsoo/provider/session_state_provider.dart';
 import 'package:wooyoungsoo/provider/session_stats_provider.dart';
 import 'package:wooyoungsoo/screens/activity_log_screen.dart';
+import 'package:wooyoungsoo/screens/activity_result_screen.dart';
 import 'package:wooyoungsoo/screens/activity_screen.dart';
 import 'package:wooyoungsoo/screens/dog_register_screen.dart';
 import 'package:wooyoungsoo/screens/login_screen.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
         "/signup": (context) => const SignupScreen(),
         "/dog-register": (context) => const DogRegisterScreen(),
         "/activity-log": (context) => const ActivityLogScreen(),
+        "/activity-result": (context) => const ActivityResultScreen(),
         "/activity": (context) => const ActivityScreen(),
         "/mypage": (context) => const MypageScreen(),
       },

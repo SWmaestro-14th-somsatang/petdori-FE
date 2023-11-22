@@ -118,10 +118,8 @@ class _WalkStopAndContinueButtonsState
                   context.read<SessionStateProvider>().end(),
                   context.read<SessionStatsProvider>().end(),
                   context.read<GpsUtilProvider>().end(),
-                  setState(() {
-                    _isExpanded = !_isExpanded;
-                  }),
                   Navigator.pop(context),
+                  Navigator.pushNamed(context, "/activity-result"),
                 },
                 onPressed: () => {},
                 style: ElevatedButton.styleFrom(

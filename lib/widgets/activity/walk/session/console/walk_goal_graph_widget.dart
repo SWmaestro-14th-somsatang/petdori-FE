@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wooyoungsoo/provider/session_stats_provider.dart';
 import 'package:wooyoungsoo/widgets/activity/walk/session/console/progress_bar.dart';
 
 class WalkGoalGraphWidget extends StatelessWidget {
@@ -27,12 +29,14 @@ class WalkGoalGraphWidget extends StatelessWidget {
             milliSecondCycle: 5000,
             width: width - 80,
             height: height,
+            progress: context.watch<SessionStatsProvider>().progress,
           ),
           const Text("목표 거리"),
           ProgressBar(
             milliSecondCycle: 5000,
             width: width - 80,
             height: height,
+            progress: 0.1,
           ),
         ],
       ),

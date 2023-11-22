@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
+import 'package:wooyoungsoo/provider/gps_util_provider.dart';
 import 'package:wooyoungsoo/services/region_info_service/region_info_service.dart';
 import 'package:wooyoungsoo/services/weather_info_service/weather_info_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
@@ -191,6 +193,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, "/activity");
+                  context.read<GpsUtilProvider>().dummyHumanInit();
                 },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(widget.screenWidth * 0.868, 50),

@@ -45,11 +45,17 @@ class _AppleMapWidgetState extends State<AppleMapWidget> {
       onMapCreated: _onMapCreated,
       trackingMode: TrackingMode.follow,
       myLocationEnabled: true,
+      annotations: Set<Annotation>.of(
+        context.read<GpsUtilProvider>().getAnnotation(),
+      ),
       initialCameraPosition: CameraPosition(
         target: context.read<GpsUtilProvider>().currentPosition,
         zoom: 15.0,
       ),
       polylines: context.read<GpsUtilProvider>().getPolyline(),
+      snapshotOptions: const SnapshotOptions(
+        showAnnotations: false,
+      ),
     );
   }
 }
