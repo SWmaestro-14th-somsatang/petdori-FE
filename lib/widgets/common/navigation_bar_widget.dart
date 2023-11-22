@@ -28,19 +28,23 @@ class PetdoriNavigationBar extends StatelessWidget {
         onTap: (int index) {
           switch (index) {
             case 0:
-              Navigator.pushNamed(context, "/");
+              Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
               break;
             case 1:
-              Navigator.pushNamed(context, "/log");
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/log", (route) => false);
               break;
             case 2:
-              Navigator.pushNamed(context, "/nearby");
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/nearby", (route) => false);
               break;
             case 3:
-              Navigator.pushNamed(context, "/blood-sugar");
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/blood-sugar", (route) => false);
               break;
             case 4:
-              Navigator.pushNamed(context, "/mypage");
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/mypage", (route) => false);
               break;
             default:
           }
