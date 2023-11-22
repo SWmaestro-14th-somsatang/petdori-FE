@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:wooyoungsoo/widgets/chart_screen/linechart_widget.dart';
 import 'package:wooyoungsoo/widgets/chart_screen/piechart_widget.dart';
 
@@ -22,241 +21,261 @@ class _BloodSugarScreenState extends State<BloodSugarScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mainScreenBackgroundColor,
+        backgroundColor: whiteColor,
         shadowColor: transparentColor,
         leadingWidth: 115,
         leading: Padding(
           padding: EdgeInsets.only(
+            top: 15,
             left: screenWidth * 0.033,
           ),
-          child: SvgPicture.asset(
-            appLogoPath,
+          child: const Text(
+            "혈당 분석",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: fontWeightBold,
+              color: blackColor,
+            ),
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.notifications_rounded,
-              color: darkGreyColor,
-            ),
-            iconSize: 24,
-          ),
-        ],
       ),
-      backgroundColor: mainScreenBackgroundColor,
+      backgroundColor: whiteColor,
       bottomNavigationBar:
           const PetdoriNavigationBar(currentIndex: currentIndex),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            const SizedBox(
+              height: 15,
+            ),
+            Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(
-                    top: 10.0,
-                    left: 20.0,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.033,
                   ),
-                  child: Text(
+                  child: const Text(
                     '실시간 혈당 그래프',
                     style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue),
+                      fontSize: 16,
+                      fontWeight: fontWeightBold,
+                      color: blackColor,
+                    ),
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 50.0, top: 10.0),
-                //   child: CalendarWidget(),
-                // ),
               ],
             ),
             Container(
-              margin: const EdgeInsets.all(16.0),
-              padding: const EdgeInsets.all(16.0),
+              width: screenWidth * 0.934,
+              margin: EdgeInsets.only(
+                top: screenHeight * 0.02,
+                bottom: screenHeight * 0.04,
+              ),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.white, // 배경색
-                borderRadius: BorderRadius.circular(30.0), // 모서리 둥글게 설정
-                boxShadow: [
+                color: whiteColor,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
+                    color: lightGreyColor,
+                    spreadRadius: 5,
+                    blurRadius: 10,
+                    offset: Offset(0, 3),
                   ),
                 ],
               ),
               child: LineChartWidget(screenWidth: screenWidth),
             ),
-            const Padding(
-              padding: EdgeInsets.only(
-                top: 5.0,
-                left: 20.0,
-                bottom: 5.0,
-              ),
-              child: Text(
-                '주요 수치',
-                style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue),
-              ),
-            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  width: 165,
-                  height: 165,
-                  decoration: BoxDecoration(
-                    color: Colors.blueGrey,
-                    borderRadius: BorderRadius.circular(10),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.033,
                   ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        top: -70,
-                        left: -40,
-                        child: Container(
-                          width: 131,
-                          height: 133,
-                          decoration: const ShapeDecoration(
-                            color: Colors.blue,
-                            shape: OvalBorder(),
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        top: 22,
-                        left: 10,
-                        child: Text(
-                          'Number of Spikes',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const Positioned(
-                        bottom: 30,
-                        left: 20,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '2',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text('times',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal))
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 165,
-                  height: 165,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        top: -70,
-                        left: -40,
-                        child: Container(
-                          width: 131,
-                          height: 133,
-                          decoration: const ShapeDecoration(
-                            color: Colors.blueGrey,
-                            shape: OvalBorder(),
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        top: 5,
-                        left: 15,
-                        child: Text(
-                          'Avg.',
-                          style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const Positioned(
-                        top: 22,
-                        left: 28,
-                        child: Text(
-                          'Blood Sugar',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const Positioned(
-                        bottom: 30,
-                        left: 20,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '76',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text('mg/dL',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal))
-                          ],
-                        ),
-                      ),
-                    ],
+                  child: const Text(
+                    '주요 수치',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: fontWeightBold,
+                      color: blackColor,
+                    ),
                   ),
                 ),
               ],
             ),
-            const Padding(
-              padding: EdgeInsets.only(
-                top: 12.0,
-                left: 20.0,
-                bottom: 5.0,
-              ),
-              child: Text(
-                '혈당 분포도',
-                style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+            SizedBox(
+              height: screenHeight * 0.02,
+            ),
+            SizedBox(
+              width: screenWidth * 0.934,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 165,
+                    height: 165,
+                    decoration: BoxDecoration(
+                      color: Colors.blueGrey,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: -70,
+                          left: -40,
+                          child: Container(
+                            width: 131,
+                            height: 133,
+                            decoration: const ShapeDecoration(
+                              color: mainColor,
+                              shape: OvalBorder(),
+                            ),
+                          ),
+                        ),
+                        const Positioned(
+                          top: 22,
+                          left: 10,
+                          child: Text(
+                            'Number of Spikes',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: blackColor,
+                              fontWeight: fontWeightBold,
+                            ),
+                          ),
+                        ),
+                        const Positioned(
+                          bottom: 30,
+                          left: 20,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '2',
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  color: blackColor,
+                                  fontWeight: fontWeightBold,
+                                ),
+                              ),
+                              Text(
+                                'times',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: blackColor,
+                                  fontWeight: fontWeightBold,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 165,
+                    height: 165,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: -70,
+                          left: -40,
+                          child: Container(
+                            width: 131,
+                            height: 133,
+                            decoration: const ShapeDecoration(
+                              color: Colors.blueGrey,
+                              shape: OvalBorder(),
+                            ),
+                          ),
+                        ),
+                        const Positioned(
+                          top: 5,
+                          left: 15,
+                          child: Text(
+                            'Avg.',
+                            style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const Positioned(
+                          top: 22,
+                          left: 28,
+                          child: Text(
+                            'Blood Sugar',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const Positioned(
+                          bottom: 30,
+                          left: 20,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '76',
+                                style: TextStyle(
+                                    fontSize: 30,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text('mg/dL',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal))
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
+            SizedBox(
+              height: screenHeight * 0.04,
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.033,
+                  ),
+                  child: const Text(
+                    '혈당 분포도',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: fontWeightBold,
+                      color: blackColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: screenHeight * 0.02,
+            ),
             Container(
-              margin: const EdgeInsets.all(16.0),
-              padding: const EdgeInsets.all(16.0),
+              width: screenWidth * 0.934,
               decoration: BoxDecoration(
-                color: Colors.white, // 배경색
-                borderRadius: BorderRadius.circular(30.0), // 모서리 둥글게 설정
-                boxShadow: [
+                color: whiteColor, // 배경색
+                borderRadius: BorderRadius.circular(10), // 모서리 둥글게 설정
+                boxShadow: const [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
+                    color: lightGreyColor,
+                    spreadRadius: 5,
+                    blurRadius: 10,
+                    offset: Offset(0, 3),
                   ),
                 ],
               ),
