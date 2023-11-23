@@ -96,6 +96,8 @@ class SessionStatsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   void start() {
+    _distance = "0.00km";
+    _speed = "00.0km/h";
     print("SessionStatsProvider start");
   }
 
@@ -104,7 +106,7 @@ class SessionStatsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   void end() {
-    _distance = "0.00km";
-    _speed = "00.0km/h";
+    // _distance = "0.00km";
+    // _speed = "00.0km/h";
   }
 }

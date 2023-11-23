@@ -42,6 +42,9 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   void ready() {
+    _stopwatch.reset();
+    path.clear();
+    polylines.clear();
     Future.delayed(const Duration(seconds: 2), () {
       start();
     });
@@ -66,9 +69,6 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
   void end() {
     print("GpsUtilProvider end");
     _timer.cancel();
-    _stopwatch.reset();
-    path.clear();
-    polylines.clear();
     isDummyON = false;
   }
 

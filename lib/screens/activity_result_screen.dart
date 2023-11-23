@@ -10,6 +10,7 @@ import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
 import 'package:wooyoungsoo/services/dog_service/dog_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/activity/walk/session/console/walk_stats_grid_widget.dart';
+import 'package:wooyoungsoo/widgets/activity/walk/session/map/map_widget.dart';
 import 'package:wooyoungsoo/widgets/common/image_picker_button_widget.dart';
 
 class ActivityResultScreen extends StatefulWidget {
@@ -105,13 +106,19 @@ class _ActivityResultScreenState extends State<ActivityResultScreen> {
                 ],
               ),
               const Padding(padding: EdgeInsets.only(top: 20)),
-              const SizedBox(
-                width: 400,
+              // 산책 지도
+              SizedBox(
+                width: 500,
                 height: 200,
-                child: Image(
-                  image: AssetImage('assets/data/walk_res.png'),
-                ),
+                child: const MapWidget(),
               ),
+              // const SizedBox(
+              //   width: 400,
+              //   height: 200,
+              //   child: Image(
+              //     image: AssetImage('assets/data/walk_res.png'),
+              //   ),
+              // ),
               const Padding(padding: EdgeInsets.only(top: 20)),
               const WalkStatsGridWidget(),
               const Padding(padding: EdgeInsets.only(top: 20)),
