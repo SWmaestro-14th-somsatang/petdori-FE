@@ -61,7 +61,8 @@ class AuthService {
       if (signupResponse.status == "success") {
         String accessToken = signupResponse.data["access_token"];
         String refreshToken = signupResponse.data["refresh_token"];
-        goToHomeScreen(context, accessToken, refreshToken);
+        setTokens(accessToken: accessToken, refreshToken: refreshToken);
+        goToHomeScreen(context);
         return;
       }
     } on DioException {
@@ -88,7 +89,8 @@ class AuthService {
     if (loginResponse.status == "success") {
       var accessToken = loginResponse.data["access_token"];
       var refreshToken = loginResponse.data["refresh_token"];
-      goToHomeScreen(context, accessToken, refreshToken);
+      setTokens(accessToken: accessToken, refreshToken: refreshToken);
+      goToHomeScreen(context);
       return;
     }
 
@@ -131,10 +133,13 @@ class AuthService {
     return "none";
   }
 
-  void goToHomeScreen(
-      BuildContext context, String accessToken, String refreshToken) async {
+  void setTokens(
+      {required String accessToken, required String refreshToken}) async {
     await storageService.setValue(key: 'accessToken', value: accessToken);
     await storageService.setValue(key: 'refreshToken', value: refreshToken);
+  }
+
+  void goToHomeScreen(BuildContext context) async {
     Navigator.of(context).pushReplacementNamed("/");
   }
 
@@ -193,7 +198,8 @@ class AuthService {
         var accessToken = reissueResponse.data["access_token"];
         debugPrint("accessToken: $accessToken");
         var refreshToken = reissueResponse.data["refresh_token"];
-        goToHomeScreen(context, accessToken, refreshToken);
+        setTokens(accessToken: accessToken, refreshToken: refreshToken);
+        goToHomeScreen(context);
         return;
       }
     } on DioException {}
