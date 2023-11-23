@@ -16,9 +16,12 @@ class SessionStatsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   String _step = "0";
   String _altitude = "0";
   String _heartRate = "0";
+  double progress = 0.1;
+  double goal = 10;
 
   Future<String> getElapsedTime() async {
     gpsUtilProvider.getElapsedTime().then((value) {
+      progress = value.inSeconds / goal;
       String hours =
           (value.inSeconds / 3600).floor().toString().padLeft(2, '0');
       String minutes = (value.inMinutes % 60).toString().padLeft(2, '0');
@@ -93,6 +96,8 @@ class SessionStatsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   void start() {
+    _distance = "0.00km";
+    _speed = "00.0km/h";
     print("SessionStatsProvider start");
   }
 
@@ -101,7 +106,7 @@ class SessionStatsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   void end() {
-    _distance = "0.00km";
-    _speed = "00.0km/h";
+    // _distance = "0.00km";
+    // _speed = "00.0km/h";
   }
 }

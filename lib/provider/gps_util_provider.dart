@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:apple_maps_flutter/apple_maps_flutter.dart';
 import 'package:flutter/foundation.dart';
@@ -14,6 +15,17 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
   double _distance = 0;
   List<Position> path = <Position>[];
   Map<PolylineId, Polyline> polylines = <PolylineId, Polyline>{};
+  List<List<LatLng>> manPaths = <List<LatLng>>[];
+  List<int> manIdx = <int>[0, 0, 0];
+  List<LatLng> manPositions = <LatLng>[
+    LatLng(0, 0),
+    LatLng(0, 0),
+    LatLng(0, 0)
+  ];
+  List<BitmapDescriptor> manIcon = <BitmapDescriptor>[];
+  bool isDummyON = true;
+  AppleMapController? mapController;
+  Uint8List? mapImage;
 
   int colorsIndex = 0;
   List<Color> colors = <Color>[
@@ -25,7 +37,14 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
 
   get currentPosition => _currentPosition;
 
+  void setMapImage(Uint8List image) {
+    mapImage = image;
+  }
+
   void ready() {
+    _stopwatch.reset();
+    path.clear();
+    polylines.clear();
     Future.delayed(const Duration(seconds: 2), () {
       start();
     });
@@ -38,6 +57,7 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
       print(currentPosition);
     });
     _stopwatch.start();
+    isDummyON = true;
   }
 
   void pause() {
@@ -49,9 +69,7 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
   void end() {
     print("GpsUtilProvider end");
     _timer.cancel();
-    _stopwatch.reset();
-    path.clear();
-    polylines.clear();
+    isDummyON = false;
   }
 
   Future<Duration> getElapsedTime() async {
@@ -63,6 +81,7 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
       return 0;
     }
     double distance = await getDistance();
+    distance = (distance / path.length) * 0.3;
     return distance;
   }
 
@@ -127,11 +146,62 @@ class GpsUtilProvider with ChangeNotifier, DiagnosticableTreeMixin {
     return Set<Polyline>.of(polylines.values);
   }
 
-  void dummyPointAdd() {}
+  void dummyHumanInit() async {
+    for (var i = 1; i <= 3; i++) {
+      List<point> points =
+          await getCoordsPointData('assets/data/walkman_$i.csv');
+      List<LatLng> latLngs = <LatLng>[];
+      points.forEach((point) {
+        latLngs.add(LatLng(point.lat, point.lng));
+      });
+      manPaths.add(latLngs);
+      await BitmapDescriptor.fromAssetImage(
+              const ImageConfiguration(
+                devicePixelRatio: 0.1,
+                size: Size(10, 10),
+              ),
+              'assets/data/walkman_img_$i.png',
+              mipmaps: true)
+          .then((value) => manIcon.add(value));
+    }
+    for (var i = 0; i < 3; i++) {
+      // periodically move path
+      Timer.periodic(const Duration(seconds: 3), (timer) {
+        dummyHumanMove(i, manPaths[i].length);
+        if (!isDummyON) {
+          timer.cancel();
+        }
+      });
+    }
+  }
 
-  void dummyPathAdd() {
-    List<point> points = getCoordsPointData(
-        '/Users/binary_ho/Project/FlutterProject/somsatang_app/lib/data/points_0.csv');
+  void dummyHumanMove(int idx, int len) async {
+    manIdx[idx] = (manIdx[idx] + 1) % len;
+    manPositions[idx] = manPaths[idx][manIdx[idx]];
+  }
+
+  Set<Annotation> getAnnotation() {
+    Set<Annotation> annotations = <Annotation>{};
+    for (var i = 0; i < 3; i++) {
+      if (manIcon.length != 3) {
+        break;
+      }
+      annotations.add(
+        Annotation(
+          annotationId: AnnotationId('walkMan$i'),
+          position: manPositions[i],
+          icon: manIcon[i],
+          onTap: () {
+            print('onTap');
+          },
+        ),
+      );
+    }
+    return annotations;
+  }
+
+  void dummyPathAdd() async {
+    List<point> points = await getCoordsPointData('assets/data/points_0.csv');
     for (int i = 0; i < points.length; i++) {
       path.add(Position(
           latitude: points[i].lat,

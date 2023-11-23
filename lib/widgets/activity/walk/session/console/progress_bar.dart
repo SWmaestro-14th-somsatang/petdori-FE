@@ -8,12 +8,14 @@ class ProgressBar extends StatefulWidget {
   final int milliSecondCycle;
   final double width;
   final double height;
+  double progress;
 
-  const ProgressBar({
+  ProgressBar({
     super.key,
     required this.milliSecondCycle,
     required this.width,
     required this.height,
+    this.progress = 0.5,
   });
 
   @override
@@ -31,7 +33,9 @@ class _ProgressBarState extends State<ProgressBar> {
       timer = Timer.periodic(Duration(milliseconds: widget.milliSecondCycle),
           (timer) {
         if (!context.read<SessionStateProvider>().isPaused) {
-          setState(() {});
+          setState(() {
+            widget.progress += 0.01;
+          });
         }
       });
     });
@@ -45,7 +49,7 @@ class _ProgressBarState extends State<ProgressBar> {
 
   @override
   Widget build(BuildContext context) {
-    double progress = 0.5;
+    double progress = widget.progress;
 
     return Stack(
       children: [

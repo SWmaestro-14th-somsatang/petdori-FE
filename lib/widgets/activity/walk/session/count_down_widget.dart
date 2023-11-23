@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wooyoungsoo/provider/gps_util_provider.dart';
 import 'package:wooyoungsoo/provider/session_state_provider.dart';
 
 class CountDownWidget extends StatefulWidget {
