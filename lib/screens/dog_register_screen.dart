@@ -202,6 +202,10 @@ class _DogRegisterScreenState extends State<DogRegisterScreen> {
                       });
 
                       await dogService.registerDog(formData: formData);
+
+                      if (!mounted) return;
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, "/mypage", (route) => false);
                     },
                   ),
                 ),
