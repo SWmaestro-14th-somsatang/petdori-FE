@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:wooyoungsoo/models/base_response_model.dart';
-import 'package:wooyoungsoo/models/dog_info_model.dart';
+import 'package:wooyoungsoo/models/dog_detail_model.dart';
 import 'package:wooyoungsoo/services/storage_service/storage_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 
@@ -53,7 +53,7 @@ class DogService {
     }
   }
 
-  Future<List<DogInfoModel>> getMyDogs() async {
+  Future<List<DogDetailModel>> getMyDogs() async {
     try {
       var accessToken = await storageService.getValue(key: "accessToken");
 
@@ -68,9 +68,9 @@ class DogService {
 
       var myDogsResponse = BaseResponseModel.fromJson(res.data);
 
-      return List<DogInfoModel>.from(
+      return List<DogDetailModel>.from(
         myDogsResponse.data.map(
-          (dog) => DogInfoModel.fromJson(dog),
+          (dog) => DogDetailModel.fromJson(dog),
         ),
       );
     } on DioException {
