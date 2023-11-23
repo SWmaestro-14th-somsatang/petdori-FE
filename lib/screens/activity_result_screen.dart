@@ -1,17 +1,14 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:wooyoungsoo/models/dog_info_model.dart';
+import 'package:wooyoungsoo/models/dog_detail_model.dart';
 import 'package:wooyoungsoo/models/profile_model.dart';
 import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
 import 'package:wooyoungsoo/services/dog_service/dog_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/activity/walk/session/console/walk_stats_grid_widget.dart';
 import 'package:wooyoungsoo/widgets/activity/walk/session/map/map_widget.dart';
-import 'package:wooyoungsoo/widgets/common/image_picker_button_widget.dart';
 
 class ActivityResultScreen extends StatefulWidget {
   const ActivityResultScreen({super.key});
@@ -25,7 +22,7 @@ class _ActivityResultScreenState extends State<ActivityResultScreen> {
   final DogService dogService = DogService();
   // final DogLogService dogLogService = DogLogService();
   late ProfileModel? profile;
-  late List<DogInfoModel> myDogs;
+  late List<DogDetailModel> myDogs;
   bool isLoading = true;
   XFile? _image;
   final ImagePicker picker = ImagePicker();
@@ -107,10 +104,10 @@ class _ActivityResultScreenState extends State<ActivityResultScreen> {
               ),
               const Padding(padding: EdgeInsets.only(top: 20)),
               // 산책 지도
-              SizedBox(
+              const SizedBox(
                 width: 500,
                 height: 200,
-                child: const MapWidget(),
+                child: MapWidget(),
               ),
               // const SizedBox(
               //   width: 400,
@@ -138,9 +135,9 @@ class _ActivityResultScreenState extends State<ActivityResultScreen> {
               ),
               // 강아지 리스트 위젯
               (isLoading)
-                  ? Text("로딩중")
+                  ? const Text("로딩중")
                   : (myDogs.isEmpty)
-                      ? Text("강아지가 없습니다.")
+                      ? const Text("강아지가 없습니다.")
                       : DogListWidget(myDogs: myDogs),
               const Divider(),
               const Padding(padding: EdgeInsets.only(top: 20)),
@@ -172,7 +169,7 @@ class _ActivityResultScreenState extends State<ActivityResultScreen> {
                         ),
                       ),
                     )
-                  : SizedBox(width: 10),
+                  : const SizedBox(width: 10),
               const Padding(padding: EdgeInsets.only(top: 0, bottom: 20)),
               // 사진 업로드 버튼
               ElevatedButton(
@@ -256,7 +253,7 @@ class _ActivityResultScreenState extends State<ActivityResultScreen> {
 class DogListWidget extends StatelessWidget {
   const DogListWidget({super.key, required this.myDogs});
 
-  final List<DogInfoModel> myDogs;
+  final List<DogDetailModel> myDogs;
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +274,7 @@ class DogListWidget extends StatelessWidget {
                       )
                     : NetworkImage(myDogs[index].dogImageUrl!) as ImageProvider,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Column(
@@ -288,9 +285,9 @@ class DogListWidget extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  Text(
+                  const Text(
                     "약 130kcal 소모",
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey),
