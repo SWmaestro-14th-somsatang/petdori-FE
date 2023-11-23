@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 // dart에서는 상수들을 lowerCamelCase로 작성하는 것을 권장한다고 함
 
 // BASE URL
-// const baseURL = "http://www.petdori.com";
-const baseURL = "http://localhost:8080";
+const baseURL = "http://www.petdori.com";
+// const baseURL = "http://localhost:8080";
 
 // 소셜 플랫폼 지정 컬러 - 카카오
 const kakaoButtonColor = Color(0xFFFEE500);
@@ -28,6 +28,7 @@ const mainColor = Color(0xFF3c99f8);
 const lightBlueColor = Color(0xFFe1f0ff);
 const thinGreyColor = Color(0xFFf8f8f8);
 const lightGreyColor = Color(0xFFefefef);
+const boxGreyColor = Color.fromARGB(255, 223, 222, 222);
 const mediumGreyColor = Color(0xFFa0a0a0);
 const darkGreyColor = Color(0xFF8c8c8c);
 const navGreyColor = Color.fromARGB(255, 201, 201, 201);
@@ -35,6 +36,14 @@ const deepPurpleColor = Color(0xFF8f59f5);
 const transparentColor = Colors.transparent;
 const blackColor = Color(0xFF292929);
 const whiteColor = Color(0xFFffffff);
+const redColor = Color(0xFFe74133);
+
+// 산책 밭 컬러
+const blueColorLv1 = Color(0xFFefefef);
+const blueColorLv2 = Color(0xFFEEF6FE);
+const blueColorLv3 = Color(0xFFC9E3FF);
+const blueColorLv4 = Color(0xFF89C2FD);
+const blueColorLv5 = Color(0xFF3c99f8);
 
 // 폰트 굵기 관련 상수들
 const fontWeightThin = FontWeight.w100;

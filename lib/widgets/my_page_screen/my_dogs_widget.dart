@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wooyoungsoo/models/dog_info_model.dart';
+import 'package:wooyoungsoo/models/dog_detail_model.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
+import 'package:wooyoungsoo/widgets/my_page_screen/dog_detail_modal_widget.dart';
 
 class MyDogs extends StatelessWidget {
-  const MyDogs({
+  MyDogs({
     super.key,
     required this.screenHeight,
     required this.screenWidth,
@@ -13,7 +14,11 @@ class MyDogs extends StatelessWidget {
 
   final double screenHeight;
   final double screenWidth;
-  final List<DogInfoModel> myDogs;
+  final List<DogDetailModel> myDogs;
+  final Map<String, String> gendorIcon = {
+    "MALE": "♂",
+    "FEMALE": "♀",
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -121,85 +126,23 @@ class MyDogs extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 200,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: whiteColor,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: lightGreyColor,
-                                  blurRadius: 20,
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 20),
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 25,
-                                    backgroundImage: myDogs[0].dogImageUrl ==
-                                            null
-                                        ? const AssetImage(
-                                            "assets/images/default_dog_image.png",
-                                          )
-                                        : NetworkImage(myDogs[0].dogImageUrl!)
-                                            as ImageProvider,
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  SizedBox(
-                                    height: 50,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          myDogs[0].dogName,
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            color: blackColor,
-                                            fontWeight: fontWeightBold,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 2,
-                                        ),
-                                        Text(
-                                          myDogs[0].dogTypeName,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: mainColor,
-                                            fontWeight: fontWeightMedium,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : SizedBox(
-                      height: 100,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: screenWidth * 0.033,
-                            ),
+                          GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                backgroundColor: transparentColor,
+                                builder: (BuildContext context) {
+                                  return DogDetailModal(
+                                    screenHeight: screenHeight,
+                                    screenWidth: screenWidth,
+                                    dog: myDogs[0],
+                                  );
+                                },
+                              );
+                            },
                             child: Container(
                               width: 200,
+                              height: 80,
                               decoration: BoxDecoration(
                                 color: whiteColor,
                                 borderRadius: BorderRadius.circular(10),
@@ -216,14 +159,13 @@ class MyDogs extends StatelessWidget {
                                   children: [
                                     CircleAvatar(
                                       radius: 25,
-                                      backgroundImage: myDogs[index]
-                                                  .dogImageUrl ==
+                                      backgroundImage: myDogs[0].dogImageUrl ==
                                               null
                                           ? const AssetImage(
                                               "assets/images/default_dog_image.png",
                                             )
                                           : NetworkImage(
-                                                  myDogs[index].dogImageUrl!)
+                                                  "${myDogs[0].dogImageUrl!}?w=50")
                                               as ImageProvider,
                                     ),
                                     const SizedBox(
@@ -238,7 +180,7 @@ class MyDogs extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            myDogs[index].dogName,
+                                            myDogs[0].dogName,
                                             style: const TextStyle(
                                               fontSize: 16,
                                               color: blackColor,
@@ -249,7 +191,7 @@ class MyDogs extends StatelessWidget {
                                             height: 2,
                                           ),
                                           Text(
-                                            myDogs[index].dogTypeName,
+                                            myDogs[0].dogTypeName,
                                             style: const TextStyle(
                                               fontSize: 14,
                                               color: mainColor,
@@ -260,6 +202,100 @@ class MyDogs extends StatelessWidget {
                                       ),
                                     ),
                                   ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox(
+                      height: 100,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: screenWidth * 0.033,
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: transparentColor,
+                                  builder: (BuildContext context) {
+                                    return DogDetailModal(
+                                      screenHeight: screenHeight,
+                                      screenWidth: screenWidth,
+                                      dog: myDogs[index],
+                                    );
+                                  },
+                                );
+                              },
+                              child: Container(
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  color: whiteColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: lightGreyColor,
+                                      blurRadius: 20,
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 25,
+                                        backgroundImage: myDogs[index]
+                                                    .dogImageUrl ==
+                                                null
+                                            ? const AssetImage(
+                                                "assets/images/default_dog_image.png",
+                                              )
+                                            : NetworkImage(
+                                                    myDogs[index].dogImageUrl!)
+                                                as ImageProvider,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      SizedBox(
+                                        height: 50,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              myDogs[index].dogName,
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                color: blackColor,
+                                                fontWeight: fontWeightBold,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 2,
+                                            ),
+                                            Text(
+                                              myDogs[index].dogTypeName,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: mainColor,
+                                                fontWeight: fontWeightMedium,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

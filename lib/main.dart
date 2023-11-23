@@ -8,11 +8,15 @@ import 'package:wooyoungsoo/provider/session_stats_provider.dart';
 import 'package:wooyoungsoo/screens/activity_log_screen.dart';
 import 'package:wooyoungsoo/screens/activity_result_screen.dart';
 import 'package:wooyoungsoo/screens/activity_screen.dart';
+import 'package:wooyoungsoo/screens/bloodsugar_screen.dart';
 import 'package:wooyoungsoo/screens/dog_register_screen.dart';
 import 'package:wooyoungsoo/screens/login_screen.dart';
 import 'package:wooyoungsoo/screens/main_screen.dart';
+import 'package:wooyoungsoo/screens/monthly_walk_log_screen.dart';
 import 'package:wooyoungsoo/screens/my_page_screen.dart';
+import 'package:wooyoungsoo/screens/nearby_facility_screen.dart';
 import 'package:wooyoungsoo/screens/signup_screen.dart';
+import 'package:wooyoungsoo/screens/walk_log_screen.dart';
 
 void main() async {
   Provider.debugCheckInvalidValueType = null;
@@ -55,6 +59,10 @@ class MyApp extends StatelessWidget {
         "/activity-result": (context) => const ActivityResultScreen(),
         "/activity": (context) => const ActivityScreen(),
         "/mypage": (context) => const MypageScreen(),
+        "/nearby": (context) => const NearbyFacilityScreen(),
+        "/log": (context) => const WalkLogScreen(),
+        "/monthly-log": (context) => const MonthlyWalkLogScreen(),
+        "/blood-sugar": (context) => const BloodSugarScreen(),
       },
     );
   }
