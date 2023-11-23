@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:wooyoungsoo/models/dog_info_model.dart';
+import 'package:wooyoungsoo/models/dog_detail_model.dart';
 import 'package:wooyoungsoo/models/profile_model.dart';
 import 'package:wooyoungsoo/services/auth_service/auth_service.dart';
 import 'package:wooyoungsoo/services/dog_service/dog_service.dart';
@@ -28,7 +28,7 @@ class _MypageScreenState extends State<MypageScreen> {
   final AuthService authService = AuthService();
   final DogService dogService = DogService();
   late ProfileModel? profile;
-  late List<DogInfoModel> myDogs;
+  late List<DogDetailModel> myDogs;
   bool isLoading = true;
 
   Future loadProfileAndDogs() async {
