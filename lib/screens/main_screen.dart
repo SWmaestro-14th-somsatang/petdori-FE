@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:wooyoungsoo/services/storage_service/storage_service.dart';
 import 'package:wooyoungsoo/utils/constants.dart';
 import 'package:wooyoungsoo/widgets/common/navigation_bar_widget.dart';
 import 'package:wooyoungsoo/widgets/main_screen/current_weather_widget.dart';
@@ -11,7 +12,9 @@ import 'package:wooyoungsoo/widgets/main_screen/user_walking_goal_widget.dart';
 /// [screenWidth], [screenHeight] 화면의 너비와 높이
 /// [currentIndex] 현재 화면의 인덱스
 class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  MainScreen({Key? key}) : super(key: key);
+  final StorageService storageService = StorageService();
+  Future<String?> userName = StorageService().getValue(key: 'userName');
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +52,22 @@ class MainScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            IntroductoryPhrase(
-              screenWidth: screenWidth,
-              screenHeight: screenHeight,
+            FutureBuilder(
+              future: userName,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return IntroductoryPhrase(
+                    screenWidth: screenWidth,
+                    screenHeight: screenHeight,
+                    userName: snapshot.data!,
+                  );
+                }
+                return IntroductoryPhrase(
+                  screenWidth: screenWidth,
+                  screenHeight: screenHeight,
+                  userName: "...",
+                );
+              },
             ),
             CurrentWeather(screenWidth: screenWidth),
             UserWalkingGoal(screenWidth: screenWidth)

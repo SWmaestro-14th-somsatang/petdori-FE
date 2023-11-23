@@ -9,9 +9,11 @@ class IntroductoryPhrase extends StatelessWidget {
     super.key,
     required this.screenWidth,
     required this.screenHeight,
+    required this.userName,
   });
 
   final double screenWidth, screenHeight;
+  final String userName;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +28,9 @@ class IntroductoryPhrase extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: screenHeight * 0.025),
-              const Text(
-                "펫돌이 님,",
-                style: TextStyle(
+              Text(
+                "$userName 님,",
+                style: const TextStyle(
                   color: blackColor,
                   fontSize: 18,
                   fontWeight: fontWeightRegular,
