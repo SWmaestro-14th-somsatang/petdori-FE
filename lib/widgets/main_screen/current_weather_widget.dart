@@ -89,6 +89,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
       latitude: currentPosition.latitude,
       longitude: currentPosition.longitude,
     );
+
     setState(() {
       isLoading = false;
     });
